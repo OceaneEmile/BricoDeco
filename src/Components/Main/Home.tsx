@@ -2,6 +2,9 @@ import React from 'react'
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <p>partie carousell</p>
+      <p>gallery</p>
+    </div>
   )
 }
