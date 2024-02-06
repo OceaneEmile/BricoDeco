@@ -2,6 +2,10 @@ import React from 'react'
 
 export default function MainTuto() {
   return (
-    <div>MainTuto</div>
+    <div>
+      <p>Main tuto detail</p>
+      <p>Steps</p>
+      <p>Liste outils</p>      
+    </div>
   )
 }
