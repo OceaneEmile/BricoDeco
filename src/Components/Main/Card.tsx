@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Card() {
   return (
-    <div className="max-w-sm border border-solid boder-black p-5 infoCard">
+    <div className="max-w-sm border border-solid boder-black p-5 infoCard cursor-pointer">
       <img
         className="max-w"
         src="https://kazan.kronostime.ru/upload/images.opt/iblock/5d3/u0l1tqhz9ngu2ksf7ah5exzukuxfz098/WFGG-W85_2.webp"

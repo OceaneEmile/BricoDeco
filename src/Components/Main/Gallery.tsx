@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "./Card";
+import Button from "../Button/Button";
 
 export default function Gallery() {
   const posts = [
@@ -89,7 +90,7 @@ export default function Gallery() {
     },
   ];
   return (
-    <div className="bg-white py-24 sm:py-10">
+    <div className="py-24 sm:py-10">
       {/*  titre les derniers tutos*/}
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
@@ -104,7 +105,7 @@ export default function Gallery() {
           ))}
         </div>
         <div className="mt-10">
-          <p className="text-center text-blue-400">Voir plus</p>
+          <Button text="Voir plus" />
         </div>
       </div>
     </div>
