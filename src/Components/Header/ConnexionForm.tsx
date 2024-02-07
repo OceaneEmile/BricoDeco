@@ -1,18 +1,21 @@
-import React from 'react'
-import Button from '../Button/Button'
+import React from "react";
+import Button from "../Button/Button";
 export default function ConnexionForm() {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Modifer votre profil
+          email
         </h2>
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
               Username
             </label>
             <div className="mt-2">
@@ -29,7 +32,10 @@ export default function ConnexionForm() {
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
             </div>
@@ -45,9 +51,9 @@ export default function ConnexionForm() {
             </div>
           </div>
 
-         <Button text={"modifier le profil"}/>
+          <Button text={"modifier le profil"} />
         </form>
       </div>
     </div>
-  )
+  );
 }

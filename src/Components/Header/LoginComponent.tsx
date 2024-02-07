@@ -1,13 +1,15 @@
-import React from 'react'
-import Button from '../Button/Button'
+import React from "react";
+import Button from "../Button/Button";
 
 export default function LoginComponent() {
   return (
     <div>
-        LoginComponent
-        <Button text={'Inscrivez vous'}/>
-        <Button text={'Connectez vous'}/>
-        <p>formulaire de connexion</p>
+      <p>peut etre logo</p>
+      <div className="flex">
+        <Button text={"Inscrivez vous"} />
+        <Button text={"Connectez vous"} />
+      </div>
+      <p>formulaire de connexion</p>
     </div>
-  )
+  );
 }
