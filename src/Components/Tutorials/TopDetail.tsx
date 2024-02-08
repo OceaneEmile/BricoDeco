@@ -6,8 +6,12 @@ export default function TopDetail() {
         src="https://kazan.kronostime.ru/upload/images.opt/iblock/5d3/u0l1tqhz9ngu2ksf7ah5exzukuxfz098/WFGG-W85_2.webp"
         alt=""
       />
+
       <div className="self-end mt-8">
-        <h4 className="font-bold text-left mb-2 mx-2">Description:</h4>
+        <h2 className="text-3xl mb-8">La belle montre qui n'a rien a voir</h2>
+        <h4 className="font-bold  mb-2 mx-2 text-center sm:text-left">
+          Description:
+        </h4>
         <p>
           Belle monterLorem ipsum dolor sit amet consectetur adipisicing elit.
           Unde ipsam repellat labore sunt dignissimos iure ut rerum tempora at

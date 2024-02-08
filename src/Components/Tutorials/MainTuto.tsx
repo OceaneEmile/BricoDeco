@@ -6,7 +6,7 @@ export default function MainTuto() {
   return (
     <div>
       <MainTutoDetail />
-      <div>
+      <div className="flex flex-col sm:flex-row ">
         <ToolsList />
         <Step />
       </div>

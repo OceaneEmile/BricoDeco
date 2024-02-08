@@ -1,6 +1,7 @@
 import LoginComponent from "./LoginComponent";
 import Navbar from "./Navbar";
 import Logo from "../../assets/logowhitoutbg.png";
+import ConnexionForm from "./ConnexionForm";
 
 export default function Header() {
   return (
@@ -12,6 +13,7 @@ export default function Header() {
           <p>un tuto pour les gouverner tous</p>
         </div>
         <LoginComponent />
+        <ConnexionForm />
       </div>
       <Navbar />
     </div>
