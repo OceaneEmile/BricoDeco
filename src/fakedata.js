@@ -1,4 +1,4 @@
-const data = 
+const categorieData = 
     [
         {
           id: 1,
@@ -11,3 +11,4 @@ const data =
           description: "La catégorie \"Décoration\" englobe toutes les activités liées à l'embellissement et à l'aménagement esthétique des espaces intérieurs et extérieurs. Cela inclut la sélection et l'agencement de meubles, l'utilisation de couleurs, de textiles, d'accessoires décoratifs, ainsi que l'aménagement floral, la création d'ambiances thématiques et la mise en valeur des espaces de vie."
         }
     ]
+    export default categorieData;

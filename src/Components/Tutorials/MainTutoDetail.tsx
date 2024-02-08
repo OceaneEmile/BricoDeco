@@ -1,12 +1,12 @@
-import React from 'react'
+import BottomDetail from "./BottomDetail";
+import ToolsList from "./ToolsList";
+import TopDetail from "./TopDetail";
 
 export default function MainTutoDetail() {
   return (
     <div>
-        <p>image</p>
-        <p>autheur/titre</p>
-        <p>categorie</p>
-        <p>EditButton</p>
+      <TopDetail />
+      <BottomDetail />
     </div>
-  )
+  );
 }

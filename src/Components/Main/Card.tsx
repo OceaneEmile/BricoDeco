@@ -1,4 +1,5 @@
 import React from "react";
+import Categorybadge from "../Button/Categorybadge";
 
 export default function Card() {
   return (
@@ -9,7 +10,7 @@ export default function Card() {
         alt=""
       />
       <p className="text-center font-bold text-lg">titre de ma carte</p>
-      <p className="text-center">categorie</p>
+      <Categorybadge />
       <div className=" flex justify-between invisible infoCard">
         <p className="text-gray-500">Jason Durouleau</p>
         <p className="text-gray-500">06/02/1963</p>

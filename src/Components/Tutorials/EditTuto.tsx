@@ -1,5 +1,4 @@
-import React from 'react'
-import Button from '../Button/Button'
+import Button from "../Button/Button";
 
 export default function EditTuto() {
   return (
@@ -13,7 +12,10 @@ export default function EditTuto() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
               Username
             </label>
             <div className="mt-2">
@@ -30,7 +32,10 @@ export default function EditTuto() {
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
                 Password
               </label>
             </div>
@@ -46,9 +51,9 @@ export default function EditTuto() {
             </div>
           </div>
 
-         <Button text={"modifier le profil"}/>
+          <Button text={"modifier le profil"} />
         </form>
       </div>
     </div>
-  )
+  );
 }
