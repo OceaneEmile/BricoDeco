@@ -12,21 +12,22 @@ Make sure you have the following tools installed on your machine:
 - [Node.js](https://nodejs.org/) (including npm or yarn)
 
 ## Installation
-1. Clone the repository:
+
+-1. Clone the repository:
 
 git clone your-repo-url 
 
-2.Navigate to the project directory:
+-2.Navigate to the project directory:
 
 cd your-project-directory
 
-3.Install dependencies with yarn (or npm):
+-3.Install dependencies with yarn (or npm):
 
 yarn
 or
 npm install
 
-4.Start the development server:
+-4.Start the development server:
 
 yarn dev
 or
