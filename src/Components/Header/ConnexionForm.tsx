@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import Button from "../Button/Button";
 
-interface ConnexionFormState {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
 export default function ConnexionForm() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   console.log(isOpen);
 
   return (
     <div
       className={
         isOpen
-          ? "border-4 border-gray-300 absolute z-20 bg-white top-60 right-4 p-20 sm:top-32 sm:p-16"
+          ? "border-4 border-gray-300 absolute z-20 bg-white top-60 right-4 p-20 sm:top-0 sm:p-16"
           : "hidden"
       }
     >

@@ -1,4 +1,3 @@
-import React from "react";
 import Categorybadge from "../Button/Categorybadge";
 
 export default function Card() {
