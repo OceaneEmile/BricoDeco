@@ -13,7 +13,9 @@ export default function Header() {
         <img src={Logo} alt="" className="w-32" />
         <div>
           <h1 className="text-6xl font-bold text-center">Bric'O Déc'O</h1>
-          <p>un tuto pour les gouverner tous</p>
+          <p className="text-center text-xl">
+            Le tuto qu'il vous faut et votre interieur fait le show
+          </p>
         </div>
         <LoginComponent setIsOpen={setIsOpen} />
         <ConnexionForm isOpen={isOpen} setIsOpen={setIsOpen} />

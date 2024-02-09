@@ -15,7 +15,7 @@ export default function ConnexionForm({
     <div
       className={
         isOpen
-          ? "border-4 border-gray-300 absolute z-20 bg-white top-60 right-4 p-20 sm:top-0 sm:p-16"
+          ? "border-4 border-gray-300 absolute z-20 bg-white top-60 right-2 p-20 sm:top-2 sm:p-16"
           : "hidden"
       }
     >

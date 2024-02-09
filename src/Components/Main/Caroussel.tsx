@@ -1,4 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
+import axios from "axios";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
@@ -7,8 +8,21 @@ import "./main.scss";
 // import required modules
 import { Pagination } from "swiper/modules";
 import Card from "./Card";
+import { useEffect } from "react";
 
 export default function Caroussel() {
+  const fetchRandomCard = async () => {
+    try {
+      const response = await axios.get(
+        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random"
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchRandomCard();
+  }, []);
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <h3 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl text-left">

@@ -1,12 +1,16 @@
-import category from "../../fakedata";
-
 interface Category {
   id: number;
   nomCategorie: string;
   description: string;
   isOpen: boolean;
 }
-export default function DropDown({ isOpen }: { isOpen: boolean }) {
+export default function DropDown({
+  isOpen,
+  category,
+}: {
+  isOpen: boolean;
+  category: Category[];
+}) {
   return (
     <div
       className={
