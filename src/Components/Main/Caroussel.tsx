@@ -7,22 +7,47 @@ import "./main.scss";
 
 // import required modules
 import { Pagination } from "swiper/modules";
-import Card from "./Card";
-import { useEffect } from "react";
+import CardCaroussel from "./CardCaroussel";
+import { useEffect, useState } from "react";
+import randomData from "../../randomdata";
+
+interface RandomTuto {
+  randomTuto: {
+    id: number;
+    titre: string;
+    image: string;
+    datePublication: string;
+    utilisateur: {
+      id: number;
+      pseudonyme: string;
+    };
+    categories: [
+      {
+        id: number;
+        nomCategorie: string;
+      }
+    ];
+  };
+}
 
 export default function Caroussel() {
-  const fetchRandomCard = async () => {
-    try {
-      const response = await axios.get(
-        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random"
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const [randomTutos, setRandomTutos] = useState([]) as any;
+
+  // const fetchRandomCard = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random"
+  //     );
+  //     setRandomTuto(response.data);
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   useEffect(() => {
-    fetchRandomCard();
+    setRandomTutos(randomData);
   }, []);
+
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <h3 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl text-left">
@@ -56,21 +81,11 @@ export default function Caroussel() {
           modules={[Pagination]}
           className="mySwiper"
         >
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
-          <SwiperSlide>
-            <Card />
-          </SwiperSlide>
+          {randomTutos.map((randomTuto: any) => (
+            <SwiperSlide key={randomTuto.id}>
+              <CardCaroussel randomTuto={randomTuto} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </div>
     </div>
