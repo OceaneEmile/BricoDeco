@@ -5,7 +5,8 @@ export default function LoginComponent({
 }: {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  function handleClick() {
+  // function to handle the click on the connexion component
+  function handleClick(): void {
     setIsOpen(true);
   }
 

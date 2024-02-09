@@ -1,13 +1,11 @@
 import Button from "../Button/Button";
 
-export default function ConnexionForm({
-  isOpen,
-  setIsOpen,
-}: {
+interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  function handleClick() {
+}
+export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
+  function handleClick(): void {
     setIsOpen(false);
   }
 

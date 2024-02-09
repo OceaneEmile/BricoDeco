@@ -5,6 +5,7 @@ import ConnexionForm from "./ConnexionForm";
 import { useState } from "react";
 
 export default function Header() {
+  // declare a state to handle the connexion form
   const [isOpen, setIsOpen] = useState(false);
 
   return (
