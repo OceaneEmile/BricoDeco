@@ -1,38 +1,20 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import axios from "axios";
-// Import Swiper styles
+
 import "swiper/css";
 import "swiper/css/pagination";
-import "./main.scss";
 
-// import required modules
 import { Pagination } from "swiper/modules";
 import CardCaroussel from "./CardCaroussel";
 import { useEffect, useState } from "react";
 import randomData from "../../randomdata";
-
-interface RandomTuto {
-  randomTuto: {
-    id: number;
-    titre: string;
-    image: string;
-    datePublication: string;
-    utilisateur: {
-      id: number;
-      pseudonyme: string;
-    };
-    categories: [
-      {
-        id: number;
-        nomCategorie: string;
-      }
-    ];
-  };
-}
+import { Tutos } from "../../types/types";
 
 export default function Caroussel() {
-  const [randomTutos, setRandomTutos] = useState([]) as any;
+  // define the state of the randomTutos
+  const [randomTutos, setRandomTutos] = useState<Tutos[]>([]);
 
+  // fetch the random card from the API
   // const fetchRandomCard = async () => {
   //   try {
   //     const response = await axios.get(
@@ -44,6 +26,8 @@ export default function Caroussel() {
   //     console.error(error);
   //   }
   // };
+
+  // restrict the fetch to the first render
   useEffect(() => {
     setRandomTutos(randomData);
   }, []);
@@ -81,7 +65,8 @@ export default function Caroussel() {
           modules={[Pagination]}
           className="mySwiper"
         >
-          {randomTutos.map((randomTuto: any) => (
+          {/* For each randomTuto add card for slider */}
+          {randomTutos.map((randomTuto) => (
             <SwiperSlide key={randomTuto.id}>
               <CardCaroussel randomTuto={randomTuto} />
             </SwiperSlide>

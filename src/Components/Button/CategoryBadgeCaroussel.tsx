@@ -1,9 +1,9 @@
+import { Categories } from "../../types/types";
+
 interface Props {
-  category: {
-    id: number;
-    nomCategorie: string;
-  };
+  category: Categories;
 }
+
 export default function CategorybadgCaroussel({ category }: Props) {
   return (
     <div>

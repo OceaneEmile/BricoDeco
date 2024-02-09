@@ -1,3 +1,9 @@
+// import { Categories } from "../../types/types";
+
+// interface Props {
+//   category: Categories;
+// } Bientot utile
+
 export default function Categorybadge() {
   return (
     <div>

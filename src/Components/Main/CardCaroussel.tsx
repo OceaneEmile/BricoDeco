@@ -1,21 +1,8 @@
+import { Tutos } from "../../types/types";
 import CategorybadgeCaroussel from "../Button/CategoryBadgeCaroussel";
+
 interface Props {
-  randomTuto: {
-    id: number;
-    titre: string;
-    image: string;
-    datePublication: string;
-    utilisateur: {
-      id: number;
-      pseudonyme: string;
-    };
-    categories: [
-      {
-        id: number;
-        nomCategorie: string;
-      }
-    ];
-  };
+  randomTuto: Tutos;
 }
 export default function CardCaroussel({ randomTuto }: Props) {
   return (
