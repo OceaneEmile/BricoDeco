@@ -11,7 +11,7 @@ export default function DropDown({ isOpen }: { isOpen: boolean }) {
     <div
       className={
         isOpen
-          ? " absolute w-full border-t border-b border-gray-200 p-3 flex justify-end sm:justify-between sm:hidden"
+          ? " absolute w-full border-t border-4 border-gray-300 p-3 flex justify-end sm:justify-between bg-white sm:hidden"
           : "hidden"
       }
     >
