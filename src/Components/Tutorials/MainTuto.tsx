@@ -1,11 +1,15 @@
-import React from 'react'
+import MainTutoDetail from "./MainTutoDetail";
+import Step from "./Step";
+import ToolsList from "./ToolsList";
 
 export default function MainTuto() {
   return (
     <div>
-      <p>Main tuto detail</p>
-      <p>Steps</p>
-      <p>Liste outils</p>      
+      <MainTutoDetail />
+      <div className="flex flex-col sm:flex-row ">
+        <ToolsList />
+        <Step />
+      </div>
     </div>
-  )
+  );
 }
