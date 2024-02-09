@@ -12,8 +12,6 @@ Make sure you have the following tools installed on your machine:
 - [Node.js](https://nodejs.org/) (including npm or yarn)
 
 ## Installation
-
-
 1. Clone the repository:
 
 git clone your-repo-url 
