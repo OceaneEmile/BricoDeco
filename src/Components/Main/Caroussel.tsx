@@ -9,26 +9,32 @@ import CardCaroussel from "./CardCaroussel";
 import { useEffect, useState } from "react";
 import randomData from "../../randomdata";
 import { Tutos } from "../../types/types";
+import { Link } from "react-router-dom";
 
 export default function Caroussel() {
   // define the state of the randomTutos
   const [randomTutos, setRandomTutos] = useState<Tutos[]>([]);
 
   // fetch the random card from the API
-  // const fetchRandomCard = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random"
-  //     );
-  //     setRandomTuto(response.data);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const fetchRandomCard = async () => {
+    try {
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("auth")}`;
+
+      const response = await axios.get(
+        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random",
+        {}
+      );
+      setRandomTutos(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // restrict the fetch to the first render
   useEffect(() => {
+    // fetchRandomCard();
     setRandomTutos(randomData);
   }, []);
 
@@ -68,7 +74,9 @@ export default function Caroussel() {
           {/* For each randomTuto add card for slider */}
           {randomTutos.map((randomTuto) => (
             <SwiperSlide key={randomTuto.id}>
-              <CardCaroussel randomTuto={randomTuto} />
+              <Link to={`tutoriel/${randomTuto.id}`}>
+                <CardCaroussel randomTuto={randomTuto} />
+              </Link>
             </SwiperSlide>
           ))}
         </Swiper>

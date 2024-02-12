@@ -8,8 +8,8 @@ export default function BottomDetail() {
         <p className="font-bold">auteur</p>
         <p className="text-gray-600">date</p>
         <div className="flex gap-8">
-          <Categorybadge />
-          <Categorybadge />
+          {/* <Categorybadge />
+          <Categorybadge />*/}
         </div>
       </div>
       <EditPanel />
