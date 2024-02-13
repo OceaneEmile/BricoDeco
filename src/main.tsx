@@ -15,7 +15,6 @@ import AboutUs from "./Components/About/AboutUs.tsx";
 import Contact from "./Components/About/Contact.tsx";
 
 import "./index.css";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,11 +30,15 @@ const router = createBrowserRouter([
         element: <Profil />,
       },
       {
-        path: "categorie",
+        path: "/categorie/:id",
         element: <Category />,
       },
       {
-        path: "tutoriel",
+        path: "/categorie/:id/tutoriel/:id",
+        element: <MainTuto />,
+      },
+      {
+        path: "/tutoriel/:id",
         element: <MainTuto />,
       },
       {

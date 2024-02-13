@@ -1,12 +1,47 @@
+import { useRef, useState } from "react";
 import Button from "../Button/Button";
+import axios from "axios";
 
 interface Props {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
+  const [userEmail, setUserEmail] = useState("");
+  const [userPassword, setUserPassword] = useState("");
+
+  // Close modal
   function handleClick(): void {
     setIsOpen(false);
+  }
+  // listen input
+  function handleEmailInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setUserEmail(e.currentTarget.value);
+  }
+  function handlePasswordInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setUserPassword(e.currentTarget.value);
+  }
+
+  // Post user  infos for connexion
+  function sendConnexionRequest() {
+    const postUserInfos = async () => {
+      try {
+        const response = await axios.post(
+          "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/login_check",
+          {
+            username: userEmail,
+            password: userPassword,
+          }
+        );
+        setIsOpen(false);
+        localStorage.setItem("auth", response.data.token);
+        // fournir un token refaire requete pour avoir les infos de l'utilisateur
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    postUserInfos();
   }
 
   return (
@@ -38,6 +73,7 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
               </label>
               <div className="mt-2">
                 <input
+                  onChange={handleEmailInput}
                   id="email"
                   name="email"
                   type="email"
@@ -60,6 +96,7 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
               </div>
               <div className="mt-2">
                 <input
+                  onChange={handlePasswordInput}
                   id="password"
                   name="password"
                   type="password"
@@ -69,7 +106,9 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
                 />
               </div>
             </div>
-            <Button text={"Se connecter"} />
+            <div onClick={sendConnexionRequest}>
+              <Button text={"Se connecter"} />
+            </div>
             <Button text={"Créer un compte"} />
           </form>
         </div>

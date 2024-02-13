@@ -1,6 +1,9 @@
+import { useParams } from "react-router-dom";
 import Gallery from "./Gallery";
 
 export default function Category() {
+  const { id } = useParams();
+
   return (
     <div>
       <h3 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl text-left border-b w-fit mb-2">

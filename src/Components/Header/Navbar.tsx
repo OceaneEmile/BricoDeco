@@ -16,19 +16,23 @@ export default function Navbar() {
   const [category, setCategory] = useState([]);
 
   // fetch data test with axios
-  // const fetchCategory = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "http://64ed31429cbded49acab427b.cloud/api/categorie"
-  //     );
-  //     setCategory(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const fetchCategory = async () => {
+    try {
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${localStorage.getItem("auth")}`;
+      const response = await axios.get(
+        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/categorie"
+      );
+      setCategory(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   // restrict the fetch to the first render
   useEffect(() => {
+    // fetchCategory()
     setCategory(categorieData); //Changer par le fetch
   }, []);
 
@@ -40,9 +44,12 @@ export default function Navbar() {
           <Link to={"/"}>
             <li>Accueil</li>
           </Link>
+
           {/* For each category create li */}
           {category.map((category: Categories) => (
-            <li key={category.id}>{category.nomCategorie}</li>
+            <Link key={category.id} to={`categorie/${category.id}`}>
+              <li>{category.nomCategorie}</li>
+            </Link>
           ))}
           {/*link to create tutorial */}
           <Link to={"tutoriel/create"}>
