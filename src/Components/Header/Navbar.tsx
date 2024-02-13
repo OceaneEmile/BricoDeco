@@ -32,8 +32,9 @@ export default function Navbar() {
 
   // restrict the fetch to the first render
   useEffect(() => {
-    // fetchCategory()
-    setCategory(categorieData); //Changer par le fetch
+    // fetchCategory();
+    setCategory(categorieData);
+    //Changer par le fetch
   }, []);
 
   return (

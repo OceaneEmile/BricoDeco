@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import Button from "../Button/Button";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 interface Props {
   isOpen: boolean;
@@ -109,7 +110,11 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
             <div onClick={sendConnexionRequest}>
               <Button text={"Se connecter"} />
             </div>
-            <Button text={"Créer un compte"} />
+            <Link to="subscribe">
+              <div onClick={handleClick}>
+                <Button text={"Créer un compte"} />
+              </div>
+            </Link>
           </form>
         </div>
       </div>
