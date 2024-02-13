@@ -14,7 +14,6 @@ export default function Gallery() {
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${localStorage.getItem("auth")}`;
-
       const response = await axios.get(
         "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random",
         {}
