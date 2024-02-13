@@ -1,7 +1,10 @@
+import { Tutos } from "../../types/types";
 import Categorybadge from "../Button/Categorybadge";
 import EditPanel from "./EditPanel";
-
-export default function BottomDetail({ tutoriel }: any) {
+interface Props {
+  tutoriel: Tutos;
+}
+export default function BottomDetail({ tutoriel }: Props) {
   return (
     <div className="border-t border-b border-blue-900 mt-8 py-4 flex flex-col items-center sm:justify-between sm:flex-row ">
       <div className="flex w-2/4 justify-between ml-4 items-center mb-4">

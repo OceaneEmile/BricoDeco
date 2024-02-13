@@ -4,9 +4,10 @@ import Button from "../Button/Button";
 import axios from "axios";
 import detailCategory from "../../detailCategory";
 import { useEffect, useState } from "react";
+import { Tutos } from "../../types/types";
 
 export default function GalleryCategory() {
-  const [tutoriels, setTutoriels] = useState([]);
+  const [tutoriels, setTutoriels] = useState<Tutos[]>([]);
   const { id } = useParams();
 
   const fetchTutosByCategory = async () => {

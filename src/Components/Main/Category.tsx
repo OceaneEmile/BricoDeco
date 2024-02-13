@@ -4,10 +4,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import GalleryCategory from "./GalleryCategory";
 import categoryId from "../../categoryId";
+import { Categories } from "../../types/types";
 
 export default function Category() {
   const { id } = useParams();
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState<Categories>();
   // route recupere info category by id
   const fetchCategoryByID = async () => {
     try {

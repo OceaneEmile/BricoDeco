@@ -3,7 +3,7 @@ import BottomDetail from "./BottomDetail";
 import TopDetail from "./TopDetail";
 
 interface Props {
-  tutoriel: Tutos[];
+  tutoriel: Tutos;
 }
 export default function MainTutoDetail({ tutoriel }: Props) {
   return (

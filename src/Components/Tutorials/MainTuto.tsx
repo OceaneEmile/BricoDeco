@@ -9,7 +9,7 @@ import detailTuto from "../../detailTuto";
 
 export default function MainTuto() {
   const { id } = useParams();
-  const [tutoriel, setTutoriel] = useState<Tutos[]>([]);
+  const [tutoriel, setTutoriel] = useState<Tutos[] | any>([]);
 
   const fetchTuto = async () => {
     try {

@@ -1,4 +1,9 @@
-export default function Step({ steps }) {
+import { Steps } from "../../types/types";
+
+interface Props {
+  steps: Steps[];
+}
+export default function Step({ steps }: Props) {
   return (
     <div>
       {steps
