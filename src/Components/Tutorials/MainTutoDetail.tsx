@@ -1,8 +1,11 @@
+import { Tutos } from "../../types/types";
 import BottomDetail from "./BottomDetail";
-import ToolsList from "./ToolsList";
 import TopDetail from "./TopDetail";
 
-export default function MainTutoDetail({ tutoriel }) {
+interface Props {
+  tutoriel: Tutos[];
+}
+export default function MainTutoDetail({ tutoriel }: Props) {
   return (
     <div>
       <TopDetail tutoriel={tutoriel} />

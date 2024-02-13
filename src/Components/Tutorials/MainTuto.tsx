@@ -35,8 +35,8 @@ export default function MainTuto() {
     <div>
       <MainTutoDetail tutoriel={tutoriel} />
       <div className="flex flex-col sm:flex-row ">
-        <ToolsList />
-        <Step />
+        <ToolsList tools={tutoriel.outils} />
+        <Step steps={tutoriel.etapes} />
       </div>
     </div>
   );

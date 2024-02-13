@@ -21,7 +21,7 @@ const detailTuto = {
 		{
 			"id": 268,
 			"contenu": "Il se trouvait heureuse de dormir sous le nez rouge. C'était le jeudi. Elle se sentait, d'ailleurs, plus irritée de lui. C'était un enjôleur, un rampant... -- Ah! si j'avais trouvé quelqu'un... Oh!.",
-			"imageEtape": "https:\/\/via.placeholder.com\/640x480.png\/0055dd?text=iure",
+			"imageEtape": "",
 			"ordre": 3
 		},
 		{
@@ -52,6 +52,14 @@ const detailTuto = {
 		{
 			"id": 139,
 			"nomDeLoutil": "Marteau"
+		},
+		{
+			"id": 140,
+			"nomDeLoutil": "Ciseaux"
+		},
+		{
+			"id": 141,
+			"nomDeLoutil": "Papier peint"
 		}
 	],
 	"createAt": "2024-02-12T13:19:16+00:00",
