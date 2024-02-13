@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Logo from "../../assets/logowhitoutbg.png";
 import ConnexionForm from "./ConnexionForm";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   // declare a state to handle the connexion form
@@ -11,7 +12,9 @@ export default function Header() {
   return (
     <div className=" pt-2 bg-white">
       <div className="flex flex-col sm:flex-row justify-between items-center">
-        <img src={Logo} alt="" className="w-32" />
+        <Link to={"/"}>
+          <img src={Logo} alt="" className="w-32" />
+        </Link>
         <div>
           <h1 className="text-6xl font-bold text-center">Bric'O Déc'O</h1>
           <p className="text-center text-xl">
