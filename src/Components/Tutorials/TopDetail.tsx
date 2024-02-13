@@ -1,4 +1,10 @@
-export default function TopDetail({ tutoriel }) {
+import { Tutos } from "../../types/types";
+
+interface Props {
+  tutoriel: Tutos;
+}
+
+export default function TopDetail({ tutoriel }: Props) {
   return (
     <div className="flex flex-col items-center sm:flex-row ">
       <img className="w-2/4" src={tutoriel.image} alt="" />

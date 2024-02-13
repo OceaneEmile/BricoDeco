@@ -48,7 +48,7 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
     <div
       className={
         isOpen
-          ? "border-4 border-gray-300 absolute z-20 bg-white top-60 right-2 p-20 sm:top-2 sm:p-16"
+          ? "border-4 border-blue-900 absolute z-20 bg-white top-60 right-2 p-20 sm:top-2 sm:p-16"
           : "hidden"
       }
     >

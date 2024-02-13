@@ -1,4 +1,9 @@
-export default function ToolsList({ tools }) {
+import { Tools } from "../../types/types";
+
+interface Props {
+  tools: Tools[];
+}
+export default function ToolsList({ tools }: Props) {
   return (
     <div className="w-full sm:border-r border-blue-900 p-4">
       <h4 className="font-bold text-lg ">Listes des outils :</h4>
