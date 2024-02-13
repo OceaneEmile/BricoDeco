@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <div className="flex justify-evenly pt-4 border-t border-gray-200 ">
+    <div className="flex justify-evenly pt-4 border-t border-blue-900 ">
       <p>Developper avec passion</p>
       {/* link to about page */}
       <Link to={"about"}>

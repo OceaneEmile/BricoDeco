@@ -5,7 +5,7 @@ export default function Step({ steps }) {
         ? steps.map((step) => (
             <div
               key={step.id}
-              className="flex items-center p-4 flex-col-reverse border-t border-gray-200 sm:flex-row"
+              className="flex items-center p-4 flex-col-reverse  border-blue-900 sm:flex-row"
             >
               <div className="mr-4">
                 <h4 className="font-bold text-lg text-left ">
