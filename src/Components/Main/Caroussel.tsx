@@ -6,36 +6,23 @@ import "swiper/css/pagination";
 
 import { Pagination } from "swiper/modules";
 import CardCaroussel from "./CardCaroussel";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import randomData from "../../randomdata";
-import { Tutos } from "../../types/types";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRandomsTutos } from "../../store/reducer/tutoriel";
+import { RootState } from "../../store";
 
 export default function Caroussel() {
   // define the state of the randomTutos
-  const [randomTutos, setRandomTutos] = useState<Tutos[]>([]);
-
-  // fetch the random card from the API
-  const fetchRandomCard = async () => {
-    try {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-
-      const response = await axios.get(
-        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/random",
-        {}
-      );
-      setRandomTutos(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const dispatch = useDispatch();
+  const randomTutos = useSelector(
+    (state: RootState) => state.tutoriel.randomsTutos
+  );
 
   // restrict the fetch to the first render
   useEffect(() => {
-    // fetchRandomCard();
-    setRandomTutos(randomData);
+    dispatch(fetchRandomsTutos() as any);
   }, []);
 
   return (

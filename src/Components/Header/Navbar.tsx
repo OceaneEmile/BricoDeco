@@ -1,68 +1,74 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import DropDown from "./DropDown";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Categories } from "../../types/types";
-import categorieData from "../../categoriedata";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategory, openMenuBurger } from "../../store/reducer/tutoriel";
+import { RootState } from "../../store";
+import { useEffect } from "react";
 
 export default function Navbar() {
-  // declare a state to handle the burger menu
-  const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const menuIsOpen = useSelector(
+    (state: RootState) => state.tutoriel.menuBurgerIsOpen
+  );
+  const category = useSelector((state: RootState) => state.tutoriel.categories);
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   // function to handle the click on the burger menu
   function handleClick(): void {
-    setIsOpen(!isOpen);
+    dispatch(openMenuBurger());
   }
-  // declare a state for the category data
-  const [category, setCategory] = useState([]);
-
-  // fetch data test with axios
-  const fetchCategory = async () => {
-    try {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-      const response = await axios.get(
-        "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/categorie"
-      );
-      setCategory(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   // restrict the fetch to the first render
   useEffect(() => {
-    // fetchCategory();
-    setCategory(categorieData);
-    //Changer par le fetch
+    dispatch(fetchCategory() as any);
   }, []);
 
   return (
     <>
       <div className="border-t border-b border-blue-900 p-3 flex justify-end sm:justify-between">
-        <ul className="hidden sm:flex justify-evenly grow">
+        <ul className="hidden sm:flex justify-evenly items-center text-blue-900 grow">
           {/*link to Home */}
-          <Link to={"/"}>
+          <NavLink
+            to={"/"}
+            style={({ isActive }) => {
+              return {
+                color: isActive ? "coral" : "",
+              };
+            }}
+          >
             <li>Accueil</li>
-          </Link>
+          </NavLink>
 
           {/* For each category create li */}
           {category.map((category: Categories) => (
-            <Link key={category.id} to={`categorie/${category.id}`}>
+            <NavLink
+              key={category.id}
+              to={`categorie/${category.id}`}
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? "coral" : "",
+                };
+              }}
+            >
               <li>{category.nomCategorie}</li>
-            </Link>
+            </NavLink>
           ))}
           {/*link to create tutorial */}
           <Link to={"tutoriel/create"}>
-            <li>Ajoutez votre tutoriel</li>
+            <li
+              className={
+                isLogged
+                  ? "text-white bg-gradient-to-br from-blue-900 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800text-white p-2 rounded-md"
+                  : "hidden"
+              }
+            >
+              Ajoutez votre tutoriel
+            </li>
           </Link>
         </ul>
         <div className="sm:hidden" onClick={handleClick}>
           {/* switch icon if menu burger is active or not */}
-          {isOpen ? (
-            <div className="border p-2" onClick={handleClick}>
-              x
-            </div>
+          {menuIsOpen ? (
+            <div className="border p-2">x</div>
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +87,7 @@ export default function Navbar() {
           )}
         </div>
       </div>
-      <DropDown isOpen={isOpen} setIsOpen={setIsOpen} category={category} />
+      <DropDown category={category} />
     </>
   );
 }

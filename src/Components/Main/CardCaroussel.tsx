@@ -5,6 +5,11 @@ interface Props {
   randomTuto: Tutos;
 }
 export default function CardCaroussel({ randomTuto }: Props) {
+  const transformDate = (date: string) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString();
+  };
+  const date = transformDate(randomTuto.datePublication);
   return (
     <div className="max-w-sm border border-solid border-blue-900 p-5 infoCard cursor-pointer">
       <img className="max-w" src={randomTuto.image} alt="" />
@@ -17,7 +22,7 @@ export default function CardCaroussel({ randomTuto }: Props) {
 
       <div className=" flex justify-between invisible infoCard">
         <p className="text-gray-500">{randomTuto.utilisateur.pseudonyme}</p>
-        <p className="text-gray-500">{randomTuto.datePublication}</p>
+        <p className="text-gray-500">{date}</p>
       </div>
     </div>
   );

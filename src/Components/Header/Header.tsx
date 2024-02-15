@@ -2,13 +2,9 @@ import LoginComponent from "./LoginComponent";
 import Navbar from "./Navbar";
 import Logo from "../../assets/logowhitoutbg.png";
 import ConnexionForm from "./ConnexionForm";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Header() {
-  // declare a state to handle the connexion form
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <div className=" pt-2 bg-white">
       <div className="flex flex-col sm:flex-row justify-between items-center">
@@ -16,13 +12,17 @@ export default function Header() {
           <img src={Logo} alt="" className="w-32" />
         </Link>
         <div>
-          <h1 className="text-6xl font-bold text-center">Bric'O Déc'O</h1>
-          <p className="text-center text-xl">
-            Le tuto qu'il vous faut et votre interieur fait le show
+          <h1 className="text-6xl font-bold text-center text-blue-900">
+            Bric'O Déc'O
+          </h1>
+          <p className="text-center text-xl text-red-400">
+            Le tuto qu'il vous faut et votre interieur fait le show !
           </p>
         </div>
-        <LoginComponent setIsOpen={setIsOpen} />
-        <ConnexionForm isOpen={isOpen} setIsOpen={setIsOpen} />
+
+        <LoginComponent />
+
+        <ConnexionForm />
       </div>
       <Navbar />
     </div>

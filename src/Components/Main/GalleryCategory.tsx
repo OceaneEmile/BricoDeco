@@ -1,32 +1,18 @@
 import { Link, useParams } from "react-router-dom";
 import Card from "./Card";
 import Button from "../Button/Button";
-import axios from "axios";
-import detailCategory from "../../detailCategory";
-import { useEffect, useState } from "react";
-import { Tutos } from "../../types/types";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTutorielsByCategory } from "../../store/reducer/tutoriel";
 
 export default function GalleryCategory() {
-  const [tutoriels, setTutoriels] = useState<Tutos[]>([]);
   const { id } = useParams();
-
-  const fetchTutosByCategory = async () => {
-    try {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-
-      const response = await axios.get(
-        `http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/categorie/${id}/tutoriels`
-      );
-      setTutoriels(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const dispatch = useDispatch();
+  const tutoriels = useSelector(
+    (state: any) => state.tutoriel.tutorielsByCategory
+  );
   useEffect(() => {
-    // fetchTutosByCategory()
-    setTutoriels(detailCategory);
+    dispatch(fetchTutorielsByCategory(id) as any);
   }, [id]);
 
   return (
@@ -40,7 +26,7 @@ export default function GalleryCategory() {
         <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-blue-900 pt-10 sm:mt-4 sm:pt-8 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
           {/* for each tuto create card */}
           {tutoriels
-            ? tutoriels.map((tutoriel) => (
+            ? tutoriels.map((tutoriel: any) => (
                 <Link key={tutoriel.id} to={`tutoriel/${tutoriel.id}`}>
                   <Card tutoriel={tutoriel} />
                 </Link>

@@ -4,14 +4,20 @@ import EditPanel from "./EditPanel";
 interface Props {
   tutoriel: Tutos;
 }
+
 export default function BottomDetail({ tutoriel }: Props) {
+  const transformDate = (date: string) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString();
+  };
+  const date = transformDate(tutoriel.datePublication);
   return (
     <div className="border-t border-b border-blue-900 mt-8 py-4 flex flex-col items-center sm:justify-between sm:flex-row ">
       <div className="flex w-2/4 justify-between ml-4 items-center mb-4">
         <p className="font-bold">
           {tutoriel.utilisateur ? tutoriel.utilisateur.pseudonyme : ""}
         </p>
-        <p className="text-gray-600">{tutoriel.datePublication}</p>
+        <p className="text-gray-600">{date}</p>
         <div className="flex gap-8">
           {tutoriel.categories
             ? tutoriel.categories.map((categorie: any) => (
