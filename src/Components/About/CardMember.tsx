@@ -11,7 +11,7 @@ interface Props {
 
 export default function CardMember({ about }: Props) {
   return (
-    <div className="max-w-sm border border-solid boder-black p-5 infoCard cursor-pointer">
+    <div className="max-w-sm  p-5 infoCard cursor-pointer bg-white">
       <img className="max-w rounded-full" src={about.photo} alt="" />
       <p className="text-center font-bold text-lg">{about.name}</p>
       <p className="text-center">Outils prefere : {about.tools}</p>

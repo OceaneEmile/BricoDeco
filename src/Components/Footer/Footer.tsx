@@ -1,17 +1,31 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <div className="flex justify-evenly pt-4 border-t border-blue-900 ">
-      <p>Developper avec passion</p>
+    <ul className="flex justify-evenly p-2 border-t border-blue-900 bg-white relative bottom-0 w-screen">
       {/* link to about page */}
-      <Link to={"about"}>
-        <p>About</p>
-      </Link>
+      <NavLink
+        to={"about"}
+        style={({ isActive }) => {
+          return {
+            color: isActive ? "coral" : "",
+          };
+        }}
+      >
+        <li>About</li>
+      </NavLink>
+      <li>Developper avec passion</li>
       {/* link to contact page */}
-      <Link to={"contact"}>
-        <p>Contact</p>
-      </Link>
-    </div>
+      <NavLink
+        to={"contact"}
+        style={({ isActive }) => {
+          return {
+            color: isActive ? "coral" : "",
+          };
+        }}
+      >
+        <li>Contact</li>
+      </NavLink>
+    </ul>
   );
 }

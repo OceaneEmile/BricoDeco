@@ -23,13 +23,13 @@ export default function Header() {
     }
   }, [cookieIsTrue]);
   return (
-    <div className=" pt-2 bg-white">
+    <div className=" pt-2 bg-white bg-opacity-80">
       <div className="flex flex-col sm:flex-row justify-between items-center">
         <Link to={"/"}>
           <img src={Logo} alt="" className="w-32" />
         </Link>
         <div>
-          <h1 className="text-6xl font-bold text-center text-blue-900">
+          <h1 className="text-6xl font-bold text-center text-blue-900 tracking-widest">
             Bric'O Déc'O
           </h1>
           <p className="text-center text-xl text-red-400">

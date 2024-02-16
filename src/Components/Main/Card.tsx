@@ -12,12 +12,14 @@ export default function Card({ tutoriel }: Props) {
   const date = transformDate(tutoriel.datePublication);
 
   return (
-    <div className="max-w-sm border border-solid border-blue-900 p-5 infoCard cursor-pointer">
+    <div className="max-w-sm border border-solid border-blue-900 p-5 infoCard cursor-pointer bg-white">
       <img className="max-w" src={tutoriel.image} alt="" />
-      <p className="text-center font-bold text-lg">{tutoriel.titre}</p>
-      {tutoriel.categories.map((categorie) => (
-        <Categorybadge key={categorie.id} categorie={categorie} />
-      ))}
+      <h4 className="text-center font-bold text-lg">{tutoriel.titre}</h4>
+      <div className="flex justify-center flex-wrap ">
+        {tutoriel.categories.map((categorie) => (
+          <Categorybadge key={categorie.id} categorie={categorie} />
+        ))}
+      </div>
       <div className=" flex justify-between invisible infoCard">
         <p className="text-gray-500">{tutoriel.utilisateur.pseudonyme}</p>
         <p className="text-gray-500">{date}</p>

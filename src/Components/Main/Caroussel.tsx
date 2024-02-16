@@ -1,13 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import axios from "axios";
-
 import "swiper/css";
 import "swiper/css/pagination";
-
 import { Pagination } from "swiper/modules";
 import CardCaroussel from "./CardCaroussel";
 import { useEffect } from "react";
-import randomData from "../../randomdata";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRandomsTutos } from "../../store/reducer/tutoriel";
@@ -27,9 +23,9 @@ export default function Caroussel() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      <h3 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl text-left">
-        Decouvrez nos tutos :
-      </h3>
+      <h2 className="text-3xl font-bold tracking-wider text-gray-900 sm:text-3xl text-left">
+        Découvrez nos tutos :
+      </h2>
       <div className="flex self-auto py-24 sm:py-10 ">
         <Swiper
           slidesPerView={1}

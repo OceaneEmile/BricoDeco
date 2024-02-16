@@ -7,10 +7,10 @@ export default function App() {
   return (
     <>
       <Header />
-      <div className="content">
+      <div className="content bg-white bg-opacity-80 min-h-screen">
         <Outlet />
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
