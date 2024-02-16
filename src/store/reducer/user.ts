@@ -11,13 +11,15 @@ export const initialState = {
     isLogged:false,
     errorUser:null,
     loadingUser:false,
-    user:[
+    user:
       {
         pseudonyme:"",
         email:"",
         id:""
       }
-    ]
+,
+    cookiesToken:"",
+    cookiesTokenIsTrue:false,
 };
 
 
@@ -27,6 +29,7 @@ export const closeConnexionForm=createAction("user/closeConnexionForm");
 export const changeInputMail=createAction<string>("user/setUserEmail");
 export const changeInputPassword=createAction<string>("user/setUserPassword");
 export const logout=createAction<void>("user/logout");
+export const checkCookies=createAction<void>("user/checkCookies");
 
 export const sendUser=createAsyncThunk("user/sendUser",async(_,{getState}):Promise<any>=>{
     const state=getState() as any;
@@ -72,20 +75,23 @@ builder
   })
   // on envoie les infos pour recuperer le token
 .addCase(sendUser.fulfilled,(state,action)=>{
-    state.token=action.payload;
-    localStorage.setItem("auth",action.payload.token);
+    Cookies.set("auth",action.payload.token);
+    axios.defaults.headers.common['Authorization'] =`Bearer ${action.payload.token}` ;
     state.connexionFormIsOpen=false;
     state.loading = false;
     state.isLogged=true;
-    axios.defaults.headers.common['Authorization'] =`Bearer ${action.payload.token}` ;
 })
 .addCase(fetchUser.pending, (state) => {
     state.errorUser = null;
     state.loadingUser = true;
   })
-  .addCase(fetchUser.rejected, (state, action) => {
+.addCase(fetchUser.rejected, (state, action) => {
     state.loadingUser = false;
     state.errorUser = action.error.message as any;
+    Cookies.remove("user");
+    Cookies.remove("email");
+    Cookies.remove("id");
+    Cookies.remove("auth");
   })
 
 // on recupere les infos de l'utilisateur
@@ -94,16 +100,25 @@ builder
    Cookies.set("user",action.payload.pseudonyme);
    Cookies.set("email",action.payload.email);
    Cookies.set("id",action.payload.id);
+   state.isLogged=true;
 })
 
 .addCase(logout,(state)=>{
     state.isLogged=false;
     state.token="";
     state.user=initialState.user;
-    localStorage.removeItem("auth");
     Cookies.remove("user");
     Cookies.remove("email");
     Cookies.remove("id");
+    Cookies.remove("auth");
+})
+.addCase(checkCookies,(state)=>{
+  state.cookiesToken=Cookies.get("auth") as string;
+  if(state.cookiesToken){
+    state.cookiesTokenIsTrue=true;
+    axios.defaults.headers.common['Authorization'] =`Bearer ${state.cookiesToken}` ; 
+  }
+  
 })
 });
 // eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3MDgwMDgwMzAsImV4cCI6MTcwODAyMjQzMCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiYnJpY29AYnJpY28uZnIifQ.LVcOGB8gQo62AEw1bBvWOIitvlPagUrvVOOlqehhCTBjbVYSAyTQppzz7naP1UDGiZBotwFpTdRLzuoBqYQclC7Tjy5KGDbcoKJN8dFDw31WbvTxsDCefGcC8m81gIhUvCySUJmYIUH8rfpfbnbxeuvXf_tKSe--LgFkLWrB5F7lKzSY7zTjdST_5JkBQIjBu6-8pznFurb4r16MubbbdY2aenEhO1rzS8X3VtW5CYuoHq7hizyh8p4uFF-KFnUOhOZgM0rGhpeCzYnoHli2ekX61x63Ck67ZNCnxjpjZgjBWITziVm4Y6NQTl8NhMERauY4t-fkI4u42aGEJzMaYQ

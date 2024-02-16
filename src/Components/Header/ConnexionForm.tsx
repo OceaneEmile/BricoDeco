@@ -60,7 +60,15 @@ export default function ConnexionForm() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendConnexionRequest();
+            }}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -103,15 +111,17 @@ export default function ConnexionForm() {
                 />
               </div>
             </div>
-            <div onClick={sendConnexionRequest}>
-              <Button text={"Se connecter"} />
+            <div className="flex justify-center">
+              <button type="submit">
+                <Button text={"Se connecter"} />
+              </button>
             </div>
-            <Link to="subscribe">
-              <div onClick={handleClick}>
-                <Button text={"Créer un compte"} />
-              </div>
-            </Link>
           </form>
+          <Link to="subscribe">
+            <div onClick={handleClick}>
+              <Button text={"Créer un compte"} />
+            </div>
+          </Link>
         </div>
       </div>
     </div>

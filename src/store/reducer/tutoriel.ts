@@ -1,5 +1,6 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import axios from "axios";
+import userReducer from "./user";
 export const initialState = {
     menuBurgerIsOpen:false,
     errorCategories:null,
@@ -11,11 +12,13 @@ export const initialState = {
     tutoriels:[],
     tutorielsByCategory:[],
     category:[],
-    tutoriel:[],
+    tutoriel:{},
     errorTuto:null,
     loadingTuto:false,
+    isAuthor:false,
 };
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
+export const isAuthor=createAction("tutoriel/isAuthor");
 
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async():Promise<any>=>{
     const response=await axios.get(
@@ -134,7 +137,14 @@ builder
     state.loadingTuto = false;
     state.tutoriel = action.payload;
   })
-  
+  .addCase(isAuthor, (state,action:any) => {
+    if(action.payload){
+      if(action.payload.author===action.payload.user ){
+      state.isAuthor=true;
+    }else{
+      state.isAuthor=false;
+    }}
+  });
     
 });
 export default tutorielReducer;

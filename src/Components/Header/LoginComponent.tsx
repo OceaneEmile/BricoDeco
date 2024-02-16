@@ -23,7 +23,7 @@ export default function LoginComponent() {
         <Button text={"Connectez vous"} />
       </div>
       <div className={!isLogged ? "hidden" : "mx-6 mt-6"}>
-        <p className="text-center">{user.pseudonyme}</p>
+        <p className="text-center">Bonjour, {user.pseudonyme} !</p>
         <Link to={"profil"}>
           <Button text={"Profil"} />
         </Link>

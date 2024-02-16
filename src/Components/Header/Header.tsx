@@ -3,8 +3,25 @@ import Navbar from "./Navbar";
 import Logo from "../../assets/logowhitoutbg.png";
 import ConnexionForm from "./ConnexionForm";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkCookies, fetchUser } from "../../store/reducer/user";
+import { RootState } from "../../store";
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const cookieIsTrue = useSelector(
+    (state: RootState) => state.user.cookiesTokenIsTrue
+  );
+
+  useEffect(() => {
+    dispatch(checkCookies());
+  }, []);
+  useEffect(() => {
+    if (cookieIsTrue) {
+      dispatch(fetchUser() as any);
+    }
+  }, [cookieIsTrue]);
   return (
     <div className=" pt-2 bg-white">
       <div className="flex flex-col sm:flex-row justify-between items-center">
@@ -19,9 +36,7 @@ export default function Header() {
             Le tuto qu'il vous faut et votre interieur fait le show !
           </p>
         </div>
-
         <LoginComponent />
-
         <ConnexionForm />
       </div>
       <Navbar />
