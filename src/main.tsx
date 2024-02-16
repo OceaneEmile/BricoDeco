@@ -15,6 +15,8 @@ import AboutUs from "./Components/About/AboutUs.tsx";
 import Contact from "./Components/About/Contact.tsx";
 
 import "./index.css";
+import { Provider } from "react-redux";
+import store from "./store";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,7 +44,11 @@ const router = createBrowserRouter([
         element: <MainTuto />,
       },
       {
-        path: "tutoriel/edit",
+        path: "tutoriel/:id/tutoriel/edit",
+        element: <EditTuto />,
+      },
+      {
+        path: "categorie/:id/tutoriel/:id/tutoriel/edit",
         element: <EditTuto />,
       },
       {
@@ -67,6 +73,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );

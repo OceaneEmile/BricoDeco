@@ -1,34 +1,23 @@
 import { useParams } from "react-router-dom";
-import Gallery from "./Gallery";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import GalleryCategory from "./GalleryCategory";
 import categoryId from "../../categoryId";
 import { Categories } from "../../types/types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { fetchCategoryById } from "../../store/reducer/tutoriel";
 
 export default function Category() {
   const { id } = useParams();
-  const [category, setCategory] = useState<Categories>();
-  // route recupere info category by id
-  const fetchCategoryByID = async () => {
-    try {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-
-      const response = await axios.get(
-        `http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/categorie/${id}`
-      );
-      setCategory(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const dispatch = useDispatch();
+  const category: any = useSelector(
+    (state: RootState) => state.tutoriel.category
+  );
   // restrict the fetch to the first render
   useEffect(() => {
-    // fetchCategoryById()
-    setCategory(categoryId);
+    dispatch(fetchCategoryById(id) as any);
+    // setCategory(categoryId);
   }, [id]);
 
   return (

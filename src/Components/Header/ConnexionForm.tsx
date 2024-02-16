@@ -1,54 +1,50 @@
-import { useRef, useState } from "react";
 import Button from "../Button/Button";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import {
+  closeConnexionForm,
+  changeInputMail,
+  changeInputPassword,
+  sendUser,
+  fetchUser,
+} from "../../store/reducer/user";
+import { useEffect } from "react";
 
-interface Props {
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
+export default function ConnexionForm() {
+  const dispatch = useDispatch();
 
+  const connexionFormIsOpen = useSelector(
+    (state: RootState) => state.user.connexionFormIsOpen
+  );
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   // Close modal
   function handleClick(): void {
-    setIsOpen(false);
+    dispatch(closeConnexionForm());
   }
   // listen input
   function handleEmailInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setUserEmail(e.currentTarget.value);
+    dispatch(changeInputMail(e.target.value));
   }
   function handlePasswordInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setUserPassword(e.currentTarget.value);
+    dispatch(changeInputPassword(e.target.value));
   }
 
   // Post user  infos for connexion
-  function sendConnexionRequest() {
-    const postUserInfos = async () => {
-      try {
-        const response = await axios.post(
-          "http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/login_check",
-          {
-            username: userEmail,
-            password: userPassword,
-          }
-        );
-        setIsOpen(false);
-        localStorage.setItem("auth", response.data.token);
-        // fournir un token refaire requete pour avoir les infos de l'utilisateur
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const sendConnexionRequest = () => {
+    dispatch(sendUser() as any);
+  };
 
-    postUserInfos();
-  }
+  useEffect(() => {
+    if (isLogged) {
+      dispatch(fetchUser() as any);
+    }
+  }, [isLogged]);
 
   return (
     <div
       className={
-        isOpen
+        connexionFormIsOpen
           ? "border-4 border-blue-900 absolute z-20 bg-white top-60 right-2 p-20 sm:top-2 sm:p-16"
           : "hidden"
       }
@@ -64,7 +60,15 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            action="#"
+            method="POST"
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendConnexionRequest();
+            }}
+          >
             <div>
               <label
                 htmlFor="email"
@@ -107,15 +111,17 @@ export default function ConnexionForm({ isOpen, setIsOpen }: Props) {
                 />
               </div>
             </div>
-            <div onClick={sendConnexionRequest}>
-              <Button text={"Se connecter"} />
+            <div className="flex justify-center">
+              <button type="submit">
+                <Button text={"Se connecter"} />
+              </button>
             </div>
-            <Link to="subscribe">
-              <div onClick={handleClick}>
-                <Button text={"Créer un compte"} />
-              </div>
-            </Link>
           </form>
+          <Link to="subscribe">
+            <div onClick={handleClick}>
+              <Button text={"Créer un compte"} />
+            </div>
+          </Link>
         </div>
       </div>
     </div>

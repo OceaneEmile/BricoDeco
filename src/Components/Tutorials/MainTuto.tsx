@@ -2,33 +2,19 @@ import { useParams } from "react-router-dom";
 import MainTutoDetail from "./MainTutoDetail";
 import Step from "./Step";
 import ToolsList from "./ToolsList";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Tutos } from "../../types/types";
-import detailTuto from "../../detailTuto";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { fetchTutorielById } from "../../store/reducer/tutoriel";
 
 export default function MainTuto() {
   const { id } = useParams();
-  const [tutoriel, setTutoriel] = useState<Tutos[] | any>([]);
-
-  const fetchTuto = async () => {
-    try {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${localStorage.getItem("auth")}`;
-
-      const response = await axios.get(
-        `http://kim-pham.vpnuser.lan/APO/projet-13-brico-deco-back/public/api/tutoriels/${id}`
-      );
-      setTutoriel(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  const dispatch = useDispatch();
+  const tutoriel: any = useSelector(
+    (state: RootState) => state.tutoriel.tutoriel
+  );
   useEffect(() => {
-    setTutoriel(detailTuto);
-    // fetchTuto();
+    dispatch(fetchTutorielById(id) as any);
   }, [id]);
 
   return (
