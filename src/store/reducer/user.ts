@@ -19,9 +19,15 @@ import axios from "axios";
         inputpassword:string,
         pseudonyme:string,
         email:string,
-        id:string
+        id:string,
+        inputUsernameSubscribe:string,
+        inputMailSubscribe:string,
+        inputPasswordSubscribe:string,
       },
-      cookiesTokenIsTrue:boolean
+      cookiesTokenIsTrue:boolean,
+      inputUsernameSubscribe:string,
+      inputMailSubscribe:string,
+      inputPasswordSubscribe:string,
   }
 
 export const initialState:UserStore = {
@@ -40,11 +46,16 @@ export const initialState:UserStore = {
     inputpassword:"",
         pseudonyme:"",
         email:"",
-        id:""
-      }
-,
+        id:"",
+        inputUsernameSubscribe:"",
+        inputMailSubscribe:"",
+        inputPasswordSubscribe:"",
+      },
     cookiesToken:"",
     cookiesTokenIsTrue:false,
+    inputUsernameSubscribe:"",
+    inputMailSubscribe:"",
+    inputPasswordSubscribe:"",
 };
 
 
@@ -55,6 +66,9 @@ export const changeInputMail=createAction<string>("user/setUserEmail");
 export const changeInputPassword=createAction<string>("user/setUserPassword");
 export const logout=createAction<void>("user/logout");
 export const checkCookies=createAction<void,string>("user/checkCookies");
+export const changeInputUsernameSubscribe=createAction<string>("user/setUsernameSubscribe");
+export const changeInputMailSubscribe=createAction<string>("user/setMailSubscribe");
+export const changeInputPasswordSubscribe=createAction<string>("user/setPasswordSubscribe");
 
 // --------------------------------- Thunk ---------------------------------
 export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{getState})=>{
@@ -72,6 +86,18 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     const response = await axios.get(
         "http://localhost/Apo/projet-13-brico-deco-back/public/api/user");
         return response.data;
+});
+export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getState})=>{
+  const states=getState() as UserStore;
+  const response=await axios.post(
+      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/create",
+      {
+          pseudonyme:states.user.inputUsernameSubscribe,
+          email: states.user.inputMailSubscribe,
+          password: states.user.inputPasswordSubscribe
+      }
+    );
+    return response.data;
 });
 
 // --------------------------------- Reducer ---------------------------------
@@ -99,7 +125,6 @@ builder
     state.loading = false;
     state.error = action.error.message as any;
   })
-  // on envoie les infos pour recuperer le token
 .addCase(sendUser.fulfilled,(state,action)=>{
     Cookies.set("auth",action.payload.token); 
     axios.defaults.headers.common['Authorization'] =`Bearer ${action.payload.token}` ;
@@ -119,7 +144,6 @@ builder
     Cookies.remove("id");
     Cookies.remove("auth");
   })
-
 .addCase(fetchUser.fulfilled,(state,action)=>{
    state.user=action.payload;
    Cookies.set("user",action.payload.pseudonyme);
@@ -127,7 +151,6 @@ builder
    Cookies.set("id",action.payload.id);
    state.isLogged=true;
 })
-
 .addCase(logout,(state)=>{
     state.isLogged=false;
     state.user=initialState.user;
@@ -136,7 +159,6 @@ builder
     Cookies.remove("id");
     Cookies.remove("auth");
 })
-
 .addCase(checkCookies,(state)=>{
   state.cookiesToken=Cookies.get("auth") as UserStore["cookiesToken"];
   if(state.cookiesToken){
@@ -145,5 +167,29 @@ builder
   }
   
 })
+.addCase(changeInputUsernameSubscribe,(state,action)=>{
+  state.inputUsernameSubscribe=action.payload;
+})
+.addCase(changeInputMailSubscribe,(state,action)=>{
+  state.inputMailSubscribe=action.payload;
+  console.log(state.inputMailSubscribe);
+  
+})
+.addCase(changeInputPasswordSubscribe,(state,action)=>{
+  state.inputPasswordSubscribe=action.payload;
+console.log(state.inputPasswordSubscribe);
+})
+.addCase(subscribeUser.pending, (state) => {
+  state.error = null;
+  state.loading = true;
+})
+.addCase(subscribeUser.rejected, (state, action) => {
+  state.loading = false;
+  state.error = action.error.message as any;
+})
+// todo gerer les states ect
+.addCase(subscribeUser.fulfilled,(state)=>{ 
+  state.loading = false;
+  state.connexionFormIsOpen=false;})
 });
 export default userReducer;

@@ -49,7 +49,10 @@ export default function ConnexionForm() {
           : "hidden"
       }
     >
-      <div className="absolute top-2 right-2 border p-2" onClick={handleClick}>
+      <div
+        className="absolute top-2 right-2 border p-2 cursor-pointer"
+        onClick={handleClick}
+      >
         x
       </div>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
