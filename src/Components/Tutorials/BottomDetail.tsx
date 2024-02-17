@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Tutos } from "../../types/types";
+import { Categories, Tutos } from "../../types/types";
 import Categorybadge from "../Button/Categorybadge";
 import EditPanel from "./EditPanel";
 import { RootState } from "../../store";
@@ -43,7 +43,7 @@ export default function BottomDetail({ tutoriel }: Props) {
         <p className="text-gray-600">{date}</p>
         <div className="flex gap-8">
           {tutoriel.categories &&
-            tutoriel.categories.map((categorie: any) => (
+            tutoriel.categories.map((categorie: Categories) => (
               <Categorybadge key={categorie.id} categorie={categorie} />
             ))}
         </div>

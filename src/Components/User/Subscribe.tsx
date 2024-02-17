@@ -2,15 +2,6 @@ import React, { useState } from "react";
 import Button from "../Button/Button";
 
 export default function Subscribe() {
-  const [userEmail, setUserEmail] = useState("");
-  const [userPassword, setUserPassword] = useState("");
-
-  function handleEmailInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setUserEmail(e.currentTarget.value);
-  }
-  function handlePasswordInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setUserPassword(e.currentTarget.value);
-  }
   return (
     <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -30,7 +21,6 @@ export default function Subscribe() {
             </label>
             <div className="mt-2">
               <input
-                onChange={handleEmailInput}
                 id="emailregister"
                 name="emailregister"
                 type="email"
@@ -53,7 +43,6 @@ export default function Subscribe() {
             </div>
             <div className="mt-2">
               <input
-                onChange={handlePasswordInput}
                 id="passwordregister"
                 name="passwordregister"
                 type="password"
@@ -74,7 +63,6 @@ export default function Subscribe() {
             </div>
             <div className="mt-2">
               <input
-                onChange={handlePasswordInput}
                 id="passwordConfirm"
                 name="passwordConfirm"
                 type="password"

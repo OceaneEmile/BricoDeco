@@ -6,13 +6,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { fetchTutorielById } from "../../store/reducer/tutoriel";
+import { Tutos } from "../../types/types";
 
 export default function MainTuto() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const tutoriel: any = useSelector(
-    (state: RootState) => state.tutoriel.tutoriel
+  const tutoriel = useSelector(
+    (state: RootState) => state.tutoriel.tutoriel as Tutos
   );
+
   useEffect(() => {
     dispatch(fetchTutorielById(id) as any);
   }, [id]);

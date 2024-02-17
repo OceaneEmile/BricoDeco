@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRandomsTutos } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
+import { Tutos } from "../../types/types";
 
 export default function Caroussel() {
   // define the state of the randomTutos
@@ -55,7 +56,7 @@ export default function Caroussel() {
           className="mySwiper"
         >
           {/* For each randomTuto add card for slider */}
-          {randomTutos.map((randomTuto) => (
+          {randomTutos.map((randomTuto: Tutos) => (
             <SwiperSlide key={randomTuto.id}>
               <Link to={`tutoriel/${randomTuto.id}`}>
                 <CardCaroussel randomTuto={randomTuto} />
