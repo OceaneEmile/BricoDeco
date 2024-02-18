@@ -27,8 +27,8 @@ export default function BottomDetail({ tutoriel }: Props) {
     if (tutoriel.utilisateur) {
       dispatch(
         isAuthor({
-          author: tutoriel.utilisateur.pseudonyme,
-          user: user.pseudonyme,
+          author: tutoriel.utilisateur.id,
+          user: user.id,
         } as any)
       );
     }

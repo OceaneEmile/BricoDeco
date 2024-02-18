@@ -28,6 +28,12 @@ import axios from "axios";
       inputUsernameSubscribe:string,
       inputMailSubscribe:string,
       inputPasswordSubscribe:string,
+      passwordIsGood:boolean,
+      inputPasswordSubscribeConfirm:string,
+      passwordFormatGood:boolean,
+      emailFormatGood:boolean,
+      usernameFormatGood:boolean,
+      createOk:boolean,
   }
 
 export const initialState:UserStore = {
@@ -56,6 +62,12 @@ export const initialState:UserStore = {
     inputUsernameSubscribe:"",
     inputMailSubscribe:"",
     inputPasswordSubscribe:"",
+    inputPasswordSubscribeConfirm:"",
+    passwordIsGood:false,
+    passwordFormatGood:false,
+    emailFormatGood:false,
+    usernameFormatGood:false,
+    createOk:false,
 };
 
 
@@ -69,6 +81,7 @@ export const checkCookies=createAction<void,string>("user/checkCookies");
 export const changeInputUsernameSubscribe=createAction<string>("user/setUsernameSubscribe");
 export const changeInputMailSubscribe=createAction<string>("user/setMailSubscribe");
 export const changeInputPasswordSubscribe=createAction<string>("user/setPasswordSubscribe");
+export const changeInputConfirmPasswordSubscribe=createAction<string>("user/setConfirmPasswordSubscribe");
 
 // --------------------------------- Thunk ---------------------------------
 export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{getState})=>{
@@ -167,18 +180,53 @@ builder
   }
   
 })
+
 .addCase(changeInputUsernameSubscribe,(state,action)=>{
-  state.inputUsernameSubscribe=action.payload;
+  if(action.payload.length>2){
+    state.inputUsernameSubscribe=action.payload;
+    state.usernameFormatGood=true;
+  }else{
+    state.usernameFormatGood=false;
+  }
 })
 .addCase(changeInputMailSubscribe,(state,action)=>{
-  state.inputMailSubscribe=action.payload;
-  console.log(state.inputMailSubscribe);
-  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(emailRegex.test(action.payload)){
+    state.emailFormatGood=true;
+    state.inputMailSubscribe=action.payload;
+  }else{
+    state.emailFormatGood=false;
+  }
 })
+
 .addCase(changeInputPasswordSubscribe,(state,action)=>{
   state.inputPasswordSubscribe=action.payload;
-console.log(state.inputPasswordSubscribe);
+  const regex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,50}$/;
+  if(regex.test(action.payload)){
+    state.passwordFormatGood=true;
+  }else{
+    state.passwordFormatGood=false;
+    state.passwordIsGood=false;
+  }
+    console.log(state.passwordFormatGood);
+  // check if password is same as confirm password
+  if(action.payload===state.inputPasswordSubscribeConfirm){
+    state.passwordIsGood=true;
+  }else{
+    state.passwordIsGood=false;
+  }
+
 })
+.addCase(changeInputConfirmPasswordSubscribe,(state,action)=>{
+  state.inputPasswordSubscribeConfirm=action.payload;
+  // check if confirm password is same as password
+  if(action.payload===state.inputPasswordSubscribe||action.payload===""){
+    state.passwordIsGood=true;
+  }else{
+    state.passwordIsGood=false;
+  }
+})
+
 .addCase(subscribeUser.pending, (state) => {
   state.error = null;
   state.loading = true;
@@ -187,9 +235,10 @@ console.log(state.inputPasswordSubscribe);
   state.loading = false;
   state.error = action.error.message as any;
 })
-// todo gerer les states ect
+
 .addCase(subscribeUser.fulfilled,(state)=>{ 
   state.loading = false;
-  state.connexionFormIsOpen=false;})
+  state.connexionFormIsOpen=false;
+  state.createOk=true;})
 });
 export default userReducer;
