@@ -17,12 +17,19 @@ export const initialState = {
     errorTuto:null,
     loadingTuto:false,
     isAuthor:false,
+    titleCreate:"",
+    descriptionCreate:"",
+    categoriesCreate:0,
+    toolsCreate:[],
 };
 
 // --------------------------------- Action ---------------------------------
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
 export const isAuthor=createAction("tutoriel/isAuthor");
-
+export const changeInputTitleCreate=createAction<string>("tutoriel/changeInputTitleCreate");
+export const changeInputDescriptionCreate=createAction<string>("tutoriel/changeInputDescriptionCreate");
+export const changeInputCategoriesCreate=createAction("tutoriel/changeInputCategoriesCreate");
+export const changeInputToolsCreate=createAction("tutoriel/changeInputToolsCreate");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -146,7 +153,19 @@ builder
     }else{
       state.isAuthor=false;
     }}
-  });
-    
+  })
+  .addCase(changeInputTitleCreate,(state,action)=>{
+    state.titleCreate=action.payload;
+  })
+  .addCase(changeInputDescriptionCreate,(state,action)=>{
+    state.descriptionCreate=action.payload;
+  })
+  .addCase(changeInputCategoriesCreate,(state,action)=>{
+    state.categoriesCreate=parseInt(action.payload as any);
+  })
+  .addCase(changeInputToolsCreate,(state,action)=>{
+   console.log(action.payload);
+   
+  })    
 });
 export default tutorielReducer;

@@ -208,7 +208,7 @@ builder
     state.passwordFormatGood=false;
     state.passwordIsGood=false;
   }
-    console.log(state.passwordFormatGood);
+
   // check if password is same as confirm password
   if(action.payload===state.inputPasswordSubscribeConfirm){
     state.passwordIsGood=true;
