@@ -13,7 +13,7 @@ export default function Card({ tutoriel }: Props) {
 
   return (
     <div className="max-w-sm border border-solid border-blue-900 p-5 infoCard cursor-pointer bg-white">
-      <img className="max-w" src={tutoriel.image} alt="" />
+      <img className="max-w h-48 w-64" src={tutoriel.image} alt="" />
       <h4 className="text-center font-bold text-lg">{tutoriel.titre}</h4>
       <div className="flex justify-center flex-wrap ">
         {tutoriel.categories.map((categorie) => (

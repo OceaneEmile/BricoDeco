@@ -25,7 +25,6 @@ export default function CreateTuto() {
   const tutoIsCreated = useSelector(
     (state: RootState) => state.tutoriel.tutoIsCreated
   );
-
   function inputTitleCreate(e: any) {
     dispatch(changeInputTitleCreate(e.target.value));
   }
@@ -38,7 +37,7 @@ export default function CreateTuto() {
       categoriesInput.push({ id: e.target.value });
     } else {
       categoriesInput = categoriesInput.filter(
-        (category) => category.id !== e.target.value
+        (category: any) => category.id !== e.target.value
       );
     }
   }
@@ -48,7 +47,9 @@ export default function CreateTuto() {
     if (checked) {
       outilsInput.push({ id: e.target.value });
     } else {
-      outilsInput = outilsInput.filter((outil) => outil.id !== e.target.value);
+      outilsInput = outilsInput.filter(
+        (outil: any) => outil.id !== e.target.value
+      );
     }
   }
   useEffect(() => {
