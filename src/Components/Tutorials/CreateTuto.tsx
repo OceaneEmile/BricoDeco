@@ -3,21 +3,28 @@ import Button from "../Button/Button";
 import {
   changeInputCategoriesCreate,
   changeInputDescriptionCreate,
+  changeInputImageCreate,
   changeInputTitleCreate,
   changeInputToolsCreate,
+  fetchTools,
+  submitCreateTuto,
 } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateTuto() {
   let outilsInput = [] as any;
   let categoriesInput = [] as any;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const categories = useSelector(
     (state: RootState) => state.tutoriel.categories
   );
-  const tool = useSelector((state: any) => state.tutoriel.tutoriel.outils);
-  console.log(tool);
-
+  const tool = useSelector((state: RootState) => state.tutoriel.tools);
+  const tutoIsCreated = useSelector(
+    (state: RootState) => state.tutoriel.tutoIsCreated
+  );
   function inputTitleCreate(e: any) {
     dispatch(changeInputTitleCreate(e.target.value));
   }
@@ -30,18 +37,38 @@ export default function CreateTuto() {
       categoriesInput.push({ id: e.target.value });
     } else {
       categoriesInput = categoriesInput.filter(
-        (category) => category.id !== e.target.value
+        (category: any) => category.id !== e.target.value
       );
     }
   }
   function inputToolsCreate(e: any) {
     let checked = e.target.checked;
+
     if (checked) {
       outilsInput.push({ id: e.target.value });
     } else {
-      outilsInput = outilsInput.filter((outil) => outil.id !== e.target.value);
+      outilsInput = outilsInput.filter(
+        (outil: any) => outil.id !== e.target.value
+      );
     }
   }
+  useEffect(() => {
+    dispatch(fetchTools() as any);
+  }, []);
+
+  function handleImageCreate(e: any) {
+    dispatch(changeInputImageCreate(e.target.value) as any);
+  }
+  function submitCreate(e: any) {
+    e.preventDefault();
+    dispatch(changeInputCategoriesCreate(categoriesInput) as any);
+    dispatch(changeInputToolsCreate(outilsInput) as any);
+    dispatch(submitCreateTuto() as any);
+  }
+
+  useEffect(() => {
+    tutoIsCreated && navigate("/tutoriel/create/steps");
+  }, [tutoIsCreated]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -52,7 +79,12 @@ export default function CreateTuto() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" action="#" method="POST">
+        <form
+          className="space-y-6"
+          action="#"
+          method="POST"
+          onSubmit={submitCreate}
+        >
           <div>
             <label
               htmlFor="title"
@@ -112,17 +144,17 @@ export default function CreateTuto() {
               ))}
             </div>
           </div>
-
           <div className="mt-4">
             <label
               htmlFor="image"
               className="block text-sm font-medium leading-6 text-gray-900 text-left"
             >
-              Télécharger un fichier :
+              Ajouter un lien de l'image :
             </label>
             <input
-              type="file"
-              id="file"
+              onChange={handleImageCreate}
+              type="text"
+              id="image"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
@@ -130,56 +162,23 @@ export default function CreateTuto() {
           <div className="block w-full rounded-md py-1.5 text-gray-900 shadow-sm sm:text-sm sm:leading-6">
             <p className="text-left">Outils:</p>
             <div className="mt-2 flex flex-wrap">
-              {/* {outils.map((outil: any) => (
+              {tool.map((outil: any) => (
                 // Utilisation de parenthèses pour délimiter le bloc d'instructions
                 <div key={outil.id}>
                   <input
                     type="checkbox"
-                    id={outil.id}
+                    id={`tool${outil.id}`}
                     value={outil.id}
-                    onChange={changeInputCategoryCreate}
+                    onChange={inputToolsCreate}
                   />
-                  <label htmlFor={outil.id}>"</label>
+                  <label htmlFor={outil.id}>{outil.nomDeLoutil}</label>
                 </div>
-              ))} */}
+              ))}
             </div>
           </div>
-
-          <div>
-            <label
-              htmlFor="etapes"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
-              Etape:
-            </label>
-
-            <div className="mt-2">
-              <textarea
-                id="etapes"
-                name="etapes"
-                placeholder=" Rédigez la description de l'etape de votre tutoriel ici"
-                required
-                rows={5}
-                style={{ resize: "none" }}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              ></textarea>
-            </div>
-          </div>
-          <div className="mt-4">
-            <label
-              htmlFor="file"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
-              Ajouter une image de l'etape :
-            </label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
-          </div>
-          <Button text={"Poster"} />
+          <button type="submit">
+            <Button text={"Ajouter les etapes"} />
+          </button>
         </form>
       </div>
     </div>
