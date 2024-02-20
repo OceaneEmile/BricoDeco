@@ -15,7 +15,7 @@ export default function LoginComponent() {
     dispatch(logout());
   }
   const isLogged = useSelector((state: RootState) => state.user.isLogged);
-  const user: any = useSelector((state: RootState) => state.user.user);
+  const user = useSelector((state: RootState) => state.user.user);
 
   return (
     <>

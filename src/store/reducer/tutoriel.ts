@@ -1,6 +1,7 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import axios from "axios";
-import userReducer from "./user";
+
+
 export const initialState = {
     menuBurgerIsOpen:false,
     errorCategories:null,
@@ -16,50 +17,58 @@ export const initialState = {
     errorTuto:null,
     loadingTuto:false,
     isAuthor:false,
+    titleCreate:"",
+    descriptionCreate:"",
+    categoriesCreate:0,
+    toolsCreate:[],
 };
+
+// --------------------------------- Action ---------------------------------
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
 export const isAuthor=createAction("tutoriel/isAuthor");
-
-export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async():Promise<any>=>{
+export const changeInputTitleCreate=createAction<string>("tutoriel/changeInputTitleCreate");
+export const changeInputDescriptionCreate=createAction<string>("tutoriel/changeInputDescriptionCreate");
+export const changeInputCategoriesCreate=createAction("tutoriel/changeInputCategoriesCreate");
+export const changeInputToolsCreate=createAction("tutoriel/changeInputToolsCreate");
+// --------------------------------- Thunk ---------------------------------
+export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
         "http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie",
-      );
+      );    
       return response.data;
 })
-
-export const fetchRandomsTutos=createAsyncThunk("tutoriel/fetchRandomsTutos",async():Promise<any>=>{
+export const fetchRandomsTutos=createAsyncThunk("tutoriel/fetchRandomsTutos",async()=>{
   const response = await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/random"
   );
   return response.data;
 })
-
-export const fetchTutoriels=createAsyncThunk("tutoriel/fetchTutoriels",async():Promise<any>=>{
+export const fetchTutoriels=createAsyncThunk("tutoriel/fetchTutoriels",async()=>{
   const response=await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels"
   );
   return response.data;
 })
-
-export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId):Promise<any>=>{
+export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId)=>{
   const response=await axios.get(
     `http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/${categoryId}/tutoriels`
   );
   return response.data;
 })
- export const fetchCategoryById=createAsyncThunk("tutoriel/fetchCategoryById",async(categoryId):Promise<any>=>{
+ export const fetchCategoryById=createAsyncThunk("tutoriel/fetchCategoryById",async(categoryId)=>{
   const response=await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/"+categoryId
   )
   return response.data;
  })
- export const fetchTutorielById=createAsyncThunk("tutoriel/fetchTutorielById",async(tutorielId):Promise<any>=>{
+ export const fetchTutorielById=createAsyncThunk("tutoriel/fetchTutorielById",async(tutorielId)=>{
   const response=await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorielId
   );
   return response.data;
  })
 
+// --------------------------------- Reducer ---------------------------------
 const tutorielReducer=createReducer(initialState,(builder)=>{
 builder
 .addCase(openMenuBurger,(state)=>{
@@ -144,7 +153,19 @@ builder
     }else{
       state.isAuthor=false;
     }}
-  });
-    
+  })
+  .addCase(changeInputTitleCreate,(state,action)=>{
+    state.titleCreate=action.payload;
+  })
+  .addCase(changeInputDescriptionCreate,(state,action)=>{
+    state.descriptionCreate=action.payload;
+  })
+  .addCase(changeInputCategoriesCreate,(state,action)=>{
+    state.categoriesCreate=parseInt(action.payload as any);
+  })
+  .addCase(changeInputToolsCreate,(state,action)=>{
+   console.log(action.payload);
+   
+  })    
 });
 export default tutorielReducer;

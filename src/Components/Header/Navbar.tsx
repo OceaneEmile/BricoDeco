@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="border-t border-b border-blue-900 p-3 flex justify-end sm:justify-between">
+      <div className="border-t border-b border-blue-900 p-3 flex justify-end sm:justify-between bg-white text-lg ">
         <ul className="hidden sm:flex justify-evenly items-center text-blue-900 grow">
           {/*link to Home */}
           <NavLink

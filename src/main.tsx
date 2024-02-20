@@ -14,7 +14,6 @@ import CreateTuto from "./Components/Tutorials/CreateTuto.tsx";
 import AboutUs from "./Components/About/AboutUs.tsx";
 import Contact from "./Components/About/Contact.tsx";
 
-import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store";
 const router = createBrowserRouter([

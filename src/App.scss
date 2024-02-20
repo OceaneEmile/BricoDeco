@@ -1,11 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url(https://fonts.bunny.net/css?family=alkatra:500|habibi:400);
+
 
 .infoCard{
   &:hover{
     scale: 1.07;
-    background: #efefef;
     border:none;
     p{
       visibility: visible;}
@@ -16,10 +17,13 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  background: white;
 }
 body{
-  background: #efefef;
+  background-image: url(./assets/_a8273a69-047b-4e62-9710-20ab0673baf4.jpg);
+  font-family:  'Habibi', serif;
+}
+h3, h2,li{
+  font-family: 'Alkatra', display;
 }
 
 // .logo {
