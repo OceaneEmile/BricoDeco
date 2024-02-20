@@ -11,6 +11,7 @@ import {
   changeStep4ImageCreate,
   changeStep5ContentCreate,
   changeStep5ImageCreate,
+  publication,
   submitStepsCreate,
 } from "../../store/reducer/tutoriel";
 import { useNavigate } from "react-router-dom";
@@ -62,13 +63,15 @@ export default function CreateTutoSteps() {
     e.preventDefault();
     dispatch(submitStepsCreate() as any);
   }
+  function handlepublication() {
+    dispatch(publication() as any);
+  }
 
   if (stepIsCreated || currentTutoId === 0) {
     setTimeout(() => {
       navigate("/tutoriel/create");
     }, 2000);
   }
-  console.log(createdSuccessfull);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -262,7 +265,10 @@ export default function CreateTutoSteps() {
             />
           </div>
           <button type="submit">
-            <Button text={"Ajouter les etapes"} />
+            <Button text={"Enregistrer"} />
+          </button>
+          <button type="submit" onClick={handlepublication}>
+            <Button text={"Publier"} />
           </button>
         </form>
         {createdSuccessfull && (

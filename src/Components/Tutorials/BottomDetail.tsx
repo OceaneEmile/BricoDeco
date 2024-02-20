@@ -21,8 +21,7 @@ export default function BottomDetail({ tutoriel }: Props) {
   const isSameAuthor = useSelector(
     (state: RootState) => state.tutoriel.isAuthor
   );
-  // console.log(tutoriel.utilisateur);
-  // console.log(user);
+
   useEffect(() => {
     if (tutoriel.utilisateur) {
       dispatch(

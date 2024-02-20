@@ -41,6 +41,7 @@ interface initialStateProps {
   randomsTutos:any[]
   stepsCreated:boolean;
   createdSuccessful:boolean;
+  publication:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -82,7 +83,8 @@ export const initialState:initialStateProps = {
     imageStep4:"",
     imageStep5:"",
     stepsCreated:false,
-    createdSuccessful:false
+    createdSuccessful:false,
+    publication:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -103,6 +105,7 @@ export const changeStep2ImageCreate=createAction<string>("tutoriel/changeStep2Im
 export const changeStep3ImageCreate=createAction<string>("tutoriel/changeStep3ImageCreate");
 export const changeStep4ImageCreate=createAction<string>("tutoriel/changeStep4ImageCreate");
 export const changeStep5ImageCreate=createAction<string>("tutoriel/changeStep5ImageCreate");
+export const publication=createAction("tutoriel/publication");
 // --------------------------------- Thunk ---------------------------------
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
@@ -209,11 +212,12 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   
   const response=await axios.put(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+state.tutoriel.idCurrentTutoCreate,
-    
     {
-      etapes:stepsArray
+      etapes:stepsArray,
+      estPublie:state.tutoriel.publication
     }
   )
+  return response.data;
  })
 
 // --------------------------------- Reducer ---------------------------------
@@ -244,9 +248,7 @@ builder
   })
   .addCase(fetchRandomsTutos.fulfilled, (state, action) => {
     state.loadingRandomsTutos = false;
-    state.randomsTutos = action.payload ;
-    console.log(state.randomsTutos);
-    
+    state.randomsTutos = action.payload ;  
   })
   .addCase(fetchTutoriels.pending, (state) => {
     state.errorRandomsTutos = null;
@@ -306,20 +308,16 @@ builder
   })
   .addCase(changeInputTitleCreate,(state,action)=>{
     state.titleCreate=action.payload;
-    console.log(state.titleCreate);
   })
   .addCase(changeInputDescriptionCreate,(state,action)=>{
     state.descriptionCreate=action.payload;
   })
   .addCase(changeInputCategoriesCreate,(state,action)=>{
-    state.categoriesCreate=(action.payload);
-    console.log(state.categoriesCreate);
-    
+    state.categoriesCreate=(action.payload);    
   })
   .addCase(changeInputToolsCreate,(state,action)=>{
    
    state.toolsCreate=action.payload;
-   console.log(state.toolsCreate);
   })
   .addCase(fetchTools.pending, (state) => {
     state.errorTools = null;
@@ -395,6 +393,10 @@ builder
     state.stepsCreated=true;
     state.idCurrentTutoCreate=initialState.idCurrentTutoCreate;
     state.createdSuccessful=true;
+    state.publication=false;
+  })
+  .addCase(publication,(state)=>{
+    state.publication=true;
   })
 });
 export default tutorielReducer;
