@@ -42,6 +42,7 @@ interface initialStateProps {
   stepsCreated:boolean;
   createdSuccessful:boolean;
   publication:boolean;
+  deleted:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -84,7 +85,8 @@ export const initialState:initialStateProps = {
     imageStep5:"",
     stepsCreated:false,
     createdSuccessful:false,
-    publication:false
+    publication:false,
+    deleted:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -106,6 +108,7 @@ export const changeStep3ImageCreate=createAction<string>("tutoriel/changeStep3Im
 export const changeStep4ImageCreate=createAction<string>("tutoriel/changeStep4ImageCreate");
 export const changeStep5ImageCreate=createAction<string>("tutoriel/changeStep5ImageCreate");
 export const publication=createAction("tutoriel/publication");
+export const resetDeleted=createAction("tutoriel/resetDeleted");
 // --------------------------------- Thunk ---------------------------------
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
@@ -217,6 +220,12 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
       estPublie:state.tutoriel.publication
     }
   )
+  return response.data;
+ })
+ export const deleteTutorial=createAsyncThunk("tutoriel/deleteTutorial",async(tutorialId)=>{
+  const response=await axios.delete(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId
+  );
   return response.data;
  })
 
@@ -397,6 +406,21 @@ builder
   })
   .addCase(publication,(state)=>{
     state.publication=true;
+  })
+  .addCase(deleteTutorial.pending,(state)=>{
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(deleteTutorial.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(deleteTutorial.fulfilled,(state)=>{
+    state.loadingTuto=false;
+    state.deleted=true;
+  })
+  .addCase(resetDeleted,(state)=>{
+    state.deleted=false;
   })
 });
 export default tutorielReducer;
