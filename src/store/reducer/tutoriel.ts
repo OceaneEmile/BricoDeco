@@ -1,6 +1,32 @@
 import { createAction, createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import axios from "axios";
 
+interface initialStateProps {
+  menuBurgerIsOpen:boolean,
+  errorCategories:any,
+  loadingCategories:boolean,
+  categories:[],
+  errorRandomsTutos:any,
+  loadingRandomsTutos:boolean,
+  randomsTutos:[],
+  tutoriels:[],
+  tutorielsByCategory:[],
+  category:[],
+  tutoriel:{},
+  errorTuto:any,
+  loadingTuto:boolean,
+  isAuthor:boolean,
+  titleCreate:string,
+  descriptionCreate:string,
+  categoriesCreate:0,
+  tools:[],
+  errorTools:null,
+  loadingTools:boolean,
+  toolsCreate:[],
+  imageCreate:string,
+  stepContentCreate:string,
+  stepImageCreate:string,
+};
 
 export const initialState = {
     menuBurgerIsOpen:false,
@@ -19,8 +45,17 @@ export const initialState = {
     isAuthor:false,
     titleCreate:"",
     descriptionCreate:"",
-    categoriesCreate:0,
+    categoriesCreate:[],
+    tools:[],
+    errorTools:null,
+    loadingTools:false,
     toolsCreate:[],
+    imageCreate:"",
+    stepContentCreate:'',
+    stepImageCreate:'',
+    tutoIsCreated:false,
+    idCurrentTutoCreate:"",
+    idFisrtStep:"",
 };
 
 // --------------------------------- Action ---------------------------------
@@ -30,6 +65,7 @@ export const changeInputTitleCreate=createAction<string>("tutoriel/changeInputTi
 export const changeInputDescriptionCreate=createAction<string>("tutoriel/changeInputDescriptionCreate");
 export const changeInputCategoriesCreate=createAction("tutoriel/changeInputCategoriesCreate");
 export const changeInputToolsCreate=createAction("tutoriel/changeInputToolsCreate");
+export const changeInputImageCreate=createAction<string>("tutoriel/changeInputImageCreate");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -65,6 +101,32 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   const response=await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorielId
   );
+  return response.data;
+ })
+ export const fetchTools=createAsyncThunk("tutoriel/fetchTools",async()=>{
+  const response=await axios.get(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/outils"
+  );
+  return response.data;
+ })
+ export const submitCreateTuto=createAsyncThunk("tutoriel/submitCreateTuto",async(_,{getState}  )=>{
+  const state=getState() as initialStateProps;
+  
+  const response =await axios.post(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels",
+    {
+      titre:state.tutoriel.titleCreate,
+      resume:state.tutoriel.descriptionCreate,
+      image:state.tutoriel.imageCreate,
+      etapes:[
+        {
+          contenu:"placebo",
+        }
+      ],
+      categories:state.tutoriel.categoriesCreate,
+      outils:state.tutoriel.toolsCreate
+    }
+  )
   return response.data;
  })
 
@@ -156,16 +218,49 @@ builder
   })
   .addCase(changeInputTitleCreate,(state,action)=>{
     state.titleCreate=action.payload;
+    console.log(state.titleCreate);
   })
   .addCase(changeInputDescriptionCreate,(state,action)=>{
     state.descriptionCreate=action.payload;
   })
   .addCase(changeInputCategoriesCreate,(state,action)=>{
-    state.categoriesCreate=parseInt(action.payload as any);
+    state.categoriesCreate=(action.payload);
+    console.log(state.categoriesCreate);
+    
   })
   .addCase(changeInputToolsCreate,(state,action)=>{
-   console.log(action.payload);
    
-  })    
+   state.toolsCreate=action.payload;
+   console.log(state.toolsCreate);
+  })
+  .addCase(fetchTools.pending, (state) => {
+    state.errorTools = null;
+    state.loadingTools = true;
+  })  
+  .addCase(fetchTools.rejected, (state, action) => {
+    state.loadingTools = false;
+    state.errorTools = action.error.message as any;
+  })
+  .addCase(fetchTools.fulfilled, (state, action) => {
+    state.loadingTools = false;
+    state.tools = action.payload;
+  })
+  .addCase(changeInputImageCreate,(state,action)=>{
+    state.imageCreate=action.payload;
+  })
+  .addCase(submitCreateTuto.pending, (state) => {
+    state.errorTuto = null;
+    state.loadingTuto = true;
+  })
+  .addCase(submitCreateTuto.rejected, (state, action) => {
+    state.loadingTuto = false;
+    state.errorTuto = action.error.message as any;
+  })
+  .addCase(submitCreateTuto.fulfilled, (state, action) => {
+    state.loadingTuto = false;
+    state.idCurrentTutoCreate=action.payload.id;
+    state.tutoIsCreated = true;
+    state.idFirstStep=action.payload.etapes[0].id;
+  })
 });
 export default tutorielReducer;

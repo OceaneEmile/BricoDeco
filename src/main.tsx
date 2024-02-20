@@ -11,6 +11,7 @@ import MainTuto from "./Components/Tutorials/MainTuto.tsx";
 import Category from "./Components/Main/Category.tsx";
 import EditTuto from "./Components/Tutorials/EditTuto.tsx";
 import CreateTuto from "./Components/Tutorials/CreateTuto.tsx";
+import CreateTutoSteps from "./Components/Tutorials/CreateTutoSteps.tsx";
 import AboutUs from "./Components/About/AboutUs.tsx";
 import Contact from "./Components/About/Contact.tsx";
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "tutoriel/create",
         element: <CreateTuto />,
+      },
+      {
+        path: "tutoriel/create/steps",
+        element: <CreateTutoSteps />,
       },
       {
         path: "subscribe",
