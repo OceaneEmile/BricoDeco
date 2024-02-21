@@ -34,6 +34,7 @@ import axios from "axios";
       emailFormatGood:boolean,
       usernameFormatGood:boolean,
       createOk:boolean,
+      usernameModified:boolean,
   }
 
 export const initialState:UserStore = {
@@ -68,6 +69,7 @@ export const initialState:UserStore = {
     emailFormatGood:false,
     usernameFormatGood:false,
     createOk:false,
+    usernameModified:false,
 };
 
 
@@ -112,7 +114,16 @@ export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getSta
     );
     return response.data;
 });
-
+export const changeUsername=createAsyncThunk("user/changeUsername",async(_,{getState})=>{
+  const state=getState() as UserStore;
+  const response=await axios.put(
+      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      {
+          pseudonyme:state.user.inputUsernameSubscribe,
+      }
+    );
+    return response.data;
+})
 // --------------------------------- Reducer ---------------------------------
 const userReducer=createReducer(initialState,(builder)=>{
 builder
@@ -184,7 +195,7 @@ builder
 .addCase(changeInputUsernameSubscribe,(state,action)=>{
   if(action.payload.length>2){
     state.inputUsernameSubscribe=action.payload;
-    state.usernameFormatGood=true;
+    state.usernameFormatGood=true;    
   }else{
     state.usernameFormatGood=false;
   }
@@ -240,5 +251,17 @@ builder
   state.loading = false;
   state.connexionFormIsOpen=false;
   state.createOk=true;})
+  .addCase(changeUsername.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+  .addCase(changeUsername.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.error.message as any;
+  })
+  .addCase(changeUsername.fulfilled,(state)=>{
+    state.loading = false;
+    state.usernameModified=true;
+  })
 });
 export default userReducer;
