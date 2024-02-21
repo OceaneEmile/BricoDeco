@@ -43,6 +43,11 @@ interface initialStateProps {
   publication:boolean;
   deleted:boolean;
   tutorielsByUser:any[];
+  updateTitle:string|undefined;
+  updateContent:string|undefined;
+  updateCategories:any[]|undefined;
+  updateImage:string|undefined;
+  updateTools:any[]|undefined;
 }
 
 export const initialState:initialStateProps = {
@@ -86,7 +91,12 @@ export const initialState:initialStateProps = {
     createdSuccessful:false,
     publication:false,
     deleted:false,
-    tutorielsByUser:[]
+    tutorielsByUser:[],
+    updateTitle:"",
+    updateContent:"",
+    updateCategories:[],
+    updateImage:"",
+    updateTools:[],
 };
 
 // --------------------------------- Action ---------------------------------
@@ -109,7 +119,11 @@ export const changeStep4ImageCreate=createAction<string>("tutoriel/changeStep4Im
 export const changeStep5ImageCreate=createAction<string>("tutoriel/changeStep5ImageCreate");
 export const publication=createAction("tutoriel/publication");
 export const resetDeleted=createAction("tutoriel/resetDeleted");
-// --------------------------------- Thunk ---------------------------------
+export const updateTitle=createAction("tutoriel/updateTitle");
+export const updateContent=createAction("tutoriel/updateContent");
+export const updateCategories=createAction("tutoriel/updateCategories");
+export const updateImage=createAction("tutoriel/updateImage");
+export const updateTools=createAction("tutoriel/updateTools");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -173,7 +187,6 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   )
   return response.data;
  })
-
  export const submitStepsCreate=createAsyncThunk("tutoriel/submitStepsCreate",async(_,{getState})=>{
   const state=getState() as initialStateProps;
   const stepsArray=[];
@@ -231,6 +244,42 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
  export const fetchTutorielsByUser=createAsyncThunk("tutoriel/fetchTutorielsByUser",async()=>{
   const response= await axios.get(
     "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/user",
+  )
+  return response.data;
+ })
+ export const updateBodyTutorial=createAsyncThunk("tutoriel/updateBodyTutorial",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
+
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "titre":state.tutoriel.updateTitle,
+      "resume":state.tutoriel.updateContent,
+      "image":state.tutoriel.updateImage,
+      categories:[{
+        "id":6,
+      }],
+    }
+  )
+  return response.data;
+ })
+ export const updateCategoriesTutorial=createAsyncThunk("tutoriel/updateCategoriesTutorial",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "categories":state.tutoriel.updateCategories
+    }
+  )
+  return response.data;
+ })
+ export const updateToolsTutorial=createAsyncThunk("tutoriel/updateToolsTutorial",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "outils":state.tutoriel.updateTools
+    }
   )
   return response.data;
  })
@@ -437,6 +486,27 @@ builder
   .addCase(fetchTutorielsByUser.fulfilled,(state,action)=>{
     state.loadingTuto=false;
     state.tutorielsByUser=action.payload;
+  })
+  .addCase(updateTitle,(state,action)=>{
+    state.updateTitle=action.payload;
+    console.log(state.updateTitle);
+    
+  })
+  .addCase(updateContent,(state,action)=>{
+    state.updateContent=action.payload;
+    console.log(state.updateContent);
+    
+  })
+  .addCase(updateCategories,(state,action)=>{
+    state.updateCategories=action.payload;
+  })
+  .addCase(updateImage,(state,action)=>{
+    state.updateImage=action.payload;
+    console.log(state.updateImage);
+    
+  })
+  .addCase(updateTools,(state,action)=>{
+    state.updateTools=action.payload;
   })
 });
 export default tutorielReducer;
