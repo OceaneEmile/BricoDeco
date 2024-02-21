@@ -26,7 +26,6 @@ interface initialStateProps {
   stepImageCreate: string;
   tutoIsCreated: boolean;
   idCurrentTutoCreate: number;
-  idFirstStep: number;
   contentStep1: string;
   contentStep2: string;
   contentStep3: string;
@@ -43,6 +42,7 @@ interface initialStateProps {
   createdSuccessful:boolean;
   publication:boolean;
   deleted:boolean;
+  tutorielsByUser:any[];
 }
 
 export const initialState:initialStateProps = {
@@ -72,7 +72,6 @@ export const initialState:initialStateProps = {
     stepImageCreate:'',
     tutoIsCreated:false,
     idCurrentTutoCreate:0,
-    idFirstStep:0,
     contentStep1:"",
     contentStep2:"",
     contentStep3:"",
@@ -86,7 +85,8 @@ export const initialState:initialStateProps = {
     stepsCreated:false,
     createdSuccessful:false,
     publication:false,
-    deleted:false
+    deleted:false,
+    tutorielsByUser:[]
 };
 
 // --------------------------------- Action ---------------------------------
@@ -228,7 +228,12 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   );
   return response.data;
  })
-
+ export const fetchTutorielsByUser=createAsyncThunk("tutoriel/fetchTutorielsByUser",async()=>{
+  const response= await axios.get(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/user",
+  )
+  return response.data;
+ })
 // --------------------------------- Reducer ---------------------------------
 const tutorielReducer=createReducer(initialState,(builder)=>{
 builder
@@ -356,7 +361,6 @@ builder
     state.loadingTuto = false;
     state.idCurrentTutoCreate=action.payload.id;
     state.tutoIsCreated = true;
-    state.idFirstStep=action.payload.etapes[0].id;
   })
   .addCase(changeStep1ContentCreate,(state,action)=>{
     state.contentStep1=action.payload;    
@@ -421,6 +425,18 @@ builder
   })
   .addCase(resetDeleted,(state)=>{
     state.deleted=false;
+  })
+  .addCase(fetchTutorielsByUser.pending,(state)=>{
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(fetchTutorielsByUser.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(fetchTutorielsByUser.fulfilled,(state,action)=>{
+    state.loadingTuto=false;
+    state.tutorielsByUser=action.payload;
   })
 });
 export default tutorielReducer;

@@ -1,18 +1,20 @@
-import Card from "./Card";
-import Button from "../Button/Button";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { RootState } from "../../store";
-import { fetchTutoriels } from "../../store/reducer/tutoriel";
+import { fetchTutorielsByUser } from "../../store/reducer/tutoriel";
+import Card from "../Main/Card";
+import Publied from "./Publied";
 import { Tutos } from "../../types/types";
 
-export default function Gallery({ text }: { text: string }) {
+export default function userGallery({ text }: { text: string }) {
   const dispatch = useDispatch();
-  const tutoriels = useSelector((state: RootState) => state.tutoriel.tutoriels);
+  const tutoriels = useSelector(
+    (state: RootState) => state.tutoriel.tutorielsByUser
+  );
 
   useEffect(() => {
-    dispatch(fetchTutoriels() as any);
+    dispatch(fetchTutorielsByUser() as any);
   }, []);
 
   return (
@@ -27,13 +29,12 @@ export default function Gallery({ text }: { text: string }) {
           {/* for each tuto create card */}
           {tutoriels.map((tutoriel: Tutos) => (
             <Link key={tutoriel.id} to={`tutoriel/${tutoriel.id}`}>
+              <Publied tutoriel={tutoriel} />
               <Card tutoriel={tutoriel} />
             </Link>
           ))}
         </div>
-        <div className="mt-10">
-          <Button text="Voir plus" />
-        </div>
+        <div className="mt-10"></div>
       </div>
     </div>
   );

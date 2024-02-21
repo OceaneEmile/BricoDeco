@@ -4,13 +4,14 @@ import {
   changeInputConfirmPasswordSubscribe,
   changeInputPasswordSubscribe,
   changeInputUsernameSubscribe,
+  changePassword,
   changeUsername,
 } from "../../store/reducer/user";
 import { RootState } from "../../store";
+import UserGallery from "./UserGallery";
 
 export default function Profil() {
   const dispatch = useDispatch();
-
   function handleNameInput(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(changeInputUsernameSubscribe(e.target.value));
   }
@@ -25,6 +26,11 @@ export default function Profil() {
       dispatch(changeUsername() as any);
     }
   }
+  function submitNewPassword() {
+    if (passwordIsGood && passwordFormatGood) {
+      dispatch(changePassword() as any);
+    }
+  }
   const usernameFormatGood = useSelector(
     (state: RootState) => state.user.usernameFormatGood
   );
@@ -37,7 +43,9 @@ export default function Profil() {
   const usernameModified = useSelector(
     (state: RootState) => state.user.usernameModified
   );
-
+  const passwordModified = useSelector(
+    (state: RootState) => state.user.passwordModified
+  );
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -54,8 +62,13 @@ export default function Profil() {
                 htmlFor="email"
                 className="block text-sm font-medium leading-6 text-gray-900 text-left"
               >
-                Pseudonyme
+                Pseudonyme:
               </label>
+              {!usernameFormatGood && (
+                <p className="text-xs text-red-700">
+                  Le pseudo doit contenir au moins 3 caractères.
+                </p>
+              )}
               <div className="mt-2">
                 <input
                   onChange={handleNameInput}
@@ -67,6 +80,7 @@ export default function Profil() {
                   className=" mb-4 block w-full rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
+
               <div onClick={submitUser}>
                 <Button text={"Modifier"} />
               </div>
@@ -86,6 +100,12 @@ export default function Profil() {
                   Password
                 </label>
               </div>
+              {!passwordFormatGood && (
+                <p className="text-xs text-red-700">
+                  Le mot de passe doit contenir au moins 10 caractères, une
+                  majuscule, une minuscule et un chiffre.
+                </p>
+              )}
               <div className="mt-2">
                 <input
                   onChange={handlePasswordInput}
@@ -105,6 +125,11 @@ export default function Profil() {
                   Confirmez le mot de passe:
                 </label>
                 <div className="mt-2">
+                  {!passwordIsGood && (
+                    <p className="text-xs text-red-700">
+                      Veuillez confirmer le meme mot de passe.
+                    </p>
+                  )}
                   <input
                     onChange={handleConfirmPasswordInput}
                     id="confirmPassword"
@@ -116,12 +141,19 @@ export default function Profil() {
                   />
                 </div>
               </div>
-              <Button text={"Modifier le mot de passe"} />
+              <div onClick={submitNewPassword}>
+                <Button text={"Modifier le mot de passe"} />
+              </div>
+              {passwordModified && (
+                <p className="text-green-700">
+                  Votre mot de passe a bien été modifié
+                </p>
+              )}
             </div>
           </form>
         </div>
       </div>
-      <p>La liste des tutos</p>
+      <UserGallery text={"Vos tutos"} />
     </>
   );
 }

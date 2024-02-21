@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div>
       <Caroussel />
-      <Gallery />
+      <Gallery text={"Les Derniers Tutos :"} />
     </div>
   );
 }

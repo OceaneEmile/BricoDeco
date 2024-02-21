@@ -32,6 +32,10 @@ const router = createBrowserRouter([
         element: <Profil />,
       },
       {
+        path: "profil/tutoriel/:id",
+        element: <MainTuto />,
+      },
+      {
         path: "/categorie/:id",
         element: <Category />,
       },

@@ -35,6 +35,7 @@ import axios from "axios";
       usernameFormatGood:boolean,
       createOk:boolean,
       usernameModified:boolean,
+      passwordModified:boolean,
   }
 
 export const initialState:UserStore = {
@@ -70,6 +71,7 @@ export const initialState:UserStore = {
     usernameFormatGood:false,
     createOk:false,
     usernameModified:false,
+    passwordModified:false,
 };
 
 
@@ -120,6 +122,16 @@ export const changeUsername=createAsyncThunk("user/changeUsername",async(_,{getS
       "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
       {
           pseudonyme:state.user.inputUsernameSubscribe,
+      }
+    );
+    return response.data;
+})
+export const changePassword=createAsyncThunk("user/changePassword",async(_,{getState})=>{
+  const state=getState() as UserStore;
+  const response=await axios.put(
+      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      {
+          password:state.user.inputPasswordSubscribe,
       }
     );
     return response.data;
@@ -250,7 +262,8 @@ builder
 .addCase(subscribeUser.fulfilled,(state)=>{ 
   state.loading = false;
   state.connexionFormIsOpen=false;
-  state.createOk=true;})
+  state.createOk=true;
+})
   .addCase(changeUsername.pending, (state) => {
     state.error = null;
     state.loading = true;
@@ -262,6 +275,18 @@ builder
   .addCase(changeUsername.fulfilled,(state)=>{
     state.loading = false;
     state.usernameModified=true;
+  })
+  .addCase(changePassword.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+  .addCase(changePassword.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.error.message as any;
+  })
+  .addCase(changePassword.fulfilled,(state)=>{
+    state.loading = false;
+    state.passwordModified=true;
   })
 });
 export default userReducer;
