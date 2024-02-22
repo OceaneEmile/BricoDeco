@@ -73,7 +73,7 @@ export const initialState:UserStore = {
     usernameModified:false,
     passwordModified:false,
 };
-
+const APIURL=import.meta.env.VITE_API_URL;
 
 // --------------------------------- Action ---------------------------------
 export const openConnexionForm=createAction("user/openConnexionForm");
@@ -92,7 +92,7 @@ export const resetCreate=createAction("user/resetCreate");
 export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{getState})=>{
     const state=getState() as UserStore;
     const response=await axios.post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/login_check",
+        `${APIURL}/login_check`,
         {
           username: state.user.inputmail,
           password: state.user.inputpassword,
@@ -102,13 +102,13 @@ export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{
 })
 export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
     const response = await axios.get(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/user");
+        `${APIURL}/user`);
         return response.data;
 });
 export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getState})=>{
   const states=getState() as UserStore;
   const response=await axios.post(
-      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/create",
+     `${APIURL}/create`,
       {
           pseudonyme:states.user.inputUsernameSubscribe,
           email: states.user.inputMailSubscribe,
@@ -120,7 +120,7 @@ export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getSta
 export const changeUsername=createAsyncThunk("user/changeUsername",async(_,{getState})=>{
   const state=getState() as UserStore;
   const response=await axios.put(
-      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      `${APIURL}/user/edit`,
       {
           pseudonyme:state.user.inputUsernameSubscribe,
       }
@@ -130,7 +130,7 @@ export const changeUsername=createAsyncThunk("user/changeUsername",async(_,{getS
 export const changePassword=createAsyncThunk("user/changePassword",async(_,{getState})=>{
   const state=getState() as UserStore;
   const response=await axios.put(
-      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      `${APIURL}/user/edit`,
       {
           password:state.user.inputPasswordSubscribe,
       }

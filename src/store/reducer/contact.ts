@@ -10,7 +10,7 @@ export const initialState:ContactStore={
     inputSubjectUser:"",
     inputContentUser:"",
 }
-
+const APIURL=import.meta.env.VITE_API_URL;
 export const inputMailUser=createAction("contact/inputMailUser");
 export const inputSubjectUser=createAction("contact/inputSubjectUser");
 export const inputContentUser=createAction("contact/inputContentUser");
@@ -18,7 +18,7 @@ export const inputContentUser=createAction("contact/inputContentUser");
 export const sendMailContact=createAsyncThunk("contact/sendMailContact",async (_,{getState})=>{
     const state=getState() as {contact:ContactStore};
     const response=await axios.post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/contact",
+        `${APIURL}/contact`,
         {
             "email":state.contact.inputMailUser,
             "subject":state.contact.inputSubjectUser,

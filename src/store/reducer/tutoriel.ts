@@ -187,7 +187,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
  })
  export const fetchTools=createAsyncThunk("tutoriel/fetchTools",async()=>{
   const response=await axios.get(
-    `${APIURL}/outils`
+    `${APIURL}/outils`,
   );
   return response.data;
  })
@@ -251,7 +251,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   }
   
   const response=await axios.put(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+state.tutoriel.idCurrentTutoCreate,
+    `${APIURL}/tutoriels/${state.tutoriel.idCurrentTutoCreate}`,
     {
       etapes:stepsArray,
       estPublie:state.tutoriel.publication
@@ -261,13 +261,13 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
  })
  export const deleteTutorial=createAsyncThunk("tutoriel/deleteTutorial",async(tutorialId)=>{
   const response=await axios.delete(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId
+    `${APIURL}/tutoriels/${tutorialId}`
   );
   return response.data;
  })
  export const fetchTutorielsByUser=createAsyncThunk("tutoriel/fetchTutorielsByUser",async()=>{
   const response= await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/user",
+   `${APIURL}/tutoriels/user`,
   )
   return response.data;
  })
@@ -275,7 +275,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   const state=getState() as initialStateProps
 
   const response= await axios.put(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    `${APIURL}/tutoriels/${tutorialId}`,
     {
       "titre":state.tutoriel.updateTitle,
       "resume":state.tutoriel.updateContent,
@@ -292,7 +292,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   const state=getState() as initialStateProps
 
   const response= await axios.put(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    `${APIURL}/tutoriels/${tutorialId}`,
     {
       "titre":state.tutoriel.updateTitle,
       "resume":state.tutoriel.updateContent,
