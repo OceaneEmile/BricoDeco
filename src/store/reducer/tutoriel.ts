@@ -40,7 +40,7 @@ interface initialStateProps {
   randomsTutos:any[]
   stepsCreated:boolean;
   createdSuccessful:boolean;
-  publication:boolean;
+  publication:boolean|undefined;
   deleted:boolean;
   tutorielsByUser:any[];
   updateTitle:string|undefined;
@@ -48,6 +48,8 @@ interface initialStateProps {
   updateCategories:any[]|undefined;
   updateImage:string|undefined;
   updateTools:any[]|undefined;
+  tutoIsModified:boolean;
+  isPublished:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -97,6 +99,8 @@ export const initialState:initialStateProps = {
     updateCategories:[],
     updateImage:"",
     updateTools:[],
+    tutoIsModified:false,
+    isPublished:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -124,6 +128,7 @@ export const updateContent=createAction("tutoriel/updateContent");
 export const updateCategories=createAction("tutoriel/updateCategories");
 export const updateImage=createAction("tutoriel/updateImage");
 export const updateTools=createAction("tutoriel/updateTools");
+export const isPublished=createAction("tutoriel/isPublished");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -256,28 +261,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
       "titre":state.tutoriel.updateTitle,
       "resume":state.tutoriel.updateContent,
       "image":state.tutoriel.updateImage,
-      categories:[{
-        "id":6,
-      }],
-    }
-  )
-  return response.data;
- })
- export const updateCategoriesTutorial=createAsyncThunk("tutoriel/updateCategoriesTutorial",async(tutorialId,{getState})=>{
-  const state=getState() as initialStateProps
-  const response= await axios.put(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
-    {
-      "categories":state.tutoriel.updateCategories
-    }
-  )
-  return response.data;
- })
- export const updateToolsTutorial=createAsyncThunk("tutoriel/updateToolsTutorial",async(tutorialId,{getState})=>{
-  const state=getState() as initialStateProps
-  const response= await axios.put(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
-    {
+      "categories":state.tutoriel.updateCategories,
       "outils":state.tutoriel.updateTools
     }
   )
@@ -360,6 +344,9 @@ builder
   .addCase(fetchTutorielById.fulfilled, (state, action) => {
     state.loadingTuto = false;
     state.tutoriel = action.payload;
+    state.updateTools=action.payload.outils;
+    state.idCurrentTutoCreate=action.payload.id;
+    state.tutoIsModified=false;
   })
   .addCase(isAuthor, (state,action:any) => {
     if(action.payload){
@@ -489,24 +476,36 @@ builder
   })
   .addCase(updateTitle,(state,action)=>{
     state.updateTitle=action.payload;
-    console.log(state.updateTitle);
-    
   })
   .addCase(updateContent,(state,action)=>{
     state.updateContent=action.payload;
-    console.log(state.updateContent);
-    
+
   })
   .addCase(updateCategories,(state,action)=>{
     state.updateCategories=action.payload;
+    
   })
   .addCase(updateImage,(state,action)=>{
     state.updateImage=action.payload;
-    console.log(state.updateImage);
     
   })
   .addCase(updateTools,(state,action)=>{
-    state.updateTools=action.payload;
+    state.updateTools=action.payload;    
   })
-});
+  .addCase(updateBodyTutorial.pending,(state)=>{  
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(updateBodyTutorial.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(updateBodyTutorial.fulfilled,(state)=>{
+    state.loadingTuto=false;
+    state.tutoIsModified=true
+  })
+  .addCase(isPublished,(state, action)=>{
+    state.publication=action.payload;
+  })
+})
 export default tutorielReducer;

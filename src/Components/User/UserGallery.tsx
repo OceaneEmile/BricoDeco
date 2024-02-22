@@ -28,7 +28,7 @@ export default function userGallery({ text }: { text: string }) {
         <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-blue-900 pt-10 sm:mt-4 sm:pt-8 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
           {/* for each tuto create card */}
           {tutoriels.map((tutoriel: Tutos) => (
-            <Link key={tutoriel.id} to={`tutoriel/${tutoriel.id}`}>
+            <Link key={tutoriel.id} to={`/tutoriel/${tutoriel.id}`}>
               <Publied tutoriel={tutoriel} />
               <Card tutoriel={tutoriel} />
             </Link>

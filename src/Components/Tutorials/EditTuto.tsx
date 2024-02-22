@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,17 +7,15 @@ import {
   fetchTutorielById,
   updateBodyTutorial,
   updateCategories,
-  updateCategoriesTutorial,
   updateContent,
   updateImage,
   updateTitle,
   updateTools,
-  updateToolsTutorial,
 } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
-
 export default function EditTuto() {
   const { id } = useParams();
+  const navigate = useNavigate();
   let categoriesInput = [] as any;
   let outilsInput = [] as any;
   const tutoriel = useSelector((state: RootState) => state.tutoriel.tutoriel);
@@ -25,6 +23,9 @@ export default function EditTuto() {
     (state: RootState) => state.tutoriel.categories
   );
   const tool = useSelector((state: RootState) => state.tutoriel.tools);
+  const tutoIsModified = useSelector(
+    (state: RootState) => state.tutoriel.tutoIsModified
+  );
 
   const dispatch = useDispatch();
 
@@ -32,10 +33,15 @@ export default function EditTuto() {
     dispatch(fetchTutorielById(id) as any);
     dispatch(fetchTools() as any);
   }, [id]);
+
   useEffect(() => {
     dispatch(updateTitle(tutoriel.titre));
     dispatch(updateContent(tutoriel.resume));
     dispatch(updateImage(tutoriel.image));
+    dispatch(updateCategories(tutoriel.categories));
+    setTimeout(() => {
+      dispatch(updateTools(tutoriel.outils));
+    }, 200);
   }, [tutoriel]);
 
   function changeInputCategory(e: any) {
@@ -59,7 +65,6 @@ export default function EditTuto() {
         id: parseInt(e.target.id),
         nomDeLoutil: e.target.value,
       });
-      console.log(outilsInput);
     } else {
       outilsInput = outilsInput.filter(
         (outil: any) => outil.id !== e.target.id
@@ -76,16 +81,17 @@ export default function EditTuto() {
     dispatch(updateImage(e.target.value));
   }
   function updateBodyTuto() {
-    if (categoriesInput.length > 0) {
-      dispatch(updateCategories(categoriesInput));
-      dispatch(updateCategoriesTutorial(id) as any);
-    }
-    if (outilsInput.length > 0) {
-      dispatch(updateTools(outilsInput));
-      dispatch(updateToolsTutorial(id) as any);
-    }
+    dispatch(updateCategories(categoriesInput));
+    dispatch(updateTools(outilsInput));
     dispatch(updateBodyTutorial(id) as any);
   }
+  useEffect(() => {
+    if (tutoIsModified) {
+      setTimeout(() => {
+        navigate(`/tutoriel/${id}`);
+      }, 2000);
+    }
+  }, [tutoIsModified]);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -188,14 +194,21 @@ export default function EditTuto() {
               ))}
             </div>
           </div>
-          <div className="flex">
+          <div className="flex justify-center">
             <div className="mr-4" onClick={updateBodyTuto}>
               <Button text={"Enregistrer"} />
             </div>
-            <div>
-              <Button text={"Modifier les etapes"} />
+            <div onClick={updateBodyTuto}>
+              <Link to={`steps`}>
+                <Button text={"Modifier les etapes"} />
+              </Link>
             </div>
           </div>
+          {tutoIsModified && (
+            <p className=" text-s text-green-700 text-center">
+              Votre tuto a bien ete modifie
+            </p>
+          )}
         </form>
       </div>
     </div>

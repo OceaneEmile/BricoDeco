@@ -25,6 +25,7 @@ export default function CreateTuto() {
   const tutoIsCreated = useSelector(
     (state: RootState) => state.tutoriel.tutoIsCreated
   );
+
   function inputTitleCreate(e: any) {
     dispatch(changeInputTitleCreate(e.target.value));
   }

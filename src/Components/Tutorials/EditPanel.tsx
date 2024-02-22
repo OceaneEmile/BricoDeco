@@ -22,7 +22,7 @@ export default function EditPanel() {
   }, [deleteState]);
   return (
     <div className="flex ">
-      <Link to="tutoriel/edit">
+      <Link to={`tutoriel/edit`}>
         <Button text={"Editer le tuto"} />
       </Link>
       <div onClick={deleted}>
