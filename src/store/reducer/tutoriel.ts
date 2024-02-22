@@ -50,6 +50,7 @@ interface initialStateProps {
   updateTools:any[]|undefined;
   tutoIsModified:boolean;
   isPublished:boolean;
+  tutoBodyIsModified:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -100,7 +101,8 @@ export const initialState:initialStateProps = {
     updateImage:"",
     updateTools:[],
     tutoIsModified:false,
-    isPublished:false
+    isPublished:false,
+    tutoBodyIsModified:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -267,6 +269,21 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   )
   return response.data;
  })
+ export const updateBodyTutorialSteps=createAsyncThunk("tutoriel/updateBodyTutorialSteps",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
+
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "titre":state.tutoriel.updateTitle,
+      "resume":state.tutoriel.updateContent,
+      "image":state.tutoriel.updateImage,
+      "categories":state.tutoriel.updateCategories,
+      "outils":state.tutoriel.updateTools
+    }
+  )
+  return response.data;
+ })
 // --------------------------------- Reducer ---------------------------------
 const tutorielReducer=createReducer(initialState,(builder)=>{
 builder
@@ -288,6 +305,7 @@ builder
   .addCase(fetchRandomsTutos.pending, (state) => {
     state.errorRandomsTutos = null;
     state.loadingRandomsTutos = true;
+    state.createdSuccessful=false;
   })
   .addCase(fetchRandomsTutos.rejected, (state, action) => {
     state.loadingRandomsTutos = false;
@@ -324,6 +342,7 @@ builder
   .addCase(fetchCategoryById.pending, (state) => {
     state.errorRandomsTutos = null;
     state.loadingRandomsTutos = true;
+    
   })
   .addCase(fetchCategoryById.rejected, (state, action) => {
     state.loadingRandomsTutos = false;
@@ -336,6 +355,8 @@ builder
   .addCase(fetchTutorielById.pending, (state) => {
     state.errorTuto = null;
     state.loadingTuto = true;
+    state.tutoBodyIsModified=false;
+    state.stepsCreated=false;
   })
   .addCase(fetchTutorielById.rejected, (state, action) => {
     state.loadingTuto = false;
@@ -346,7 +367,6 @@ builder
     state.tutoriel = action.payload;
     state.updateTools=action.payload.outils;
     state.idCurrentTutoCreate=action.payload.id;
-    state.tutoIsModified=false;
   })
   .addCase(isAuthor, (state,action:any) => {
     if(action.payload){
@@ -502,8 +522,20 @@ builder
   })
   .addCase(updateBodyTutorial.fulfilled,(state)=>{
     state.loadingTuto=false;
-    state.tutoIsModified=true
+    state.tutoBodyIsModified=true
   })
+  .addCase(updateBodyTutorialSteps.pending,(state)=>{  
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(updateBodyTutorialSteps.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(updateBodyTutorialSteps.fulfilled,(state)=>{
+    state.loadingTuto=false;
+  })
+
   .addCase(isPublished,(state, action)=>{
     state.publication=action.payload;
   })

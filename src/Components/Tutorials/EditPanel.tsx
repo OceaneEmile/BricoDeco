@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteTutorial, resetDeleted } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
 import { useEffect } from "react";
@@ -8,18 +8,21 @@ import { useEffect } from "react";
 export default function EditPanel() {
   const dispatch = useDispatch();
   const { id } = useParams();
+  const navigate = useNavigate();
   const deleteState = useSelector((state: RootState) => state.tutoriel.deleted);
   function deleted() {
     dispatch(deleteTutorial(id) as any);
   }
+
   useEffect(() => {
     setTimeout(() => {
       if (deleteState) {
         dispatch(resetDeleted() as any);
-        window.location.href = "/";
+        navigate("/");
       }
-    }, 4000);
+    }, 2000);
   }, [deleteState]);
+
   return (
     <div className="flex ">
       <Link to={`tutoriel/edit`}>

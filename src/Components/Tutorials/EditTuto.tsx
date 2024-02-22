@@ -6,6 +6,7 @@ import {
   fetchTools,
   fetchTutorielById,
   updateBodyTutorial,
+  updateBodyTutorialSteps,
   updateCategories,
   updateContent,
   updateImage,
@@ -23,8 +24,8 @@ export default function EditTuto() {
     (state: RootState) => state.tutoriel.categories
   );
   const tool = useSelector((state: RootState) => state.tutoriel.tools);
-  const tutoIsModified = useSelector(
-    (state: RootState) => state.tutoriel.tutoIsModified
+  const tutoBodyIsModified = useSelector(
+    (state: RootState) => state.tutoriel.tutoBodyIsModified
   );
 
   const dispatch = useDispatch();
@@ -85,13 +86,19 @@ export default function EditTuto() {
     dispatch(updateTools(outilsInput));
     dispatch(updateBodyTutorial(id) as any);
   }
+  function updateBodyTutoSteps() {
+    dispatch(updateCategories(categoriesInput));
+    dispatch(updateTools(outilsInput));
+    dispatch(updateBodyTutorialSteps(id) as any);
+  }
+
   useEffect(() => {
-    if (tutoIsModified) {
+    if (tutoBodyIsModified) {
       setTimeout(() => {
         navigate(`/tutoriel/${id}`);
       }, 2000);
     }
-  }, [tutoIsModified]);
+  }, [tutoBodyIsModified]);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -198,13 +205,13 @@ export default function EditTuto() {
             <div className="mr-4" onClick={updateBodyTuto}>
               <Button text={"Enregistrer"} />
             </div>
-            <div onClick={updateBodyTuto}>
+            <div onClick={updateBodyTutoSteps}>
               <Link to={`steps`}>
                 <Button text={"Modifier les etapes"} />
               </Link>
             </div>
           </div>
-          {tutoIsModified && (
+          {tutoBodyIsModified && (
             <p className=" text-s text-green-700 text-center">
               Votre tuto a bien ete modifie
             </p>
