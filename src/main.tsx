@@ -33,16 +33,8 @@ const router = createBrowserRouter([
         element: <Profil />,
       },
       {
-        path: "profil/tutoriel/:id",
-        element: <MainTuto />,
-      },
-      {
         path: "/categorie/:id",
         element: <Category />,
-      },
-      {
-        path: "/categorie/:id/tutoriel/:id",
-        element: <MainTuto />,
       },
       {
         path: "/tutoriel/:id",
@@ -59,9 +51,6 @@ const router = createBrowserRouter([
       {
         path: "categorie/:id/tutoriel/:id/tutoriel/edit",
         element: <EditTuto />,
-      },
-      {
-        path: "categorie/:id/tutoriel/:id/tutoriel/edit/steps",
       },
       {
         path: "tutoriel/create",

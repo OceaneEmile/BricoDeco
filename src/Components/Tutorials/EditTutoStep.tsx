@@ -25,7 +25,7 @@ export default function EditTutoStep() {
   useEffect(() => {
     dispatch(fetchTutorielById(id) as any);
   }, [id]);
-
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   const dispatch = useDispatch();
   const tutoriel = useSelector((state: RootState) => state.tutoriel.tutoriel);
   const stepIsCreated = useSelector(
@@ -108,6 +108,11 @@ export default function EditTutoStep() {
       }, 2000);
     }
   }, [stepIsCreated]);
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/");
+    }
+  }, [isLogged]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

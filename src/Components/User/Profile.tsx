@@ -9,8 +9,12 @@ import {
 } from "../../store/reducer/user";
 import { RootState } from "../../store";
 import UserGallery from "./UserGallery";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Profil() {
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   function handleNameInput(e: React.ChangeEvent<HTMLInputElement>) {
     dispatch(changeInputUsernameSubscribe(e.target.value));
@@ -46,6 +50,11 @@ export default function Profil() {
   const passwordModified = useSelector(
     (state: RootState) => state.user.passwordModified
   );
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/");
+    }
+  }, [isLogged]);
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

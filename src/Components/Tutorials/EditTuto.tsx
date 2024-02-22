@@ -17,6 +17,7 @@ import { RootState } from "../../store";
 export default function EditTuto() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   let categoriesInput = [] as any;
   let outilsInput = [] as any;
   const tutoriel = useSelector((state: RootState) => state.tutoriel.tutoriel);
@@ -99,6 +100,11 @@ export default function EditTuto() {
       }, 2000);
     }
   }, [tutoBodyIsModified]);
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/");
+    }
+  }, [isLogged]);
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">

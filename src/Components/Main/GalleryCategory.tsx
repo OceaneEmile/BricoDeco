@@ -27,7 +27,7 @@ export default function GalleryCategory() {
           {/* for each tuto create card */}
           {tutoriels
             ? tutoriels.map((tutoriel: Tutos) => (
-                <Link key={tutoriel.id} to={`tutoriel/${tutoriel.id}`}>
+                <Link key={tutoriel.id} to={`/tutoriel/${tutoriel.id}`}>
                   <Card tutoriel={tutoriel} />
                 </Link>
               ))

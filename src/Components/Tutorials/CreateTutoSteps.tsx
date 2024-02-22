@@ -16,6 +16,7 @@ import {
 } from "../../store/reducer/tutoriel";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
+import { useEffect } from "react";
 
 export default function CreateTutoSteps() {
   const dispatch = useDispatch();
@@ -29,6 +30,7 @@ export default function CreateTutoSteps() {
   const createdSuccessfull = useSelector(
     (state: RootState) => state.tutoriel.createdSuccessful
   );
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   function inputStep1Description(e: any) {
     dispatch(changeStep1ContentCreate(e.target.value)) as any;
   }
@@ -72,6 +74,11 @@ export default function CreateTutoSteps() {
       navigate("/");
     }, 2000);
   }
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/");
+    }
+  }, [isLogged]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
