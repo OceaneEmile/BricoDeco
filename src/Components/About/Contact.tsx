@@ -1,6 +1,29 @@
+import { useDispatch } from "react-redux";
 import Button from "../Button/Button";
+import {
+  inputMailUser,
+  inputSubjectUser,
+  inputContentUser,
+  sendMailContact,
+} from "../../store/reducer/contact";
 
 export default function Contact() {
+  const dispatch = useDispatch();
+
+  function inputMail(e: any) {
+    dispatch(inputMailUser(e.target.value));
+  }
+  function inputSubject(e: any) {
+    dispatch(inputSubjectUser(e.target.value));
+  }
+  function inputContent(e: any) {
+    dispatch(inputContentUser(e.target.value));
+  }
+  function sendMail(e: any) {
+    e.preventDefault();
+    dispatch(sendMailContact() as any);
+  }
+
   return (
     <div className="h-screen">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -11,7 +34,7 @@ export default function Contact() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form className="space-y-6" onSubmit={sendMail}>
             <div>
               <label
                 htmlFor="email"
@@ -20,6 +43,7 @@ export default function Contact() {
               <div className="mt-2">
                 <input
                   id="email"
+                  onChange={inputMail}
                   name="email"
                   type="email"
                   autoComplete="email"
@@ -40,6 +64,7 @@ export default function Contact() {
               <div className="mt-2">
                 <input
                   id="sujet"
+                  onChange={inputSubject}
                   name="sujet"
                   type="sujet"
                   placeholder=" Sujet"
@@ -60,6 +85,7 @@ export default function Contact() {
                 <textarea
                   id="content"
                   name="content"
+                  onChange={inputContent}
                   placeholder=" Votre message,vos suggestions ou vos questions"
                   required
                   rows={5}
@@ -68,8 +94,9 @@ export default function Contact() {
                 ></textarea>
               </div>
             </div>
-
-            <Button text={"Envoyez nous votre message"} />
+            <button type="submit">
+              <Button text={"Envoyez nous votre message"} />
+            </button>
           </form>
         </div>
       </div>
