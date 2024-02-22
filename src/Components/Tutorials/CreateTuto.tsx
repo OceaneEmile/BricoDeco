@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
 import {
+  addCategory,
   changeInputCategoriesCreate,
   changeInputDescriptionCreate,
   changeInputImageCreate,
   changeInputTitleCreate,
   changeInputToolsCreate,
   fetchTools,
+  removeCategory,
   submitCreateTuto,
 } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
@@ -14,38 +16,66 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateTuto() {
-  const isLogged = useSelector((state: RootState) => state.user.isLogged);
+  // create an empty array to store the selected tools and categories
   let outilsInput = [] as any;
   let categoriesInput = [] as any;
+  // create a dispatch function to dispatch an action
   const dispatch = useDispatch();
+  // create a navigate function to redirect
   const navigate = useNavigate();
+  // select state from the store for check if the user is logged
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
+  // select state from the store for the categories
   const categories = useSelector(
     (state: RootState) => state.tutoriel.categories
   );
+  // select state from the store for the tools
   const tool = useSelector((state: RootState) => state.tutoriel.tools);
+  // select state from the store for checking if the tuto is created
   const tutoIsCreated = useSelector(
     (state: RootState) => state.tutoriel.tutoIsCreated
   );
-
+  // Select state from the store for checking if the category is selected
+  const categoryGood = useSelector(
+    (state: RootState) => state.tutoriel.categoryGood
+  );
+  // when the component is mounted fetch the tools
+  useEffect(() => {
+    dispatch(fetchTools() as any);
+  }, []);
+  // Listen to the input title
   function inputTitleCreate(e: any) {
     dispatch(changeInputTitleCreate(e.target.value));
   }
+  //listen to the input image
+  function handleImageCreate(e: any) {
+    dispatch(changeInputImageCreate(e.target.value) as any);
+  }
+  // Listen to the input description
   function inputDescriptionCreate(e: any) {
     dispatch(changeInputDescriptionCreate(e.target.value));
   }
+  // Add or remove category from the list
   function changeInputCategoryCreate(e: any) {
     let checked = e.target.checked;
+    // if the category is checked categoryGood is true
     if (checked) {
       categoriesInput.push({ id: e.target.value });
+      dispatch(addCategory());
     } else {
+      // if the list is empty categoryGood is false
+      if (categoriesInput.length === 0) {
+        dispatch(removeCategory());
+      }
+      // remove the category from the list
       categoriesInput = categoriesInput.filter(
         (category: any) => category.id !== e.target.value
       );
     }
   }
+  // Add or remove tool from the list
   function inputToolsCreate(e: any) {
     let checked = e.target.checked;
-
     if (checked) {
       outilsInput.push({ id: e.target.value });
     } else {
@@ -54,23 +84,21 @@ export default function CreateTuto() {
       );
     }
   }
-  useEffect(() => {
-    dispatch(fetchTools() as any);
-  }, []);
-
-  function handleImageCreate(e: any) {
-    dispatch(changeInputImageCreate(e.target.value) as any);
-  }
+  // when the form is submitted dispatch the action to create the tuto
   function submitCreate(e: any) {
     e.preventDefault();
-    dispatch(changeInputCategoriesCreate(categoriesInput) as any);
-    dispatch(changeInputToolsCreate(outilsInput) as any);
-    dispatch(submitCreateTuto() as any);
+    // if the list of categories is not empty dispatch the action to create the tuto
+    if (categoriesInput.length > 0) {
+      dispatch(changeInputCategoriesCreate(categoriesInput) as any);
+      dispatch(changeInputToolsCreate(outilsInput) as any);
+      dispatch(submitCreateTuto() as any);
+    }
   }
-
+  //when the tuto is created redirect to the steps page
   useEffect(() => {
     tutoIsCreated && navigate("/tutoriel/create/steps");
   }, [tutoIsCreated]);
+  // if the user is not logged redirect to the home page
   useEffect(() => {
     if (!isLogged) {
       navigate("/");
@@ -86,12 +114,7 @@ export default function CreateTuto() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form
-          className="space-y-6"
-          action="#"
-          method="POST"
-          onSubmit={submitCreate}
-        >
+        <form className="space-y-6" onSubmit={submitCreate}>
           <div>
             <label
               htmlFor="title"
@@ -138,7 +161,6 @@ export default function CreateTuto() {
             <p className="text-left">Categorie:</p>
             <div className="mt-2 flex flex-wrap">
               {categories.map((category: any) => (
-                // Utilisation de parenthèses pour délimiter le bloc d'instructions
                 <div key={category.id}>
                   <input
                     type="checkbox"
@@ -150,6 +172,11 @@ export default function CreateTuto() {
                 </div>
               ))}
             </div>
+            {!categoryGood && (
+              <p className="text-red-700">
+                Veuillez selectionner une categorie minimum
+              </p>
+            )}
           </div>
           <div className="mt-4">
             <label
@@ -170,7 +197,6 @@ export default function CreateTuto() {
             <p className="text-left">Outils:</p>
             <div className="mt-2 flex flex-wrap">
               {tool.map((outil: any) => (
-                // Utilisation de parenthèses pour délimiter le bloc d'instructions
                 <div key={outil.id}>
                   <input
                     type="checkbox"

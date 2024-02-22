@@ -53,6 +53,8 @@ interface initialStateProps {
   tutoBodyIsModified:boolean;
   numberOfTutos:number;
   numberOfTutosCategory:number;
+  updatePublished:boolean|undefined;
+  categoryGood:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -102,11 +104,13 @@ export const initialState:initialStateProps = {
     updateCategories:[],
     updateImage:"",
     updateTools:[],
+    updatePublished:undefined,
     tutoIsModified:false,
     isPublished:false,
     tutoBodyIsModified:false,
     numberOfTutos:12,
-    numberOfTutosCategory:12
+    numberOfTutosCategory:12,
+    categoryGood:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -137,6 +141,9 @@ export const updateTools=createAction("tutoriel/updateTools");
 export const isPublished=createAction("tutoriel/isPublished");
 export const showMoreTutos=createAction("tutoriel/showMoreTutos");
 export const showMoreTutosCategory=createAction("tutoriel/showMoreTutosCategory");
+export const publicationChoice=createAction("tutoriel/publicationChoice");
+export const addCategory=createAction("tutoriel/addCategory");
+export const removeCategory=createAction("tutoriel/removeCategory");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -193,7 +200,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
       image:state.tutoriel.imageCreate,
       etapes:[
         {
-          contenu:"placebo",
+          contenu:"Cette etape est la seule etape qui doit etre obligatoirement renseignée",
         }
       ],
       categories:state.tutoriel.categoriesCreate,
@@ -272,7 +279,9 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
       "resume":state.tutoriel.updateContent,
       "image":state.tutoriel.updateImage,
       "categories":state.tutoriel.updateCategories,
-      "outils":state.tutoriel.updateTools
+      "outils":state.tutoriel.updateTools,
+      "estPublie":state.tutoriel.updatePublished,
+      
     }
   )
   return response.data;
@@ -287,7 +296,8 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
       "resume":state.tutoriel.updateContent,
       "image":state.tutoriel.updateImage,
       "categories":state.tutoriel.updateCategories,
-      "outils":state.tutoriel.updateTools
+      "outils":state.tutoriel.updateTools,
+      "estPublie":state.tutoriel.updatePublished,
     }
   )
   return response.data;
@@ -554,5 +564,14 @@ builder
   .addCase(showMoreTutosCategory,(state)=>{
     state.numberOfTutosCategory+=12;
   }) 
+  .addCase(publicationChoice,(state,action)=>{
+    state.updatePublished=action.payload;
+  })
+  .addCase(addCategory,(state)=>{
+    state.categoryGood=true;
+  })
+  .addCase(removeCategory,(state)=>{
+    state.categoryGood=false;
+  })
   })
 export default tutorielReducer;

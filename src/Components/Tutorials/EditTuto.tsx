@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTools,
   fetchTutorielById,
+  publicationChoice,
   updateBodyTutorial,
   updateBodyTutorialSteps,
   updateCategories,
@@ -41,6 +42,7 @@ export default function EditTuto() {
     dispatch(updateContent(tutoriel.resume));
     dispatch(updateImage(tutoriel.image));
     dispatch(updateCategories(tutoriel.categories));
+    dispatch(publicationChoice(tutoriel.estPublie));
     setTimeout(() => {
       dispatch(updateTools(tutoriel.outils));
     }, 200);
@@ -82,17 +84,21 @@ export default function EditTuto() {
   function handleUpdateImage(e: any) {
     dispatch(updateImage(e.target.value));
   }
+  // Update Tutorial without steps
   function updateBodyTuto() {
     dispatch(updateCategories(categoriesInput));
     dispatch(updateTools(outilsInput));
     dispatch(updateBodyTutorial(id) as any);
   }
+  // Update Tutorial to go update steps
   function updateBodyTutoSteps() {
     dispatch(updateCategories(categoriesInput));
     dispatch(updateTools(outilsInput));
     dispatch(updateBodyTutorialSteps(id) as any);
   }
-
+  function handlePost(e: any) {
+    dispatch(publicationChoice(e.target.checked) as any);
+  }
   useEffect(() => {
     if (tutoBodyIsModified) {
       setTimeout(() => {
@@ -206,6 +212,12 @@ export default function EditTuto() {
                 </div>
               ))}
             </div>
+            {!tutoriel.estPublie && (
+              <div className="flex mt-4">
+                <input type="checkbox" onChange={handlePost} />
+                <label>Je veux publier mon tutoriel</label>
+              </div>
+            )}
           </div>
           <div className="flex justify-center">
             <div className="mr-4" onClick={updateBodyTuto}>
