@@ -86,6 +86,7 @@ export const changeInputUsernameSubscribe=createAction<string>("user/setUsername
 export const changeInputMailSubscribe=createAction<string>("user/setMailSubscribe");
 export const changeInputPasswordSubscribe=createAction<string>("user/setPasswordSubscribe");
 export const changeInputConfirmPasswordSubscribe=createAction<string>("user/setConfirmPasswordSubscribe");
+export const resetCreate=createAction("user/resetCreate");
 
 // --------------------------------- Thunk ---------------------------------
 export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{getState})=>{
@@ -264,29 +265,32 @@ builder
   state.connexionFormIsOpen=false;
   state.createOk=true;
 })
-  .addCase(changeUsername.pending, (state) => {
+.addCase(changeUsername.pending, (state) => {
     state.error = null;
     state.loading = true;
   })
-  .addCase(changeUsername.rejected, (state, action) => {
+.addCase(changeUsername.rejected, (state, action) => {
     state.loading = false;
     state.error = action.error.message as any;
   })
-  .addCase(changeUsername.fulfilled,(state)=>{
+.addCase(changeUsername.fulfilled,(state)=>{
     state.loading = false;
     state.usernameModified=true;
   })
-  .addCase(changePassword.pending, (state) => {
+.addCase(changePassword.pending, (state) => {
     state.error = null;
     state.loading = true;
   })
-  .addCase(changePassword.rejected, (state, action) => {
+.addCase(changePassword.rejected, (state, action) => {
     state.loading = false;
     state.error = action.error.message as any;
   })
-  .addCase(changePassword.fulfilled,(state)=>{
+.addCase(changePassword.fulfilled,(state)=>{
     state.loading = false;
     state.passwordModified=true;
-  })
+})
+.addCase(resetCreate,(state)=>{
+  state.createOk=false;
+})
 });
 export default userReducer;
