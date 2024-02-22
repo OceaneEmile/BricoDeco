@@ -5,6 +5,7 @@ import {
   changeInputMailSubscribe,
   changeInputPasswordSubscribe,
   changeInputUsernameSubscribe,
+  resetCreate,
   subscribeUser,
 } from "../../store/reducer/user";
 import { RootState } from "../../store";
@@ -59,6 +60,14 @@ export default function Subscribe() {
   useEffect(() => {
     isLogged && navigate("/");
   }, [isLogged]);
+  useEffect(() => {
+    if (createOk) {
+      setTimeout(() => {
+        navigate("/");
+        dispatch(resetCreate());
+      }, 2000);
+    }
+  }, [createOk]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

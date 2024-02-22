@@ -14,6 +14,7 @@ import CreateTuto from "./Components/Tutorials/CreateTuto.tsx";
 import CreateTutoSteps from "./Components/Tutorials/CreateTutoSteps.tsx";
 import AboutUs from "./Components/About/AboutUs.tsx";
 import Contact from "./Components/About/Contact.tsx";
+import EditTutoStep from "./Components/Tutorials/EditTutoStep.tsx";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -36,16 +37,16 @@ const router = createBrowserRouter([
         element: <Category />,
       },
       {
-        path: "/categorie/:id/tutoriel/:id",
-        element: <MainTuto />,
-      },
-      {
         path: "/tutoriel/:id",
         element: <MainTuto />,
       },
       {
         path: "tutoriel/:id/tutoriel/edit",
         element: <EditTuto />,
+      },
+      {
+        path: "tutoriel/:id/tutoriel/edit/steps",
+        element: <EditTutoStep />,
       },
       {
         path: "categorie/:id/tutoriel/:id/tutoriel/edit",

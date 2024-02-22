@@ -21,15 +21,13 @@ export default function GalleryCategory() {
     <div className="py-24 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl lg:mx-0">
-          <h2 className="text-3xl font-bold tracking-wider text-gray-900 sm:text-3xl text-left">
-            Les Derniers Tutos :
-          </h2>
+          <h2 className="text-3xl font-bold tracking-wider text-gray-900 sm:text-3xl text-left"></h2>
         </div>
         <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-blue-900 pt-10 sm:mt-4 sm:pt-8 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
           {/* for each tuto create card */}
           {tutoriels
             ? tutoriels.map((tutoriel: Tutos) => (
-                <Link key={tutoriel.id} to={`tutoriel/${tutoriel.id}`}>
+                <Link key={tutoriel.id} to={`/tutoriel/${tutoriel.id}`}>
                   <Card tutoriel={tutoriel} />
                 </Link>
               ))

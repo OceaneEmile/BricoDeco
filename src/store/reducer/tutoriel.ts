@@ -26,7 +26,6 @@ interface initialStateProps {
   stepImageCreate: string;
   tutoIsCreated: boolean;
   idCurrentTutoCreate: number;
-  idFirstStep: number;
   contentStep1: string;
   contentStep2: string;
   contentStep3: string;
@@ -41,7 +40,17 @@ interface initialStateProps {
   randomsTutos:any[]
   stepsCreated:boolean;
   createdSuccessful:boolean;
-  publication:boolean;
+  publication:boolean|undefined;
+  deleted:boolean;
+  tutorielsByUser:any[];
+  updateTitle:string|undefined;
+  updateContent:string|undefined;
+  updateCategories:any[]|undefined;
+  updateImage:string|undefined;
+  updateTools:any[]|undefined;
+  tutoIsModified:boolean;
+  isPublished:boolean;
+  tutoBodyIsModified:boolean;
 }
 
 export const initialState:initialStateProps = {
@@ -71,7 +80,6 @@ export const initialState:initialStateProps = {
     stepImageCreate:'',
     tutoIsCreated:false,
     idCurrentTutoCreate:0,
-    idFirstStep:0,
     contentStep1:"",
     contentStep2:"",
     contentStep3:"",
@@ -84,7 +92,17 @@ export const initialState:initialStateProps = {
     imageStep5:"",
     stepsCreated:false,
     createdSuccessful:false,
-    publication:false
+    publication:false,
+    deleted:false,
+    tutorielsByUser:[],
+    updateTitle:"",
+    updateContent:"",
+    updateCategories:[],
+    updateImage:"",
+    updateTools:[],
+    tutoIsModified:false,
+    isPublished:false,
+    tutoBodyIsModified:false
 };
 
 // --------------------------------- Action ---------------------------------
@@ -106,7 +124,13 @@ export const changeStep3ImageCreate=createAction<string>("tutoriel/changeStep3Im
 export const changeStep4ImageCreate=createAction<string>("tutoriel/changeStep4ImageCreate");
 export const changeStep5ImageCreate=createAction<string>("tutoriel/changeStep5ImageCreate");
 export const publication=createAction("tutoriel/publication");
-// --------------------------------- Thunk ---------------------------------
+export const resetDeleted=createAction("tutoriel/resetDeleted");
+export const updateTitle=createAction("tutoriel/updateTitle");
+export const updateContent=createAction("tutoriel/updateContent");
+export const updateCategories=createAction("tutoriel/updateCategories");
+export const updateImage=createAction("tutoriel/updateImage");
+export const updateTools=createAction("tutoriel/updateTools");
+export const isPublished=createAction("tutoriel/isPublished");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -170,7 +194,6 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   )
   return response.data;
  })
-
  export const submitStepsCreate=createAsyncThunk("tutoriel/submitStepsCreate",async(_,{getState})=>{
   const state=getState() as initialStateProps;
   const stepsArray=[];
@@ -219,7 +242,48 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   )
   return response.data;
  })
+ export const deleteTutorial=createAsyncThunk("tutoriel/deleteTutorial",async(tutorialId)=>{
+  const response=await axios.delete(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId
+  );
+  return response.data;
+ })
+ export const fetchTutorielsByUser=createAsyncThunk("tutoriel/fetchTutorielsByUser",async()=>{
+  const response= await axios.get(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/user",
+  )
+  return response.data;
+ })
+ export const updateBodyTutorial=createAsyncThunk("tutoriel/updateBodyTutorial",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
 
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "titre":state.tutoriel.updateTitle,
+      "resume":state.tutoriel.updateContent,
+      "image":state.tutoriel.updateImage,
+      "categories":state.tutoriel.updateCategories,
+      "outils":state.tutoriel.updateTools
+    }
+  )
+  return response.data;
+ })
+ export const updateBodyTutorialSteps=createAsyncThunk("tutoriel/updateBodyTutorialSteps",async(tutorialId,{getState})=>{
+  const state=getState() as initialStateProps
+
+  const response= await axios.put(
+    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorialId,
+    {
+      "titre":state.tutoriel.updateTitle,
+      "resume":state.tutoriel.updateContent,
+      "image":state.tutoriel.updateImage,
+      "categories":state.tutoriel.updateCategories,
+      "outils":state.tutoriel.updateTools
+    }
+  )
+  return response.data;
+ })
 // --------------------------------- Reducer ---------------------------------
 const tutorielReducer=createReducer(initialState,(builder)=>{
 builder
@@ -241,6 +305,7 @@ builder
   .addCase(fetchRandomsTutos.pending, (state) => {
     state.errorRandomsTutos = null;
     state.loadingRandomsTutos = true;
+    state.createdSuccessful=false;
   })
   .addCase(fetchRandomsTutos.rejected, (state, action) => {
     state.loadingRandomsTutos = false;
@@ -277,6 +342,7 @@ builder
   .addCase(fetchCategoryById.pending, (state) => {
     state.errorRandomsTutos = null;
     state.loadingRandomsTutos = true;
+    
   })
   .addCase(fetchCategoryById.rejected, (state, action) => {
     state.loadingRandomsTutos = false;
@@ -289,6 +355,8 @@ builder
   .addCase(fetchTutorielById.pending, (state) => {
     state.errorTuto = null;
     state.loadingTuto = true;
+    state.tutoBodyIsModified=false;
+    state.stepsCreated=false;
   })
   .addCase(fetchTutorielById.rejected, (state, action) => {
     state.loadingTuto = false;
@@ -297,6 +365,8 @@ builder
   .addCase(fetchTutorielById.fulfilled, (state, action) => {
     state.loadingTuto = false;
     state.tutoriel = action.payload;
+    state.updateTools=action.payload.outils;
+    state.idCurrentTutoCreate=action.payload.id;
   })
   .addCase(isAuthor, (state,action:any) => {
     if(action.payload){
@@ -347,7 +417,6 @@ builder
     state.loadingTuto = false;
     state.idCurrentTutoCreate=action.payload.id;
     state.tutoIsCreated = true;
-    state.idFirstStep=action.payload.etapes[0].id;
   })
   .addCase(changeStep1ContentCreate,(state,action)=>{
     state.contentStep1=action.payload;    
@@ -398,5 +467,77 @@ builder
   .addCase(publication,(state)=>{
     state.publication=true;
   })
-});
+  .addCase(deleteTutorial.pending,(state)=>{
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(deleteTutorial.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(deleteTutorial.fulfilled,(state)=>{
+    state.loadingTuto=false;
+    state.deleted=true;
+  })
+  .addCase(resetDeleted,(state)=>{
+    state.deleted=false;
+  })
+  .addCase(fetchTutorielsByUser.pending,(state)=>{
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(fetchTutorielsByUser.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(fetchTutorielsByUser.fulfilled,(state,action)=>{
+    state.loadingTuto=false;
+    state.tutorielsByUser=action.payload;
+  })
+  .addCase(updateTitle,(state,action)=>{
+    state.updateTitle=action.payload;
+  })
+  .addCase(updateContent,(state,action)=>{
+    state.updateContent=action.payload;
+
+  })
+  .addCase(updateCategories,(state,action)=>{
+    state.updateCategories=action.payload;
+    
+  })
+  .addCase(updateImage,(state,action)=>{
+    state.updateImage=action.payload;
+    
+  })
+  .addCase(updateTools,(state,action)=>{
+    state.updateTools=action.payload;    
+  })
+  .addCase(updateBodyTutorial.pending,(state)=>{  
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(updateBodyTutorial.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(updateBodyTutorial.fulfilled,(state)=>{
+    state.loadingTuto=false;
+    state.tutoBodyIsModified=true
+  })
+  .addCase(updateBodyTutorialSteps.pending,(state)=>{  
+    state.errorTuto=null;
+    state.loadingTuto=true;
+  })
+  .addCase(updateBodyTutorialSteps.rejected,(state,action)=>{
+    state.loadingTuto=false;
+    state.errorTuto=action.error.message as any;
+  })
+  .addCase(updateBodyTutorialSteps.fulfilled,(state)=>{
+    state.loadingTuto=false;
+  })
+
+  .addCase(isPublished,(state, action)=>{
+    state.publication=action.payload;
+  })
+})
 export default tutorielReducer;

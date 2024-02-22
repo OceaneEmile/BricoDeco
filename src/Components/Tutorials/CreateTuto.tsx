@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateTuto() {
+  const isLogged = useSelector((state: RootState) => state.user.isLogged);
   let outilsInput = [] as any;
   let categoriesInput = [] as any;
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ export default function CreateTuto() {
   const tutoIsCreated = useSelector(
     (state: RootState) => state.tutoriel.tutoIsCreated
   );
+
   function inputTitleCreate(e: any) {
     dispatch(changeInputTitleCreate(e.target.value));
   }
@@ -69,6 +71,11 @@ export default function CreateTuto() {
   useEffect(() => {
     tutoIsCreated && navigate("/tutoriel/create/steps");
   }, [tutoIsCreated]);
+  useEffect(() => {
+    if (!isLogged) {
+      navigate("/");
+    }
+  }, [isLogged]);
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

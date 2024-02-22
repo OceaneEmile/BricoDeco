@@ -25,7 +25,7 @@ export default function LoginComponent() {
       <div className={!isLogged ? "hidden" : "mx-6 mt-6"}>
         <p className="text-center">Bonjour, {user.pseudonyme} !</p>
         <Link to={"profil"}>
-          <Button text={"Profil"} />
+          <Button text={"Votre profil"} />
         </Link>
         <div onClick={handlelogout}>
           <Button text={"Deconnectez vous"} />

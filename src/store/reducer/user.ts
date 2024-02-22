@@ -34,6 +34,8 @@ import axios from "axios";
       emailFormatGood:boolean,
       usernameFormatGood:boolean,
       createOk:boolean,
+      usernameModified:boolean,
+      passwordModified:boolean,
   }
 
 export const initialState:UserStore = {
@@ -68,6 +70,8 @@ export const initialState:UserStore = {
     emailFormatGood:false,
     usernameFormatGood:false,
     createOk:false,
+    usernameModified:false,
+    passwordModified:false,
 };
 
 
@@ -82,6 +86,7 @@ export const changeInputUsernameSubscribe=createAction<string>("user/setUsername
 export const changeInputMailSubscribe=createAction<string>("user/setMailSubscribe");
 export const changeInputPasswordSubscribe=createAction<string>("user/setPasswordSubscribe");
 export const changeInputConfirmPasswordSubscribe=createAction<string>("user/setConfirmPasswordSubscribe");
+export const resetCreate=createAction("user/resetCreate");
 
 // --------------------------------- Thunk ---------------------------------
 export const sendUser=createAsyncThunk<{token:string}>("user/sendUser",async(_,{getState})=>{
@@ -112,7 +117,26 @@ export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getSta
     );
     return response.data;
 });
-
+export const changeUsername=createAsyncThunk("user/changeUsername",async(_,{getState})=>{
+  const state=getState() as UserStore;
+  const response=await axios.put(
+      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      {
+          pseudonyme:state.user.inputUsernameSubscribe,
+      }
+    );
+    return response.data;
+})
+export const changePassword=createAsyncThunk("user/changePassword",async(_,{getState})=>{
+  const state=getState() as UserStore;
+  const response=await axios.put(
+      "http://localhost/Apo/projet-13-brico-deco-back/public/api/user/edit",
+      {
+          password:state.user.inputPasswordSubscribe,
+      }
+    );
+    return response.data;
+})
 // --------------------------------- Reducer ---------------------------------
 const userReducer=createReducer(initialState,(builder)=>{
 builder
@@ -184,7 +208,7 @@ builder
 .addCase(changeInputUsernameSubscribe,(state,action)=>{
   if(action.payload.length>2){
     state.inputUsernameSubscribe=action.payload;
-    state.usernameFormatGood=true;
+    state.usernameFormatGood=true;    
   }else{
     state.usernameFormatGood=false;
   }
@@ -239,6 +263,35 @@ builder
 .addCase(subscribeUser.fulfilled,(state)=>{ 
   state.loading = false;
   state.connexionFormIsOpen=false;
-  state.createOk=true;})
+  state.createOk=true;
+})
+.addCase(changeUsername.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+.addCase(changeUsername.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.error.message as any;
+  })
+.addCase(changeUsername.fulfilled,(state)=>{
+    state.loading = false;
+    state.usernameModified=true;
+  })
+.addCase(changePassword.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+.addCase(changePassword.rejected, (state, action) => {
+    state.loading = false;
+    state.error = action.error.message as any;
+  })
+.addCase(changePassword.fulfilled,(state)=>{
+    state.loading = false;
+    state.passwordModified=true;
+})
+.addCase(resetCreate,(state)=>{
+  
+  state.createOk=false;
+})
 });
 export default userReducer;
