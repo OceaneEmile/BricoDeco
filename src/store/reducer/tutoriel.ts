@@ -51,6 +51,8 @@ interface initialStateProps {
   tutoIsModified:boolean;
   isPublished:boolean;
   tutoBodyIsModified:boolean;
+  numberOfTutos:number;
+  numberOfTutosCategory:number;
 }
 
 export const initialState:initialStateProps = {
@@ -102,7 +104,9 @@ export const initialState:initialStateProps = {
     updateTools:[],
     tutoIsModified:false,
     isPublished:false,
-    tutoBodyIsModified:false
+    tutoBodyIsModified:false,
+    numberOfTutos:12,
+    numberOfTutosCategory:12
 };
 
 // --------------------------------- Action ---------------------------------
@@ -131,6 +135,8 @@ export const updateCategories=createAction("tutoriel/updateCategories");
 export const updateImage=createAction("tutoriel/updateImage");
 export const updateTools=createAction("tutoriel/updateTools");
 export const isPublished=createAction("tutoriel/isPublished");
+export const showMoreTutos=createAction("tutoriel/showMoreTutos");
+export const showMoreTutosCategory=createAction("tutoriel/showMoreTutosCategory");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -144,15 +150,17 @@ export const fetchRandomsTutos=createAsyncThunk("tutoriel/fetchRandomsTutos",asy
   );
   return response.data;
 })
-export const fetchTutoriels=createAsyncThunk("tutoriel/fetchTutoriels",async()=>{
+export const fetchTutoriels=createAsyncThunk("tutoriel/fetchTutoriels",async(_,{getState})=>{
+const state=getState() as initialStateProps;
   const response=await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels"
+    `http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/qty/${state.tutoriel.numberOfTutos}`
   );
   return response.data;
 })
-export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId)=>{
+export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId,{getState})=>{
+  const state=getState() as initialStateProps;
   const response=await axios.get(
-    `http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/${categoryId}/tutoriels`
+    `http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/${categoryId}/tutoriels/${state.tutoriel.numberOfTutosCategory}`
   );
   return response.data;
 })
@@ -539,5 +547,12 @@ builder
   .addCase(isPublished,(state, action)=>{
     state.publication=action.payload;
   })
-})
+  .addCase(showMoreTutos,(state)=>{
+    state.numberOfTutos+=12;
+    console.log(state.numberOfTutos);
+  })
+  .addCase(showMoreTutosCategory,(state)=>{
+    state.numberOfTutosCategory+=12;
+  }) 
+  })
 export default tutorielReducer;
