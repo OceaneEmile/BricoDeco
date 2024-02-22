@@ -87,8 +87,7 @@ export default function CreateTuto() {
   // when the form is submitted dispatch the action to create the tuto
   function submitCreate(e: any) {
     e.preventDefault();
-    // if the list of categories is not empty dispatch the action to create the tuto
-    if (categoriesInput.length > 0) {
+    if (categoryGood) {
       dispatch(changeInputCategoriesCreate(categoriesInput) as any);
       dispatch(changeInputToolsCreate(outilsInput) as any);
       dispatch(submitCreateTuto() as any);

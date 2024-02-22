@@ -112,6 +112,8 @@ export const initialState:initialStateProps = {
     numberOfTutosCategory:12,
     categoryGood:false
 };
+const APIURL=import.meta.env.VITE_API_URL;
+
 
 // --------------------------------- Action ---------------------------------
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
@@ -147,45 +149,45 @@ export const removeCategory=createAction("tutoriel/removeCategory");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie",
+      `${APIURL}/categorie`
       );    
       return response.data;
 })
 export const fetchRandomsTutos=createAsyncThunk("tutoriel/fetchRandomsTutos",async()=>{
   const response = await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/random"
+    `${APIURL}/tutoriels/random`
   );
   return response.data;
 })
 export const fetchTutoriels=createAsyncThunk("tutoriel/fetchTutoriels",async(_,{getState})=>{
 const state=getState() as initialStateProps;
   const response=await axios.get(
-    `http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/qty/${state.tutoriel.numberOfTutos}`
+    `${APIURL}/tutoriels/qty/${state.tutoriel.numberOfTutos}`
   );
   return response.data;
 })
 export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId,{getState})=>{
   const state=getState() as initialStateProps;
   const response=await axios.get(
-    `http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/${categoryId}/tutoriels/${state.tutoriel.numberOfTutosCategory}`
+    `${APIURL}/categorie/${categoryId}/tutoriels/${state.tutoriel.numberOfTutosCategory}`
   );
   return response.data;
 })
  export const fetchCategoryById=createAsyncThunk("tutoriel/fetchCategoryById",async(categoryId)=>{
   const response=await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/categorie/"+categoryId
+    `${APIURL}/categorie/${categoryId}`
   )
   return response.data;
  })
  export const fetchTutorielById=createAsyncThunk("tutoriel/fetchTutorielById",async(tutorielId)=>{
   const response=await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels/"+tutorielId
+    `${APIURL}/tutoriels/${tutorielId}`
   );
   return response.data;
  })
  export const fetchTools=createAsyncThunk("tutoriel/fetchTools",async()=>{
   const response=await axios.get(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/outils"
+    `${APIURL}/outils`
   );
   return response.data;
  })
@@ -193,7 +195,7 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   const state=getState() as initialStateProps;
   
   const response =await axios.post(
-    "http://localhost/Apo/projet-13-brico-deco-back/public/api/tutoriels",
+    `${APIURL}/tutoriels`,
     {
       titre:state.tutoriel.titleCreate,
       resume:state.tutoriel.descriptionCreate,
@@ -324,6 +326,7 @@ builder
     state.errorRandomsTutos = null;
     state.loadingRandomsTutos = true;
     state.createdSuccessful=false;
+    state.categoryGood=false;
   })
   .addCase(fetchRandomsTutos.rejected, (state, action) => {
     state.loadingRandomsTutos = false;
@@ -559,7 +562,6 @@ builder
   })
   .addCase(showMoreTutos,(state)=>{
     state.numberOfTutos+=12;
-    console.log(state.numberOfTutos);
   })
   .addCase(showMoreTutosCategory,(state)=>{
     state.numberOfTutosCategory+=12;
