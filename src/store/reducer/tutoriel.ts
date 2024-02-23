@@ -55,6 +55,7 @@ interface initialStateProps {
   numberOfTutosCategory:number;
   updatePublished:boolean|undefined;
   categoryGood:boolean;
+  imageUpload:any;
 }
 
 export const initialState:initialStateProps = {
@@ -110,7 +111,8 @@ export const initialState:initialStateProps = {
     tutoBodyIsModified:false,
     numberOfTutos:12,
     numberOfTutosCategory:12,
-    categoryGood:false
+    categoryGood:false,
+    imageUpload:null,
 };
 const APIURL=import.meta.env.VITE_API_URL;
 
@@ -146,6 +148,7 @@ export const showMoreTutosCategory=createAction("tutoriel/showMoreTutosCategory"
 export const publicationChoice=createAction("tutoriel/publicationChoice");
 export const addCategory=createAction("tutoriel/addCategory");
 export const removeCategory=createAction("tutoriel/removeCategory");
+export const uploadfileimage=createAction("tutoriel/uploadfileimage");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -574,6 +577,11 @@ builder
   })
   .addCase(removeCategory,(state)=>{
     state.categoryGood=false;
+  })
+  .addCase(uploadfileimage,(state,action)=>{
+    state.imageUpload=action.payload;
+    console.log(state.imageUpload);
+    
   })
   })
 export default tutorielReducer;

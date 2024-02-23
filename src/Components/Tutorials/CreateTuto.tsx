@@ -10,10 +10,12 @@ import {
   fetchTools,
   removeCategory,
   submitCreateTuto,
+  uploadfileimage,
 } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function CreateTuto() {
   // create an empty array to store the selected tools and categories
@@ -104,6 +106,24 @@ export default function CreateTuto() {
     }
   }, [isLogged]);
 
+  const [file, setFile] = useState("") as any;
+
+  function upload(e: any) {
+    const formData = new FormData();
+    formData.append("file", e.target.files[0]);
+    formData.append("fileName", e.target.files[0].name);
+    const response = axios
+      .post("http:localhost/upload", formData)
+      .then((res) => {
+        console.log(res.data);
+      });
+  }
+  function confirmupload() {
+    const formData = new FormData();
+
+    formData.append("file", file);
+  }
+
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -192,6 +212,20 @@ export default function CreateTuto() {
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
+
+          <div className="mt-4">
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium leading-6 text-gray-900 text-left"
+            >
+              wfglern
+            </label>
+            <input type="file" id="image" name="file" onChange={upload} />
+          </div>
+          <div onClick={confirmupload}>
+            <Button text={"Confirmer l'image"} />
+          </div>
+
           <div className="block w-full rounded-md py-1.5 text-gray-900 shadow-sm sm:text-sm sm:leading-6">
             <p className="text-left">Outils:</p>
             <div className="mt-2 flex flex-wrap">
