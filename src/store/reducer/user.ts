@@ -108,7 +108,7 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async () => {
 export const subscribeUser=createAsyncThunk("user/subscribeUser",async(_,{getState})=>{
   const states=getState() as UserStore;
   const response=await axios.post(
-     `${APIURL}/create`,
+     `${APIURL}/user/create`,
       {
           pseudonyme:states.user.inputUsernameSubscribe,
           email: states.user.inputMailSubscribe,

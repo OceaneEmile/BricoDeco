@@ -4,10 +4,10 @@ export default function ButtonTop() {
   }
   return (
     <div
-      className="invisible sm:visible fixed bottom-2 right-2 text-blue-900 text-3xl bg-white rounded-full cursor-pointer z-50 border border-blue-900"
+      className="invisible sm:visible fixed bottom-2 right-2  text-3xl bg-blue-900 rounded-full cursor-pointer z-50"
       onClick={toTop}
     >
-      <p className="text-blue-900 text-3xl">⇧</p>
+      <p className="text-white text-3xl">⇧</p>
     </div>
   );
 }
