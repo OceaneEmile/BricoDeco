@@ -1,20 +1,37 @@
 import Card from "./Card";
 import Button from "../Button/Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { fetchTutoriels } from "../../store/reducer/tutoriel";
+import { fetchTutoriels, showMoreTutos } from "../../store/reducer/tutoriel";
 import { Tutos } from "../../types/types";
 
 export default function Gallery({ text }: { text: string }) {
   const dispatch = useDispatch();
   const tutoriels = useSelector((state: RootState) => state.tutoriel.tutoriels);
+  const numberTutos = useSelector(
+    (state: RootState) => state.tutoriel.numberOfTutos
+  );
+  const [noMoreTutos, setNoMoreTutos] = useState(false);
 
   useEffect(() => {
     dispatch(fetchTutoriels() as any);
   }, []);
 
+  function show() {
+    dispatch(showMoreTutos() as any);
+    dispatch(fetchTutoriels() as any);
+  }
+  useEffect(() => {
+    if (tutoriels) {
+      if (tutoriels.length < numberTutos) {
+        setNoMoreTutos(true);
+      } else {
+        setNoMoreTutos(false);
+      }
+    }
+  }, [tutoriels]);
   return (
     <div className="py-24 sm:py-10">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -31,8 +48,8 @@ export default function Gallery({ text }: { text: string }) {
             </Link>
           ))}
         </div>
-        <div className="mt-10">
-          <Button text="Voir plus" />
+        <div className="mt-10" onClick={show}>
+          {noMoreTutos ? "" : <Button text="Voir plus" />}
         </div>
       </div>
     </div>
