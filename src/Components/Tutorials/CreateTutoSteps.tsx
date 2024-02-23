@@ -68,12 +68,6 @@ export default function CreateTutoSteps() {
   function handlepublication() {
     dispatch(publication() as any);
   }
-
-  if (stepIsCreated || currentTutoId === 0) {
-    setTimeout(() => {
-      navigate("/");
-    }, 2000);
-  }
   useEffect(() => {
     if (!isLogged) {
       navigate("/");
@@ -92,18 +86,15 @@ export default function CreateTutoSteps() {
         <form className="space-y-6" onSubmit={submitSteps}>
           <div>
             <p className="text-left">Etape 1:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep1Description}
-                id="description"
-                name="description"
+                id="descriptionstep1"
+                name="descriptionstep1"
                 placeholder="Cette etape est la seule etape obligatoire pour la publication de votre tutoriel. Rédigez la description de votre etape ici."
                 required
                 rows={5}
@@ -113,34 +104,28 @@ export default function CreateTutoSteps() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
               onChange={inputStep1Image}
               type="text"
-              id="image"
+              id="imagestep1"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 2:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep2Description}
-                id="description"
-                name="description"
+                id="descriptionstep2"
+                name="descriptionstep2"
                 placeholder=" Rédigez la description de votre etape ici"
                 rows={5}
                 style={{ resize: "none" }}
@@ -149,34 +134,28 @@ export default function CreateTutoSteps() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
               onChange={inputStep2Image}
               type="text"
-              id="image"
+              id="imagestep2"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 3:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep3Description}
-                id="description"
-                name="description"
+                id="descriptionstep3"
+                name="descriptionstep3"
                 placeholder=" Rédigez la description de votre etape ici"
                 rows={5}
                 style={{ resize: "none" }}
@@ -185,34 +164,28 @@ export default function CreateTutoSteps() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
               onChange={inputStep3Image}
               type="text"
-              id="image"
+              id="imagestep3"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 4:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep4Description}
-                id="description"
-                name="description"
+                id="descriptionstep4"
+                name="descriptionstep4"
                 placeholder=" Rédigez la description de votre etape ici"
                 rows={5}
                 style={{ resize: "none" }}
@@ -221,34 +194,28 @@ export default function CreateTutoSteps() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
               onChange={inputStep4Image}
               type="text"
-              id="image"
+              id="imagestep4"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 5:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep5Description}
-                id="description"
-                name="description"
+                id="descriptionstep5"
+                name="descriptionstep5"
                 placeholder=" Rédigez la description de votre etape ici"
                 rows={5}
                 style={{ resize: "none" }}
@@ -257,16 +224,13 @@ export default function CreateTutoSteps() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
               onChange={inputStep5Image}
               type="text"
-              id="image"
+              id="imagestep5"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />

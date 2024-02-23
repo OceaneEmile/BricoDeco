@@ -5,8 +5,6 @@ interface Props {
   tutoriel: Tutos;
 }
 export default function Publied(tutoriel: Props) {
-  console.log(tutoriel.tutoriel.estPublie);
-
   return (
     <div className="relative">
       {tutoriel.tutoriel.estPublie ? (

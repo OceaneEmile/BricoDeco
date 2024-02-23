@@ -122,28 +122,25 @@ export default function EditTuto() {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" action="#" method="POST">
           <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Titre:
             </label>
             <div className="mt-2">
               <input
-                id="title"
-                name="title"
-                type="title"
+                id="titleEdit"
+                name="titleEdit"
+                type="text"
                 defaultValue={tutoriel.titre}
                 onChange={handleUpdateTitle}
                 required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               />
             </div>
           </div>
 
           <div>
             <label
-              htmlFor="description"
+              htmlFor="descriptionEdit"
               className="block text-sm font-medium leading-6 text-gray-900 text-left"
             >
               Decription:
@@ -151,14 +148,14 @@ export default function EditTuto() {
 
             <div className="mt-2">
               <textarea
-                id="description"
+                id="descriptionEdit"
                 onChange={handleUpdateDescription}
-                name="description"
+                name="descriptionEdit"
                 defaultValue={tutoriel.resume}
                 required
                 rows={5}
                 style={{ resize: "none" }}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               ></textarea>
             </div>
           </div>
@@ -172,7 +169,6 @@ export default function EditTuto() {
                     type="checkbox"
                     id={category.id}
                     value={category.nomCategorie}
-                    aria-description={category.description}
                     onChange={changeInputCategory}
                   />
                   <label htmlFor={category.id}>{category.nomCategorie}</label>
@@ -180,7 +176,7 @@ export default function EditTuto() {
               ))}
             </div>
           </div>
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label
               htmlFor="image"
               className="block text-sm font-medium leading-6 text-gray-900 text-left"
@@ -193,7 +189,22 @@ export default function EditTuto() {
               onChange={handleUpdateImage}
               defaultValue={tutoriel.image}
               name="file"
-              className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              className="block w-full mt-1 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            />
+          </div> */}
+          <div className="mt-4">
+            <label
+              htmlFor="imageEdit"
+              className="block text-sm font-medium leading-6 text-gray-900 text-left"
+            >
+              Ajouter votre image :
+            </label>
+            <input
+              type="file"
+              id="imageEdit"
+              name="file"
+              accept="image/png image/jpeg"
+              // onChange={upload}
             />
           </div>
           <div className="block w-full rounded-md py-1.5 text-gray-900 shadow-sm sm:text-sm sm:leading-6">

@@ -126,18 +126,15 @@ export default function EditTutoStep() {
         <form className="space-y-6" onSubmit={submitSteps}>
           <div>
             <p className="text-left">Etape 1:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep1Description}
-                id="description"
-                name="description"
+                id="descriptionstep1edit"
+                name="descriptionstep1edit"
                 defaultValue={tutoriel.etapes && tutoriel.etapes[0].contenu}
                 required
                 rows={5}
@@ -147,10 +144,7 @@ export default function EditTutoStep() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
@@ -161,25 +155,22 @@ export default function EditTutoStep() {
                   ? tutoriel.etapes[0].imageEtape
                   : ""
               }
-              id="image"
+              id="imagestep1edit"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 2:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep2Description}
-                id="description"
-                name="description"
+                id="descriptionstep2edit"
+                name="descriptionstep2edit"
                 defaultValue={
                   tutoriel.etapes && tutoriel.etapes[1]
                     ? tutoriel.etapes[1].contenu
@@ -192,10 +183,7 @@ export default function EditTutoStep() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
@@ -208,25 +196,22 @@ export default function EditTutoStep() {
                   : ""
               }
               type="text"
-              id="image"
+              id="imagestep2edit"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 3:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep3Description}
-                id="description"
-                name="description"
+                id="descriptionstep3edit"
+                name="descriptionstep3edit"
                 defaultValue={
                   tutoriel.etapes && tutoriel.etapes[2]
                     ? tutoriel.etapes[2].contenu
@@ -239,10 +224,7 @@ export default function EditTutoStep() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
@@ -255,25 +237,22 @@ export default function EditTutoStep() {
                   : ""
               }
               type="text"
-              id="image"
+              id="imagestep3edit"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 4:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep4Description}
-                id="description"
-                name="description"
+                id="descriptionstep4edit"
+                name="descriptionstep4edit"
                 defaultValue={
                   tutoriel.etapes && tutoriel.etapes[3]
                     ? tutoriel.etapes[3].contenu
@@ -286,10 +265,7 @@ export default function EditTutoStep() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input
@@ -302,25 +278,22 @@ export default function EditTutoStep() {
                   : ""
               }
               type="text"
-              id="image"
+              id="imagestep4edit"
               name="file"
               className="block w-full mt-1 rounded-md border-0 py-1.5 pl-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
           <div>
             <p className="text-left">Etape 5:</p>
-            <label
-              htmlFor="description"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Decription:
             </label>
 
             <div className="mt-2">
               <textarea
                 onChange={inputStep5Description}
-                id="description"
-                name="description"
+                id="descriptionstep5edit"
+                name="descriptionstep5edit"
                 defaultValue={
                   tutoriel.etapes && tutoriel.etapes[4]
                     ? tutoriel.etapes[3].contenu
@@ -333,10 +306,7 @@ export default function EditTutoStep() {
             </div>
           </div>
           <div className="mt-4">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium leading-6 text-gray-900 text-left"
-            >
+            <label className="block text-sm font-medium leading-6 text-gray-900 text-left">
               Ajouter un lien de l'image :
             </label>
             <input

@@ -114,14 +114,13 @@ export const initialState:initialStateProps = {
     categoryGood:false,
     imageUpload:null,
 };
+
 const APIURL=import.meta.env.VITE_API_URL;
 
 
 // --------------------------------- Action ---------------------------------
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
 export const isAuthor=createAction("tutoriel/isAuthor");
-export const changeInputTitleCreate=createAction<string>("tutoriel/changeInputTitleCreate");
-export const changeInputDescriptionCreate=createAction<string>("tutoriel/changeInputDescriptionCreate");
 export const changeInputCategoriesCreate=createAction("tutoriel/changeInputCategoriesCreate");
 export const changeInputToolsCreate=createAction("tutoriel/changeInputToolsCreate");
 export const changeInputImageCreate=createAction<string>("tutoriel/changeInputImageCreate");
@@ -399,12 +398,6 @@ builder
     }else{
       state.isAuthor=false;
     }}
-  })
-  .addCase(changeInputTitleCreate,(state,action)=>{
-    state.titleCreate=action.payload;
-  })
-  .addCase(changeInputDescriptionCreate,(state,action)=>{
-    state.descriptionCreate=action.payload;
   })
   .addCase(changeInputCategoriesCreate,(state,action)=>{
     state.categoriesCreate=(action.payload);    
