@@ -20,8 +20,6 @@ interface initialStateProps {
   tools: any[]; // Remplace "any" par le type réel des outils
   errorTools: null | string;
   loadingTools: boolean;
-  toolsCreate: any[]|undefined; // Remplace "any" par le type réel des outils de création
-  imageCreate: string;
   stepContentCreate: string;
   stepImageCreate: string;
   tutoIsCreated: boolean;
@@ -38,7 +36,6 @@ interface initialStateProps {
   imageStep5: string;
   categories: any[];
   randomsTutos:any[]
-  stepsCreated:boolean;
   createdSuccessful:boolean;
   publication:boolean|undefined;
   deleted:boolean;
@@ -79,8 +76,6 @@ export const initialState:initialStateProps = {
     tools:[],
     errorTools:null,
     loadingTools:false,
-    toolsCreate:[],
-    imageCreate:"",
     stepContentCreate:'',
     stepImageCreate:'',
     tutoIsCreated:false,
@@ -95,7 +90,6 @@ export const initialState:initialStateProps = {
     imageStep3:"",
     imageStep4:"",
     imageStep5:"",
-    stepsCreated:false,
     createdSuccessful:false,
     publication:false,
     deleted:false,
@@ -121,9 +115,6 @@ const APIURL=import.meta.env.VITE_API_URL;
 // --------------------------------- Action ---------------------------------
 export const openMenuBurger=createAction("tutoriel/openMenuBurger");
 export const isAuthor=createAction("tutoriel/isAuthor");
-export const changeInputCategoriesCreate=createAction("tutoriel/changeInputCategoriesCreate");
-export const changeInputToolsCreate=createAction("tutoriel/changeInputToolsCreate");
-export const changeInputImageCreate=createAction<string>("tutoriel/changeInputImageCreate");
 export const changeStep1ContentCreate=createAction<string>("tutoriel/changeStep1ContentCreate");
 export const changeStep2ContentCreate=createAction<string>("tutoriel/changeStep2ContentCreate");
 export const changeStep3ContentCreate=createAction<string>("tutoriel/changeStep3ContentCreate");
@@ -134,7 +125,6 @@ export const changeStep2ImageCreate=createAction<string>("tutoriel/changeStep2Im
 export const changeStep3ImageCreate=createAction<string>("tutoriel/changeStep3ImageCreate");
 export const changeStep4ImageCreate=createAction<string>("tutoriel/changeStep4ImageCreate");
 export const changeStep5ImageCreate=createAction<string>("tutoriel/changeStep5ImageCreate");
-export const publication=createAction("tutoriel/publication");
 export const resetDeleted=createAction("tutoriel/resetDeleted");
 export const updateTitle=createAction("tutoriel/updateTitle");
 export const updateContent=createAction("tutoriel/updateContent");
@@ -191,26 +181,6 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   const response=await axios.get(
     `${APIURL}/outils`,
   );
-  return response.data;
- })
- export const submitCreateTuto=createAsyncThunk("tutoriel/submitCreateTuto",async(_,{getState}  )=>{
-  const state=getState() as initialStateProps;
-  
-  const response =await axios.post(
-    `${APIURL}/tutoriels`,
-    {
-      titre:state.tutoriel.titleCreate,
-      resume:state.tutoriel.descriptionCreate,
-      image:state.tutoriel.imageCreate,
-      etapes:[
-        {
-          contenu:"Cette etape est la seule etape qui doit etre obligatoirement renseignée",
-        }
-      ],
-      categories:state.tutoriel.categoriesCreate,
-      outils:state.tutoriel.toolsCreate
-    }
-  )
   return response.data;
  })
  export const submitStepsCreate=createAsyncThunk("tutoriel/submitStepsCreate",async(_,{getState})=>{
@@ -379,7 +349,6 @@ builder
     state.errorTuto = null;
     state.loadingTuto = true;
     state.tutoBodyIsModified=false;
-    state.stepsCreated=false;
   })
   .addCase(fetchTutorielById.rejected, (state, action) => {
     state.loadingTuto = false;
@@ -399,13 +368,6 @@ builder
       state.isAuthor=false;
     }}
   })
-  .addCase(changeInputCategoriesCreate,(state,action)=>{
-    state.categoriesCreate=(action.payload);    
-  })
-  .addCase(changeInputToolsCreate,(state,action)=>{
-   
-   state.toolsCreate=action.payload;
-  })
   .addCase(fetchTools.pending, (state) => {
     state.errorTools = null;
     state.loadingTools = true;
@@ -417,72 +379,6 @@ builder
   .addCase(fetchTools.fulfilled, (state, action) => {
     state.loadingTools = false;
     state.tools = action.payload;
-  })
-  .addCase(changeInputImageCreate,(state,action)=>{
-    state.imageCreate=action.payload;
-  })
-  .addCase(submitCreateTuto.pending, (state) => {
-    state.errorTuto = null;
-    state.loadingTuto = true;
-    state.stepsCreated=false;
-  })
-  .addCase(submitCreateTuto.rejected, (state, action) => {
-    state.loadingTuto = false;
-    state.errorTuto = action.error.message as any;
-  })
-  .addCase(submitCreateTuto.fulfilled, (state, action) => {
-    state.loadingTuto = false;
-    state.idCurrentTutoCreate=action.payload.id;
-    state.tutoIsCreated = true;
-  })
-  .addCase(changeStep1ContentCreate,(state,action)=>{
-    state.contentStep1=action.payload;    
-  })
-  .addCase(changeStep2ContentCreate,(state,action)=>{
-    state.contentStep2=action.payload;
-  })
-  .addCase(changeStep3ContentCreate,(state,action)=>{
-    state.contentStep3=action.payload;
-  })
-  .addCase(changeStep4ContentCreate,(state,action)=>{
-    state.contentStep4=action.payload;    
-  })
-  .addCase(changeStep5ContentCreate,(state,action)=>{
-    state.contentStep5=action.payload;  
-  })
-  .addCase(changeStep1ImageCreate,(state,action)=>{
-    state.imageStep1=action.payload;    
-  })
-  .addCase(changeStep2ImageCreate,(state,action)=>{
-    state.imageStep2=action.payload;
-  })
-  .addCase(changeStep3ImageCreate,(state,action)=>{
-    state.imageStep3=action.payload;
-  })
-  .addCase(changeStep4ImageCreate,(state,action)=>{
-    state.imageStep4=action.payload;    
-  })
-  .addCase(changeStep5ImageCreate,(state,action)=>{
-    state.imageStep5=action.payload;  
-  })
-  .addCase(submitStepsCreate.pending, (state) => {
-    state.errorTuto = null;
-    state.loadingTuto = true;
-  })
-  .addCase(submitStepsCreate.rejected, (state, action) => {
-    state.loadingTuto = false;
-    state.errorTuto = action.error.message as any;
-  })
-  .addCase(submitStepsCreate.fulfilled, (state,) => {
-    state.loadingTuto = false;
-    state.tutoIsCreated = false;
-    state.stepsCreated=true;
-    state.idCurrentTutoCreate=initialState.idCurrentTutoCreate;
-    state.createdSuccessful=true;
-    state.publication=false;
-  })
-  .addCase(publication,(state)=>{
-    state.publication=true;
   })
   .addCase(deleteTutorial.pending,(state)=>{
     state.errorTuto=null;

@@ -1,11 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
-import {
-  changeInputCategoriesCreate,
-  changeInputToolsCreate,
-  fetchTools,
-  submitCreateTuto,
-} from "../../store/reducer/tutoriel";
+import { fetchTools } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -117,11 +112,16 @@ export default function CreateTuto() {
       }
     }
   }
-
+  const [message, setMessage] = useState("");
   function checkInfo() {
     dispatch(toolsCreate(toolsInput));
     dispatch(categoriesCreate(categoriesInput));
     dispatch(checkFirstStep());
+    if (missingValuecheck) {
+      setMessage("Veuillez remplir tous les champs necessaires");
+    } else {
+      setMessage("");
+    }
   }
   useEffect(() => {
     if (!missingValuecheck) {
@@ -223,11 +223,7 @@ export default function CreateTuto() {
           </div>
           <div onClick={checkInfo}>
             <Button text={"Ajouter les etapes"} />
-            {missingValuecheck && (
-              <p className="text-red-500 text-center">
-                Veuillez remplir tous les champs necessaires
-              </p>
-            )}
+            {message && <p className="text-red-500 text-center">{message}</p>}
           </div>
         </form>
       </div>
