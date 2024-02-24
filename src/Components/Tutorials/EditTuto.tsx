@@ -9,6 +9,7 @@ import {
   categoriesUpdate,
   checkFirstStep,
   imageUpdate,
+  resetAllGoodU,
   resumeUpdate,
   titleUpdate,
   toolsUpdate,
@@ -36,6 +37,7 @@ export default function EditTuto() {
   useEffect(() => {
     dispatch(fetchTutorielById(id) as any);
     dispatch(fetchTools() as any);
+    dispatch(resetAllGoodU());
   }, [id]);
   // if the user is not logged redirect to the home page
   useEffect(() => {

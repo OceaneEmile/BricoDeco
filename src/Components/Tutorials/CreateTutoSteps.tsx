@@ -15,6 +15,7 @@ import {
   fourthStepImage,
   publicationTuto,
   registerTuto,
+  resetAllGood,
   secondStepContent,
   secondStepImage,
   thirdStepContent,

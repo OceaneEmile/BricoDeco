@@ -220,6 +220,7 @@ const tutorielCreateReducer=createReducer(initialState,(builder)=>{
     builder
     .addCase(titleCreate,(state,action)=>{
         state.tutorielCreate.title=action.payload;
+        state.idTutoCreated=initialState.idTutoCreated;
     })
     .addCase(resumeCreate,(state,action)=>{
         state.tutorielCreate.resume=action.payload;
@@ -295,7 +296,7 @@ const tutorielCreateReducer=createReducer(initialState,(builder)=>{
     .addCase(createSteps.pending,(state)=>{})
     .addCase(createSteps.rejected,(state)=>{})
     .addCase(createSteps.fulfilled,(state,action)=>{
-        state.missingValue=true
+        state.missingValue=true;
         state.allGood=true
     })
     .addCase("resetAllGood",(state)=>{

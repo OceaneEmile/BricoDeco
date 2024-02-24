@@ -9,6 +9,7 @@ import {
   categoriesCreate,
   checkFirstStep,
   imageCreate,
+  resetAllGood,
   resumeCreate,
   titleCreate,
   toolsCreate,
@@ -43,6 +44,7 @@ export default function CreateTuto() {
   // when the component is mounted fetch the tools
   useEffect(() => {
     dispatch(fetchTools() as any);
+    dispatch(resetAllGood());
   }, []);
 
   // ----------------------------------------------------------------------------------------------------//

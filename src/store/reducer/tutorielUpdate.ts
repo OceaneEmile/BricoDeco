@@ -106,7 +106,7 @@ export const fifthStepImage = createAction<string>("fifthStepImage");
 export const registerTuto = createAction("registerTuto");
 export const publicationTuto = createAction("publicationTuto");
 export const checkSecondStep = createAction("checkSecondStep");
-export const resetAllGoodU = createAction("resetAllGood");
+export const resetAllGoodU = createAction("resetAllGoodU");
 export const idTuto = createAction<number>("idTuto");
 export const userTuto= createAction<any>("userTuto");
 // --------------------------------- Thunk ---------------------------------
@@ -241,7 +241,7 @@ const tutorielUpdateReducer=createReducer(initialState,(builder)=>{
     })
     .addCase(updateTutoriel.pending,(state)=>{})
     .addCase(updateTutoriel.rejected,(state)=>{})
-    .addCase(updateTutoriel.fulfilled,(state,action)=>{
+    .addCase(updateTutoriel.fulfilled,(state)=>{
         state.missingValue=true
         state.allGoodU=true
     })

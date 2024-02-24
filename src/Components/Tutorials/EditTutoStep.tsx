@@ -14,6 +14,7 @@ import {
   idTuto,
   publicationTuto,
   registerTuto,
+  resetAllGoodU,
   secondStepContent,
   secondStepImage,
   thirdStepContent,
@@ -21,7 +22,7 @@ import {
   updateTutoriel,
   userTuto,
 } from "../../store/reducer/tutorielUpdate";
-import axios from "axios";
+import axios, { all } from "axios";
 import { fetchTutorielById } from "../../store/reducer/tutoriel";
 // ---------------------------------------------------------------------------//
 export default function CreateTutoSteps() {
@@ -40,7 +41,8 @@ export default function CreateTutoSteps() {
     dispatch(fetchTutorielById(id) as any);
     dispatch(idTuto(id));
     dispatch(userTuto(tutoriel.utilisateur));
-  }, [id]);
+    console.log(allGood);
+  }, []);
 
   function inputStep1Description(e: any) {
     dispatch(firstStepContent(e.target.value));
@@ -59,8 +61,6 @@ export default function CreateTutoSteps() {
   }
   function uploadImage(e: any) {
     const formData = new FormData();
-    console.log(e.target.id);
-
     formData.append("file", e.target.files[0]);
     axios
       .post(
@@ -106,6 +106,7 @@ export default function CreateTutoSteps() {
       navigate("/");
     }
   }, [isLogged]);
+
   const [message, setMessage] = useState("");
   useEffect(() => {
     if (allGood) {
