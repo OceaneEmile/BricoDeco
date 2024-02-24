@@ -236,8 +236,6 @@ const tutorielUpdateReducer=createReducer(initialState,(builder)=>{
     })
     .addCase(userTuto,(state,action)=>{
         state.tutorielUpdate.utilisateur=action.payload;
-        console.log(state.tutorielUpdate.utilisateur);
-        
     })
     .addCase(updateTutoriel.pending,(state)=>{})
     .addCase(updateTutoriel.rejected,(state)=>{})

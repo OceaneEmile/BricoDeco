@@ -51,8 +51,6 @@ export default function CreateTutoSteps() {
   }
   function uploadImage(e: any) {
     const formData = new FormData();
-    console.log(e.target.id);
-
     formData.append("file", e.target.files[0]);
     axios
       .post(
@@ -60,7 +58,6 @@ export default function CreateTutoSteps() {
         formData
       )
       .then((res) => {
-        console.log(res.data);
         if (e.target.id === "1") {
           dispatch(firstStepImage(res.data.image_link)) as any;
         }

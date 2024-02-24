@@ -41,7 +41,6 @@ export default function CreateTutoSteps() {
     dispatch(fetchTutorielById(id) as any);
     dispatch(idTuto(id));
     dispatch(userTuto(tutoriel.utilisateur));
-    console.log(allGood);
   }, []);
 
   function inputStep1Description(e: any) {
@@ -68,7 +67,6 @@ export default function CreateTutoSteps() {
         formData
       )
       .then((res) => {
-        console.log(res.data);
         if (e.target.id === "1") {
           dispatch(firstStepImage(res.data.image_link)) as any;
         }
