@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Categories } from "../../types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";

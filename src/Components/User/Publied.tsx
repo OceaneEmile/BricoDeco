@@ -1,4 +1,3 @@
-import React from "react";
 import { Tutos } from "../../types/types";
 
 interface Props {

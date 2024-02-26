@@ -14,7 +14,6 @@ import {
   idTuto,
   publicationTuto,
   registerTuto,
-  resetAllGoodU,
   secondStepContent,
   secondStepImage,
   thirdStepContent,
@@ -22,7 +21,7 @@ import {
   updateTutoriel,
   userTuto,
 } from "../../store/reducer/tutorielUpdate";
-import axios, { all } from "axios";
+import axios from "axios";
 import { fetchTutorielById } from "../../store/reducer/tutoriel";
 // ---------------------------------------------------------------------------//
 export default function CreateTutoSteps() {
