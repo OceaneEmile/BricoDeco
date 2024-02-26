@@ -97,10 +97,7 @@ export default function EditTuto() {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     axios
-      .post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/image/store",
-        formData
-      )
+      .post(`${import.meta.env.VITE_API_URL}/image/store`, formData)
       .then((res) => {
         dispatch(imageUpdate(res.data.image_link));
       });

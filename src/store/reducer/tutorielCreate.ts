@@ -112,6 +112,7 @@ export const registerTuto = createAction("registerTuto");
 export const publicationTuto = createAction("publicationTuto");
 export const checkSecondStep = createAction("checkSecondStep");
 export const resetAllGood = createAction("resetAllGood");
+export const resetMissingValue = createAction("resetMissingValue");
 
 // --------------------------------- Thunk ---------------------------------
 export const createTutoriel = createAsyncThunk("createTutoriel", async (_,{getState}) => {
@@ -317,6 +318,9 @@ const tutorielCreateReducer=createReducer(initialState,(builder)=>{
     })
     .addCase("resetAllGood",(state)=>{
         state.allGood=false
+    })
+    .addCase("resetMissingValue",(state)=>{
+        state.missingValue=true
     })
 });
 

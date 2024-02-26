@@ -40,6 +40,10 @@ export default function CreateTutoSteps() {
     dispatch(fetchTutorielById() as any);
     dispatch(idTuto(id));
     dispatch(userTuto(tutoriel.utilisateur));
+    dispatch(firstStepContent(tutoriel.etapes[0].contenu));
+    if (tutoriel.etapes[1]) {
+      dispatch(secondStepContent(tutoriel.etapes[1]));
+    }
   }, []);
 
   useEffect(() => {
@@ -47,7 +51,9 @@ export default function CreateTutoSteps() {
   }, [id]);
 
   function inputStep1Description(e: any) {
-    dispatch(firstStepContent(e.target.value));
+    if (e.target.value !== "") {
+      dispatch(firstStepContent(e.target.value));
+    }
   }
   function inputStep2Description(e: any) {
     dispatch(secondStepContent(e.target.value));
@@ -65,10 +71,7 @@ export default function CreateTutoSteps() {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     axios
-      .post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/image/store",
-        formData
-      )
+      .post(`${import.meta.env.VITE_API_URL}/image/store`, formData)
       .then((res) => {
         if (e.target.id === "1") {
           dispatch(firstStepImage(res.data.image_link)) as any;

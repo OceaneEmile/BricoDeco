@@ -52,10 +52,7 @@ export default function CreateTutoSteps() {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     axios
-      .post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/image/store",
-        formData
-      )
+      .post(`${import.meta.env.VITE_API_URL}/image/store`, formData)
       .then((res) => {
         if (e.target.id === "1") {
           dispatch(firstStepImage(res.data.image_link)) as any;

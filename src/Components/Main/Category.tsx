@@ -7,6 +7,7 @@ import {
   fetchCategoryById,
   findIdCategory,
 } from "../../store/reducer/tutoriel";
+import { resetMissingValue } from "../../store/reducer/tutorielCreate";
 
 export default function Category() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function Category() {
   useEffect(() => {
     dispatch(findIdCategory(id as any));
     dispatch(fetchCategoryById() as any);
+    dispatch(resetMissingValue());
   }, [id]);
 
   return (

@@ -193,6 +193,7 @@ const tutorielUpdateReducer=createReducer(initialState,(builder)=>{
         }
     })
     .addCase(firstStepContent,(state,action)=>{
+        state.missingValue=true;
         state.firstStepContent=action.payload;
     })
     .addCase(secondStepContent,(state,action)=>{

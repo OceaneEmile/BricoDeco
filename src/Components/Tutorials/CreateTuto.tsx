@@ -84,10 +84,7 @@ export default function CreateTuto() {
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     axios
-      .post(
-        "http://oceaneemile-server.eddi.cloud/projet-13-brico-deco-back/public/api/image/store",
-        formData
-      )
+      .post(`${import.meta.env.VITE_API_URL}/image/store`, formData)
       .then((res) => {
         dispatch(imageCreate(res.data.image_link));
       });
