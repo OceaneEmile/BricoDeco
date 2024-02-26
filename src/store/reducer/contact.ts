@@ -35,13 +35,10 @@ const contactReducer=createReducer(initialState,(builder)=>{
     })
     .addCase(inputSubjectUser,(state,action)=>{
         state.inputSubjectUser=action.payload;
-        console.log(state.inputSubjectUser);
         
     })
     .addCase(inputContentUser,(state,action)=>{
         state.inputContentUser=action.payload;
-        console.log(state.inputContentUser);
-        
     })
 });
 export default contactReducer;
