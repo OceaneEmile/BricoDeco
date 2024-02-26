@@ -25,6 +25,7 @@ npm install
 yarn dev
 or
 npm run dev
+change url for link API and link database
 
 -5.Build the project
 
