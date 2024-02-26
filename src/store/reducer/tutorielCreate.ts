@@ -40,7 +40,9 @@ interface TutoCreateState {
     fourthStepImage:string,
     fifthStepImage:string,
     idTutoCreated:number,
-    allGood:boolean
+    allGood:boolean,
+    loading:boolean,
+    error:boolean,
     
 }
 const ImageURL=import.meta.env.VITE_IMAGE_URL;
@@ -84,7 +86,9 @@ export const initialState: TutoCreateState = {
     fourthStepImage:"",
     fifthStepImage:"",
     idTutoCreated:0,
-    allGood:false
+    allGood:false,
+    loading:false,
+    error:false,
 };
 // --------------------------------- Action ---------------------------------
 
@@ -285,17 +289,29 @@ const tutorielCreateReducer=createReducer(initialState,(builder)=>{
         }
     })
     .addCase(createTutoriel.pending,(state)=>{
+        state.loading=true;
+        state.error=false;
     })
     .addCase(createTutoriel.rejected,(state)=>{
+        state.loading=false;
+        state.error=true;
     })
     .addCase(createTutoriel.fulfilled,(state,action)=>{
+        state.loading=false;
         state.idTutoCreated=action.payload.id;
         state.tutorielCreate.utilisateur.id=action.payload.utilisateur.id;
         state.tutorielCreate.utilisateur.pseudonyme=action.payload.utilisateur.pseudonyme;
     })
-    .addCase(createSteps.pending,(state)=>{})
-    .addCase(createSteps.rejected,(state)=>{})
-    .addCase(createSteps.fulfilled,(state,action)=>{
+    .addCase(createSteps.pending,(state)=>{
+        state.loading=true;
+        state.error=false;
+    })
+    .addCase(createSteps.rejected,(state)=>{
+        state.loading=false;
+        state.error=true;
+    })
+    .addCase(createSteps.fulfilled,(state)=>{
+        state.loading=false;
         state.missingValue=true;
         state.allGood=true
     })

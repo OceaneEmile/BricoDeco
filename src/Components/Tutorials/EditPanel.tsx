@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../Button/Button";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { deleteTutorial, resetDeleted } from "../../store/reducer/tutoriel";
+import {
+  deleteTutorial,
+  findIdCategory,
+  resetDeleted,
+} from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
 import { useEffect } from "react";
 
@@ -11,8 +15,11 @@ export default function EditPanel() {
   const navigate = useNavigate();
   const deleteState = useSelector((state: RootState) => state.tutoriel.deleted);
   function deleted() {
-    dispatch(deleteTutorial(id) as any);
+    dispatch(deleteTutorial() as any);
   }
+  useEffect(() => {
+    dispatch(findIdCategory(id as any));
+  }, [id]);
 
   useEffect(() => {
     setTimeout(() => {

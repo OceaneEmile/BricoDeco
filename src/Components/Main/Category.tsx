@@ -3,7 +3,10 @@ import { useEffect } from "react";
 import GalleryCategory from "./GalleryCategory";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { fetchCategoryById } from "../../store/reducer/tutoriel";
+import {
+  fetchCategoryById,
+  findIdCategory,
+} from "../../store/reducer/tutoriel";
 
 export default function Category() {
   const { id } = useParams();
@@ -13,8 +16,8 @@ export default function Category() {
   );
   // restrict the fetch to the first render
   useEffect(() => {
-    dispatch(fetchCategoryById(id) as any);
-    // setCategory(categoryId);
+    dispatch(findIdCategory(id as any));
+    dispatch(fetchCategoryById() as any);
   }, [id]);
 
   return (

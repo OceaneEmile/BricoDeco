@@ -5,7 +5,7 @@ import ToolsList from "./ToolsList";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { fetchTutorielById } from "../../store/reducer/tutoriel";
+import { fetchTutorielById, findIdTuto } from "../../store/reducer/tutoriel";
 import { Tutos } from "../../types/types";
 import { resetAllGood } from "../../store/reducer/tutorielCreate";
 import { resetAllGoodU } from "../../store/reducer/tutorielUpdate";
@@ -17,7 +17,8 @@ export default function MainTuto() {
     (state: RootState) => state.tutoriel.tutoriel as Tutos
   );
   useEffect(() => {
-    dispatch(fetchTutorielById(id) as any);
+    dispatch(findIdTuto(id as any));
+    dispatch(fetchTutorielById() as any);
   }, [id]);
   useEffect(() => {
     dispatch(resetAllGood());

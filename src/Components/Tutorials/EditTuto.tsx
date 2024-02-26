@@ -2,7 +2,11 @@ import { useParams, useNavigate } from "react-router-dom";
 import Button from "../Button/Button";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTools, fetchTutorielById } from "../../store/reducer/tutoriel";
+import {
+  fetchTools,
+  fetchTutorielById,
+  findIdTuto,
+} from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
 import axios from "axios";
 import {
@@ -35,7 +39,8 @@ export default function EditTuto() {
   );
 
   useEffect(() => {
-    dispatch(fetchTutorielById(id) as any);
+    dispatch(findIdTuto(id as any));
+    dispatch(fetchTutorielById() as any);
     dispatch(fetchTools() as any);
     dispatch(resetAllGoodU());
   }, [id]);

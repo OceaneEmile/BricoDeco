@@ -23,6 +23,8 @@ interface initialStateProps {
   tutorielsByUser:any[];
   numberOfTutos:number;
   numberOfTutosCategory:number;
+  idCategory:any,
+  idTuto:any,
 }
 
 export const initialState:initialStateProps = {
@@ -47,6 +49,8 @@ export const initialState:initialStateProps = {
     tutorielsByUser:[],
     numberOfTutos:12,
     numberOfTutosCategory:12,
+    idCategory:undefined,
+    idTuto:undefined,
 };
 
 const APIURL=import.meta.env.VITE_API_URL;
@@ -58,6 +62,8 @@ export const isAuthor=createAction("tutoriel/isAuthor");
 export const resetDeleted=createAction("tutoriel/resetDeleted");
 export const showMoreTutos=createAction("tutoriel/showMoreTutos");
 export const showMoreTutosCategory=createAction("tutoriel/showMoreTutosCategory");
+export const findIdCategory=createAction("tutoriel/findIdCategory");
+export const findIdTuto=createAction("tutoriel/findIdTuto");
 // --------------------------------- Thunk ---------------------------------
 export const fetchCategory =createAsyncThunk("tutoriel/fetchCategory",async()=>{
     const response=await axios.get(
@@ -78,22 +84,24 @@ const state=getState() as initialStateProps;
   );
   return response.data;
 })
-export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(categoryId,{getState})=>{
+export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsByCategory",async(_,{getState})=>{
   const state=getState() as initialStateProps;
   const response=await axios.get(
-    `${APIURL}/categorie/${categoryId}/tutoriels/${state.tutoriel.numberOfTutosCategory}`
+    `${APIURL}/categorie/${state.tutoriel.idCategory}/tutoriels/${state.tutoriel.numberOfTutosCategory}`
   );
   return response.data;
 })
- export const fetchCategoryById=createAsyncThunk("tutoriel/fetchCategoryById",async(categoryId)=>{
+ export const fetchCategoryById=createAsyncThunk("tutoriel/fetchCategoryById",async(_,{getState})=>{
+  const state=getState() as initialStateProps;
   const response=await axios.get(
-    `${APIURL}/categorie/${categoryId}`
+    `${APIURL}/categorie/${state.tutoriel.idCategory}`
   )
   return response.data;
  })
- export const fetchTutorielById=createAsyncThunk("tutoriel/fetchTutorielById",async(tutorielId)=>{
+ export const fetchTutorielById=createAsyncThunk("tutoriel/fetchTutorielById",async(_,{getState})=>{
+  const state = getState() as initialStateProps;
   const response=await axios.get(
-    `${APIURL}/tutoriels/${tutorielId}`
+    `${APIURL}/tutoriels/${state.tutoriel.idTuto}`
   );
   return response.data;
  })
@@ -103,9 +111,10 @@ export const fetchTutorielsByCategory=createAsyncThunk("tutoriel/fetchTutorielsB
   );
   return response.data;
  })
- export const deleteTutorial=createAsyncThunk("tutoriel/deleteTutorial",async(tutorialId)=>{
+ export const deleteTutorial=createAsyncThunk("tutoriel/deleteTutorial",async(_,{getState})=>{
+  const state=getState() as initialStateProps;
   const response=await axios.delete(
-    `${APIURL}/tutoriels/${tutorialId}`
+    `${APIURL}/tutoriels/${state.tutoriel.idTuto}`
   );
   return response.data;
  })
@@ -240,6 +249,18 @@ builder
   .addCase(fetchTutorielsByUser.fulfilled,(state,action)=>{
     state.loadingTuto=false;
     state.tutorielsByUser=action.payload;
+  })
+  .addCase(findIdCategory,(state,action)=>{
+    state.idCategory=action.payload;
+  })
+  .addCase(showMoreTutos,(state)=>{
+    state.numberOfTutos+=12;
+  })
+  .addCase(showMoreTutosCategory,(state)=>{
+    state.numberOfTutosCategory+=12;
+  })
+  .addCase(findIdTuto,(state,action)=>{
+    state.idTuto=action.payload;
   })
   })
 export default tutorielReducer;

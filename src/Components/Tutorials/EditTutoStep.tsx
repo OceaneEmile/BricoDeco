@@ -22,7 +22,7 @@ import {
   userTuto,
 } from "../../store/reducer/tutorielUpdate";
 import axios from "axios";
-import { fetchTutorielById } from "../../store/reducer/tutoriel";
+import { fetchTutorielById, findIdTuto } from "../../store/reducer/tutoriel";
 // ---------------------------------------------------------------------------//
 export default function CreateTutoSteps() {
   const dispatch = useDispatch();
@@ -37,10 +37,14 @@ export default function CreateTutoSteps() {
     (state: RootState) => state.tutorielUpdate.allGoodU
   );
   useEffect(() => {
-    dispatch(fetchTutorielById(id) as any);
+    dispatch(fetchTutorielById() as any);
     dispatch(idTuto(id));
     dispatch(userTuto(tutoriel.utilisateur));
   }, []);
+
+  useEffect(() => {
+    dispatch(findIdTuto(id) as any);
+  }, [id]);
 
   function inputStep1Description(e: any) {
     dispatch(firstStepContent(e.target.value));

@@ -41,7 +41,9 @@ interface TutoUpdateState {
     fourthStepImage:string,
     fifthStepImage:string,
     idTutoUpdate:any|undefined,
-    allGoodU:boolean
+    allGoodU:boolean,
+    error:boolean,
+    loading:boolean
 }
 const ImageURL=import.meta.env.VITE_IMAGE_URL;
 export const initialState: TutoUpdateState = {
@@ -84,7 +86,9 @@ export const initialState: TutoUpdateState = {
     fourthStepImage:"",
     fifthStepImage:"",
     idTutoUpdate:0,
-    allGoodU:false
+    allGoodU:false,
+    error:false,
+    loading:false
 };
 // --------------------------------- Action ---------------------------------
 export const titleUpdate = createAction<string>("titleUpdate");
@@ -237,9 +241,15 @@ const tutorielUpdateReducer=createReducer(initialState,(builder)=>{
     .addCase(userTuto,(state,action)=>{
         state.tutorielUpdate.utilisateur=action.payload;
     })
-    .addCase(updateTutoriel.pending,(state)=>{})
-    .addCase(updateTutoriel.rejected,(state)=>{})
+    .addCase(updateTutoriel.pending,(state)=>{
+        state.loading=true;
+    })
+    .addCase(updateTutoriel.rejected,(state)=>{
+        state.error=true;
+        state.loading=false;
+    })
     .addCase(updateTutoriel.fulfilled,(state)=>{
+        state.loading=false;
         state.missingValue=true
         state.allGoodU=true
     })
