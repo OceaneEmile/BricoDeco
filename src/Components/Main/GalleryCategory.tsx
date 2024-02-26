@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTutorielsByCategory,
+  findIdCategory,
   showMoreTutosCategory,
 } from "../../store/reducer/tutoriel";
 import { RootState } from "../../store";
@@ -20,13 +21,15 @@ export default function GalleryCategory() {
   const tutoriels = useSelector(
     (state: RootState) => state.tutoriel.tutorielsByCategory
   );
+
   useEffect(() => {
-    dispatch(fetchTutorielsByCategory(id) as any);
+    dispatch(findIdCategory(id as any));
+    dispatch(fetchTutorielsByCategory() as any);
   }, [id]);
 
   function show() {
     dispatch(showMoreTutosCategory() as any);
-    dispatch(fetchTutorielsByCategory(id) as any);
+    dispatch(fetchTutorielsByCategory() as any);
   }
   useEffect(() => {
     if (tutoriels) {
