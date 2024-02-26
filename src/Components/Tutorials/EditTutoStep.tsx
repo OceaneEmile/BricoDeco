@@ -41,9 +41,6 @@ export default function CreateTutoSteps() {
     dispatch(idTuto(id));
     dispatch(userTuto(tutoriel.utilisateur));
     dispatch(firstStepContent(tutoriel.etapes[0].contenu));
-    if (tutoriel.etapes[1]) {
-      dispatch(secondStepContent(tutoriel.etapes[1]));
-    }
   }, []);
 
   useEffect(() => {

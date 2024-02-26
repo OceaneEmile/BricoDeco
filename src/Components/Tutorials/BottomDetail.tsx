@@ -34,12 +34,14 @@ export default function BottomDetail({ tutoriel }: Props) {
   }, [tutoriel.utilisateur, isLogged, user]);
 
   return (
-    <div className="border-t border-b border-blue-900 mt-8 py-4 flex flex-col items-center sm:justify-between sm:flex-row ">
-      <div className="flex w-2/4 justify-between ml-4 items-center mb-4">
-        <p className="font-bold">
-          {tutoriel.utilisateur && tutoriel.utilisateur.pseudonyme}
-        </p>
-        <p className="text-gray-600">{date}</p>
+    <div className="border-t border-b border-blue-900 mt-8 py-4 flex flex-col flex-wrap items-center sm:justify-between sm:flex-row ">
+      <div className="flex w-2/4 justify-between ml-4 items-center mb-4 flex-wrap">
+        <div>
+          <p className="font-bold">
+            {tutoriel.utilisateur && tutoriel.utilisateur.pseudonyme}
+          </p>
+          <p className="text-gray-600">{date}</p>
+        </div>
         <div className="flex gap-8">
           {tutoriel.categories &&
             tutoriel.categories.map((categorie: Categories) => (
