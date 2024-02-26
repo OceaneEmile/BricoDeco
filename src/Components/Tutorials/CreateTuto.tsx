@@ -85,7 +85,7 @@ export default function CreateTuto() {
     formData.append("file", e.target.files[0]);
     axios
       .post(
-        "http://localhost/Apo/projet-13-brico-deco-back/public/api/image/store",
+        "http://oceaneemile-server.eddi.cloud/projet-13-brico-deco-back/public/api/image/store",
         formData
       )
       .then((res) => {
