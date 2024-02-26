@@ -40,9 +40,9 @@ export default function BottomDetail({ tutoriel }: Props) {
           <p className="font-bold">
             {tutoriel.utilisateur && tutoriel.utilisateur.pseudonyme}
           </p>
-          <p className="text-gray-600">{date}</p>
+          <p className="text-gray-600 text-center">{date}</p>
         </div>
-        <div className="flex gap-8">
+        <div className="flex flex-wrap justify-center gap-8">
           {tutoriel.categories &&
             tutoriel.categories.map((categorie: Categories) => (
               <Categorybadge key={categorie.id} categorie={categorie} />

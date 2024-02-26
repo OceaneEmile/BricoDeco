@@ -11,7 +11,7 @@ export default function CardCaroussel({ randomTuto }: Props) {
   };
   const date = transformDate(randomTuto.datePublication);
   return (
-    <div className="max-w-sm border border-solid border-blue-900 p-5 infoCard cursor-pointer bg-white">
+    <div className="max-w-sm h-full border border-solid border-blue-900 p-5 infoCard cursor-pointer bg-white">
       <img className="max-w h-56 w-80" src={randomTuto.image} alt="" />
       <h4 className="text-center font-bold text-lg">{randomTuto.titre}</h4>
       <div className="flex justify-center gap-2">
