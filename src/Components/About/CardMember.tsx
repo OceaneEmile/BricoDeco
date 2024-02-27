@@ -10,6 +10,7 @@ interface Props {
 }
 
 export default function CardMember({ about }: Props) {
+  // render a card with the member information
   return (
     <div className="max-w-sm  p-5 infoCard cursor-pointer bg-white">
       <img className="max-w rounded-full" src={about.photo} alt="" />

@@ -225,7 +225,7 @@ builder
 
 .addCase(changeInputPasswordSubscribe,(state,action)=>{
   state.inputPasswordSubscribe=action.payload;
-  const regex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,50}$/;
+  const regex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{14,50}$/;
   if(regex.test(action.payload)){
     state.passwordFormatGood=true;
   }else{

@@ -154,7 +154,7 @@ export default function Subscribe() {
               />
               {!passwordFormatGood && (
                 <p className="text-xs text-red-700">
-                  Le mot de passe doit contenir au moins 10 caractères, une
+                  Le mot de passe doit contenir au moins 14 caractères, une
                   majuscule, une minuscule et un chiffre.
                 </p>
               )}
